@@ -71,9 +71,9 @@ jobs:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
         run: |
-          echo "bucket=$(pulumi stack output siteBucketName --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
-          echo "cdn_id=$(pulumi stack output siteCdnId --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
-          echo "site_url=$(pulumi stack output siteUrl --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
+          echo "bucket=$(pulumi stack output siteBucketName --cwd infrastructure --stack "$PULUMI_STACK")" >> "$GITHUB_OUTPUT"
+          echo "cdn_id=$(pulumi stack output siteCdnId --cwd infrastructure --stack "$PULUMI_STACK")" >> "$GITHUB_OUTPUT"
+          echo "site_url=$(pulumi stack output siteUrl --cwd infrastructure --stack "$PULUMI_STACK")" >> "$GITHUB_OUTPUT"
 
       - name: Build Hugo site
         working-directory: site

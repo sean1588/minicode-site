@@ -1,0 +1,3 @@
+name: minicode-site
+runtime: nodejs
+description: Infrastructure for Minicode static site (S3 + CloudFront)

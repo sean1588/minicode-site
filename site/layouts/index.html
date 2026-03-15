@@ -1,0 +1,9 @@
+{{ define "main" }}
+  <div class="eyebrow">Minicode</div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+  {{ .Content }}
+  <div class="footer">
+    Static site powered by <code>Hugo</code>, deployed via <code>Pulumi</code> to private <code>S3</code> + <code>CloudFront</code>.
+  </div>
+{{ end }}

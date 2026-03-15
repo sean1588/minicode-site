@@ -1,0 +1,94 @@
+name: Deploy Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'infrastructure/**'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-west-2
+  HUGO_VERSION: '0.147.6'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: infrastructure/package-lock.json
+
+      - name: Install infrastructure dependencies
+        working-directory: infrastructure
+        run: npm ci
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
+
+      - name: Create or select stack
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
+        run: |
+          pulumi stack select "$PULUMI_STACK" --cwd infrastructure --create
+          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack "$PULUMI_STACK"
+
+      - name: Deploy infrastructure
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
+        run: pulumi up --yes --cwd infrastructure --stack "$PULUMI_STACK"
+
+      - name: Read infrastructure outputs
+        id: infra
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
+        run: |
+          echo "bucket=$(pulumi stack output siteBucketName --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
+          echo "cdn_id=$(pulumi stack output siteCdnId --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
+          echo "site_url=$(pulumi stack output siteUrl --cwd infrastructure --stack \"$PULUMI_STACK\")" >> "$GITHUB_OUTPUT"
+
+      - name: Build Hugo site
+        working-directory: site
+        env:
+          HUGO_BASEURL: ${{ steps.infra.outputs.site_url }}
+        run: hugo --minify --baseURL "$HUGO_BASEURL"
+
+      - name: Sync files to S3
+        run: |
+          aws s3 sync site/public/ s3://${{ steps.infra.outputs.bucket }}/ \
+            --delete \
+            --cache-control "public, max-age=300, s-maxage=300"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ steps.infra.outputs.cdn_id }} \
+            --paths '/*'

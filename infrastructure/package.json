@@ -1,0 +1,19 @@
+{
+  "name": "minicode-infrastructure",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "preview": "pulumi preview",
+    "up": "pulumi up"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "@types/node": "^22.13.10"
+  },
+  "dependencies": {
+    "@pulumi/aws": "^6.72.0",
+    "@pulumi/pulumi": "^3.151.0"
+  }
+}

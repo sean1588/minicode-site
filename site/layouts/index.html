@@ -1,9 +1,84 @@
 {{ define "main" }}
-  <div class="eyebrow">Minicode</div>
-  <h1>{{ .Title }}</h1>
-  {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
-  {{ .Content }}
-  <div class="footer">
-    Static site powered by <code>Hugo</code>, deployed via <code>Pulumi</code> to private <code>S3</code> + <code>CloudFront</code>.
-  </div>
+  <section class="hero">
+    <div class="eyebrow">Local-first coding agent</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
+    <div class="hero-actions">
+      <a class="button primary" href="https://github.com/sean1588/minicode">View on GitHub</a>
+      <a class="button" href="#how-it-works">How it works</a>
+    </div>
+    <ul class="hero-points">
+      <li>Built for local and small models</li>
+      <li>Dependency-aware code understanding</li>
+      <li>Lower token usage and lower cost</li>
+    </ul>
+  </section>
+
+  <section class="visual" aria-label="minicode flow">
+    <div class="flow-card code">codebase</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card map">structural map</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card tools">symbol + dependency tools</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-card output">better output</div>
+  </section>
+
+  <section class="section problem">
+    <h2>Long context is not a free lunch</h2>
+    <p>Most coding agents read whole files. That bloats prompts, burns tokens, and makes smaller models worse at the exact moment they need to reason clearly.</p>
+    <div class="grid two-up">
+      <div>
+        <h3>What goes wrong</h3>
+        <ul>
+          <li>diluted attention</li>
+          <li>slower inference</li>
+          <li>higher token cost</li>
+          <li>worse performance on small and mid-sized models</li>
+        </ul>
+      </div>
+      <div>
+        <h3>The design principle</h3>
+        <p><strong>Context conservation.</strong> Feed models less. Give them better.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how-it-works">
+    <h2>Type-aware context optimization for code agents</h2>
+    <div class="grid steps">
+      <div class="step"><span>1</span><h3>Build a structural map</h3><p>Index symbols, signatures, and relationships so the agent starts with orientation instead of guesswork.</p></div>
+      <div class="step"><span>2</span><h3>Follow the dependency cone</h3><p>Pull the body, types, and surrounding dependencies that matter for the task.</p></div>
+      <div class="step"><span>3</span><h3>Walk code structurally</h3><p>Use specialized tools to follow symbols, references, and dependencies instead of scanning raw files like prose.</p></div>
+      <div class="step"><span>4</span><h3>Preserve reasoning budget</h3><p>Keep the prompt lean so more of the context window is available for planning, editing, and validation.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Why minicode is different</h2>
+    <div class="grid three-up compact-cards">
+      <div><h3>Built for local models</h3><p>Designed for tighter context windows and practical consumer hardware loops.</p></div>
+      <div><h3>Specialized tooling</h3><p>More than a code map: symbol navigation, dependency-aware retrieval, and targeted context access.</p></div>
+      <div><h3>Better context economics</h3><p>Lower latency, lower token spend, and higher signal density.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Where it shines</h2>
+    <div class="grid two-up compact-cards">
+      <div><h3>Scoped engineering tasks</h3><p>Bug fixes, refactors, method implementations, and targeted edits.</p></div>
+      <div><h3>Cost-sensitive workflows</h3><p>Useful for both local inference and API-backed agents where token spend matters.</p></div>
+      <div><h3>Structural code navigation</h3><p>Best when an agent needs to follow code relationships instead of brute-force reading files.</p></div>
+      <div><h3>Agent builders</h3><p>A strong foundation for anyone exploring context optimization and code-agent runtimes.</p></div>
+    </div>
+  </section>
+
+  <section class="section closing">
+    <h2>Read less. Reason better. Use fewer tokens.</h2>
+    <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="https://github.com/sean1588/minicode">Get started</a>
+      <a class="button" href="https://github.com/sean1588/minicode-site">Site repo</a>
+    </div>
+  </section>
 {{ end }}

@@ -1,2 +1,5 @@
 config:
   aws:region: us-west-2
+  minicode-site:domainName: minicode.seanholung.com
+  minicode-site:hostedZoneName: seanholung.com
+encryptionsalt: v1:vpSlOy4gWM4=:v1:5b6qPpBQ4WbFJz7k:6HrnaoSS5zC/ItxrGhsOt5JLY7hEFw==

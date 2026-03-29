@@ -3,6 +3,17 @@ import * as aws from "@pulumi/aws";
 
 const config = new pulumi.Config();
 const siteName = config.get("siteName") || "minicode-site";
+const domainName = config.get("domainName") || "minicode.seanholung.com";
+const hostedZoneName = config.get("hostedZoneName") || "seanholung.com";
+
+const usEast1 = new aws.Provider("us-east-1", {
+  region: "us-east-1",
+});
+
+const hostedZone = aws.route53.getZoneOutput({
+  name: hostedZoneName,
+  privateZone: false,
+});
 
 const siteBucket = new aws.s3.Bucket("site", {
   forceDestroy: false,
@@ -28,12 +39,46 @@ const oac = new aws.cloudfront.OriginAccessControl("site-oac", {
   signingProtocol: "sigv4",
 });
 
+const certificate = new aws.acm.Certificate(
+  "site-certificate",
+  {
+    domainName,
+    validationMethod: "DNS",
+    tags: {
+      Project: siteName,
+      Component: "marketing-site",
+    },
+  },
+  { provider: usEast1 }
+);
+
+const certificateValidationOption = certificate.domainValidationOptions[0];
+
+const certificateValidationRecord = new aws.route53.Record("site-certificate-validation", {
+  zoneId: hostedZone.zoneId,
+  name: certificateValidationOption.resourceRecordName,
+  type: certificateValidationOption.resourceRecordType,
+  records: [certificateValidationOption.resourceRecordValue],
+  ttl: 60,
+  allowOverwrite: true,
+});
+
+const certificateValidation = new aws.acm.CertificateValidation(
+  "site-certificate-validation-result",
+  {
+    certificateArn: certificate.arn,
+    validationRecordFqdns: [certificateValidationRecord.fqdn],
+  },
+  { provider: usEast1 }
+);
+
 const cdn = new aws.cloudfront.Distribution("site-cdn", {
   enabled: true,
   comment: "Minicode static site",
   defaultRootObject: "index.html",
   priceClass: "PriceClass_100",
   httpVersion: "http2and3",
+  aliases: [domainName],
   origins: [
     {
       domainName: siteBucket.bucketRegionalDomainName,
@@ -67,13 +112,15 @@ const cdn = new aws.cloudfront.Distribution("site-cdn", {
     geoRestriction: { restrictionType: "none" },
   },
   viewerCertificate: {
-    cloudfrontDefaultCertificate: true,
+    acmCertificateArn: certificate.arn,
+    sslSupportMethod: "sni-only",
+    minimumProtocolVersion: "TLSv1.2_2021",
   },
   tags: {
     Project: siteName,
     Component: "marketing-site",
   },
-});
+}, { dependsOn: [certificateValidation] });
 
 new aws.s3.BucketPolicy("site-policy", {
   bucket: siteBucket.id,
@@ -96,8 +143,23 @@ new aws.s3.BucketPolicy("site-policy", {
     ),
 });
 
+new aws.route53.Record("site-alias-record", {
+  zoneId: hostedZone.zoneId,
+  name: domainName,
+  type: "A",
+  aliases: [
+    {
+      name: cdn.domainName,
+      zoneId: cdn.hostedZoneId,
+      evaluateTargetHealth: false,
+    },
+  ],
+  allowOverwrite: true,
+});
+
 export const siteBucketName = siteBucket.bucket;
 export const siteBucketArn = siteBucket.arn;
 export const siteCdnId = cdn.id;
 export const siteCdnDomain = cdn.domainName;
-export const siteUrl = pulumi.interpolate`https://${cdn.domainName}`;
+export const siteDomain = domainName;
+export const siteUrl = pulumi.interpolate`https://${domainName}`;

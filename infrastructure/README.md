@@ -6,7 +6,8 @@ Pulumi IaC for deploying the Hugo site to a private S3 bucket behind CloudFront,
 
 - Pulumi CLI
 - AWS credentials with permissions for S3 + CloudFront + IAM policy updates
-- Pulumi access token
+- Pulumi access token when using the Pulumi Cloud backend
+- `PULUMI_CONFIG_PASSPHRASE` when using the current passphrase-encrypted stack config
 
 ## Quickstart
 
@@ -14,12 +15,18 @@ Pulumi IaC for deploying the Hugo site to a private S3 bucket behind CloudFront,
 cd infrastructure
 npm install
 pulumi stack init dev # first time only
+export PULUMI_CONFIG_PASSPHRASE=your-stack-passphrase
 pulumi config set aws:region us-west-2
 # optional overrides (defaults are already set in Pulumi.dev.yaml)
 pulumi config set minicode-site:domainName minicode.seanholung.com
 pulumi config set minicode-site:hostedZoneName seanholung.com
+# optional: reuse an existing ACM certificate for CloudFront
+# this must be for the site domain and must live in us-east-1
+pulumi config set minicode-site:certificateArn arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 pulumi up
 ```
+
+If `minicode-site:certificateArn` is omitted, the program will create and DNS-validate a new ACM certificate in `us-east-1` using the configured Route53 hosted zone.
 
 ## Outputs
 

@@ -1,0 +1,39 @@
+{{ define "main" }}
+  <div class="docs-shell">
+    <aside class="docs-sidebar">
+      {{ partial "docs-sidebar.html" . }}
+    </aside>
+    <section class="docs-content">
+      <div class="docs-heading">
+        <div class="eyebrow">Docs</div>
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}<p class="hero-copy docs-lead">{{ . }}</p>{{ end }}
+      </div>
+
+      {{ with .Content }}
+        <div class="prose">
+          {{ . }}
+        </div>
+      {{ end }}
+
+      {{ if or (.Sections) (.RegularPages) }}
+        <div class="docs-card-grid">
+          {{ range .RegularPages.ByWeight }}
+            <a class="docs-card" href="{{ .RelPermalink }}">
+              <span class="docs-card-meta">{{ with .Params.kicker }}{{ . }}{{ else }}Docs page{{ end }}</span>
+              <h3>{{ .Title }}</h3>
+              {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+            </a>
+          {{ end }}
+          {{ range .Sections.ByWeight }}
+            <a class="docs-card" href="{{ .RelPermalink }}">
+              <span class="docs-card-meta">Section</span>
+              <h3>{{ .Title }}</h3>
+              {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+            </a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </section>
+  </div>
+{{ end }}

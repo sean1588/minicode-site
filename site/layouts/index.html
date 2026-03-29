@@ -30,12 +30,14 @@
         <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
       <div class="screenshot-frame">
-        <img
-          src="/images/minicode-ui.webp"
-          alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
-          width="1723"
-          height="920"
-        />
+        <a class="screenshot-link" href="/images/minicode-ui.webp" target="_blank" rel="noreferrer">
+          <img
+            src="/images/minicode-ui.webp"
+            alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
+            width="1723"
+            height="920"
+          />
+        </a>
       </div>
       <p class="panel-caption">The web UI makes the core idea visible: chat, tool activity, symbol graph, and focused code exploration all in the same surface.</p>
       <div class="panel-meta">
@@ -50,7 +52,7 @@
     <div class="section-intro">
       <div class="eyebrow">Product surface</div>
       <h2>More than a single interface</h2>
-      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an OpenAI-compatible endpoint, and extensible language-aware indexing.</p>
+      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an OpenAI-compatible endpoint, and extensible language-aware indexing. Today the deepest built-in indexing path is focused on TypeScript and JavaScript, with plugins leaving room to add more languages over time.</p>
     </div>
     <div class="grid three-up compact-cards">
       <article>
@@ -157,7 +159,7 @@
       </article>
       <article>
         <h3>Extensible by design</h3>
-        <p>Language plugins, graph-aware tools, and an SDK direction that lets the runtime become a reusable foundation.</p>
+        <p>Today the built-in path goes deepest on TypeScript and JavaScript, with language plugins, graph-aware tools, and an SDK direction that leave room to grow language coverage over time.</p>
         <div class="card-note">runtime + plugin ecosystem</div>
       </article>
     </div>
@@ -189,15 +191,42 @@
     </div>
   </section>
 
+  <section class="section-shell faq-shell">
+    <div class="section-intro">
+      <div class="eyebrow">FAQ</div>
+      <h2>Questions technical readers usually ask first</h2>
+      <p>minicode has a pretty opinionated architecture, so it helps to answer the common comparison questions directly.</p>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>Why did minicode use AST parsing instead of connecting to the TypeScript LSP?</summary>
+        <p>Because the goal was not just editor intelligence. minicode needed a lightweight, portable way to extract symbols, signatures, and dependency edges that could be injected into agent context, cached, and reused inside graph-aware tools. Using the TypeScript compiler AST keeps the indexing path syntax-driven and self-contained, without requiring an external language server process or editor integration layer.</p>
+        <p>The tradeoff is that this is not trying to replace everything an LSP does. LSPs are great for editor workflows like completions, diagnostics, and refactors. minicode is more focused on the agent-runtime side: compact structural context, symbol-aware retrieval, and dependency-cone navigation.</p>
+        <p>That built-in indexing path is currently focused on TypeScript and JavaScript. The broader language story is plugin-based on purpose, so the architecture can grow beyond the initial languages without pretending the core ships equally deep support for everything today.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How is this different from aider?</summary>
+        <p>aider is centered more around file-oriented coding assistance, prompts, and git-driven edit workflows. minicode overlaps with that general category, but the core thesis is different: it is built around structural context optimization, symbol-level tooling, and a graph-native interface that exposes how the agent is traversing code.</p>
+        <p>So the distinction is less about “better or worse” and more about emphasis. aider is strong as a practical editing assistant. minicode is more explicitly an experiment in giving coding agents a structural model of the codebase instead of mostly operating at the file level.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How is this different from a tree-sitter-first approach?</summary>
+        <p>tree-sitter is excellent for fast, broad syntax parsing across many languages. minicode took a narrower path for TypeScript and JavaScript by using the TypeScript compiler AST to build a project symbol graph and power tools like <code>read_symbol</code>, <code>find_references</code>, and <code>get_dependencies</code>.</p>
+        <p>The tradeoff is less breadth today in exchange for richer language-specific structural navigation. For this project, depth on the primary language mattered more than broad generic parsing.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Why does any of this matter if frontier models already have large context windows?</summary>
+        <p>Because larger context windows do not make irrelevant context free. Even when a model can fit more code, bloated prompts still cost latency, money, and attention. minicode is built around improving signal density, not just compressing token counts for the sake of it.</p>
+        <p>The local-model origin makes the problem easier to see, but the same tradeoff shows up with hosted models too: less wasted context usually means a tighter working set for the task that actually matters.</p>
+      </details>
+    </div>
+  </section>
+
   <section class="cta-panel">
     <h2>Read less. Reason better. Use fewer tokens.</h2>
     <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context.</p>
     <div class="hero-actions">
-      <a class="button primary" href="https://github.com/sean1588/minicode">Get started</a>
-      <a class="button secondary" href="https://github.com/sean1588/minicode-site">Site repo</a>
-    </div>
-    <div class="footer">
-      Static site powered by <code>Hugo</code>, deployed via <code>Pulumi</code> to private <code>S3</code> + <code>CloudFront</code>.
+      <a class="button primary" href="/docs/get-started/">Get started</a>
     </div>
   </section>
 {{ end }}

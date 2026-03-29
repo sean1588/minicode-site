@@ -1,0 +1,17 @@
+{{ $current := . }}
+{{ with site.GetPage "/docs" }}
+  <nav class="docs-sidebar-nav" aria-label="Documentation">
+    <div class="docs-sidebar-heading">Start here</div>
+    <a class="docs-sidebar-link{{ if eq $current.RelPermalink .RelPermalink }} active{{ end }}" href="{{ .RelPermalink }}">Documentation overview</a>
+    {{ range .RegularPages.ByWeight }}
+      <a class="docs-sidebar-link{{ if eq $current.RelPermalink .RelPermalink }} active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{ end }}
+    {{ range .Sections.ByWeight }}
+      <div class="docs-sidebar-heading">{{ .Title }}</div>
+      <a class="docs-sidebar-link{{ if eq $current.RelPermalink .RelPermalink }} active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }} overview</a>
+      {{ range .RegularPages.ByWeight }}
+        <a class="docs-sidebar-link{{ if eq $current.RelPermalink .RelPermalink }} active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+    {{ end }}
+  </nav>
+{{ end }}

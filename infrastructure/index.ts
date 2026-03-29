@@ -60,6 +60,32 @@ const oac = new aws.cloudfront.OriginAccessControl("site-oac", {
   signingProtocol: "sigv4",
 });
 
+const prettyUrlRewriter = new aws.cloudfront.Function("site-pretty-url-rewriter", {
+  name: `${siteName}-pretty-url-rewriter`,
+  runtime: "cloudfront-js-2.0",
+  comment: "Rewrites directory-style paths to index.html for static-site routing",
+  publish: true,
+  code: `function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+
+  if (uri === "/") {
+    return request;
+  }
+
+  if (uri.endsWith("/")) {
+    request.uri = uri + "index.html";
+    return request;
+  }
+
+  if (!uri.includes(".")) {
+    request.uri = uri + "/index.html";
+  }
+
+  return request;
+}`,
+});
+
 const existingCertificateArn = configuredCertificateArn
   ? validateCloudFrontCertificateArn(configuredCertificateArn)
   : undefined;
@@ -128,6 +154,12 @@ const cdn = new aws.cloudfront.Distribution("site-cdn", {
     cachedMethods: ["GET", "HEAD"],
     compress: true,
     cachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+    functionAssociations: [
+      {
+        eventType: "viewer-request",
+        functionArn: prettyUrlRewriter.arn,
+      },
+    ],
   },
   customErrorResponses: [
     {

@@ -1,84 +1,196 @@
 {{ define "main" }}
   <section class="hero">
-    <div class="eyebrow">Local-first coding agent</div>
-    <h1>{{ .Title }}</h1>
-    {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
-    <div class="hero-actions">
-      <a class="button primary" href="https://github.com/sean1588/minicode">View on GitHub</a>
-      <a class="button" href="#how-it-works">How it works</a>
-    </div>
-    <ul class="hero-points">
-      <li>Built for local and small models</li>
-      <li>Dependency-aware code understanding</li>
-      <li>Lower token usage and lower cost</li>
-    </ul>
-  </section>
-
-  <section class="visual" aria-label="minicode flow">
-    <div class="flow-card code">codebase</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-card map">structural map</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-card tools">symbol + dependency tools</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-card output">better output</div>
-  </section>
-
-  <section class="section problem">
-    <h2>Long context is not a free lunch</h2>
-    <p>Most coding agents read whole files. That bloats prompts, burns tokens, and makes smaller models worse at the exact moment they need to reason clearly.</p>
-    <div class="grid two-up">
-      <div>
-        <h3>What goes wrong</h3>
-        <ul>
-          <li>diluted attention</li>
-          <li>slower inference</li>
-          <li>higher token cost</li>
-          <li>worse performance on small and mid-sized models</li>
-        </ul>
+    <div>
+      <div class="eyebrow">Graph-native coding environment</div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
+      <p class="hero-support">minicode started as an experiment in making local models viable for agentic coding under tight context budgets. It has since evolved into a broader exploration of better interfaces for coding agents: graph-native code exploration, structural retrieval, and an agent runtime that works across both local and hosted models.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://github.com/sean1588/minicode">View on GitHub</a>
+        <a class="button secondary" href="#how-it-works">See the flow</a>
       </div>
-      <div>
-        <h3>The design principle</h3>
-        <p><strong>Context conservation.</strong> Feed models less. Give them better.</p>
+      <ul class="hero-points">
+        <li>graph-native web UI</li>
+        <li>symbol-aware retrieval</li>
+        <li>dependency-cone context</li>
+        <li>local + hosted model workflows</li>
+      </ul>
+    </div>
+
+    <aside class="hero-panel hero-shot" aria-label="minicode web interface screenshot">
+      <div class="panel-top">
+        <div class="panel-title">Inside the app</div>
+        <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
-    </div>
+      <div class="screenshot-frame">
+        <img
+          src="/images/minicode-ui.webp"
+          alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
+          width="1723"
+          height="920"
+        />
+      </div>
+      <p class="panel-caption">The web UI makes the core idea visible: chat, tool activity, symbol graph, and focused code exploration all in the same surface.</p>
+      <div class="panel-meta">
+        <span>real-time tool stream</span>
+        <span>dependency graph</span>
+        <span>symbol detail panel</span>
+      </div>
+    </aside>
   </section>
 
-  <section class="section" id="how-it-works">
-    <h2>Type-aware context optimization for code agents</h2>
-    <div class="grid steps">
-      <div class="step"><span>1</span><h3>Build a structural map</h3><p>Index symbols, signatures, and relationships so the agent starts with orientation instead of guesswork.</p></div>
-      <div class="step"><span>2</span><h3>Follow the dependency cone</h3><p>Pull the body, types, and surrounding dependencies that matter for the task.</p></div>
-      <div class="step"><span>3</span><h3>Walk code structurally</h3><p>Use specialized tools to follow symbols, references, and dependencies instead of scanning raw files like prose.</p></div>
-      <div class="step"><span>4</span><h3>Preserve reasoning budget</h3><p>Keep the prompt lean so more of the context window is available for planning, editing, and validation.</p></div>
+  <section>
+    <div class="section-intro">
+      <div class="eyebrow">Product surface</div>
+      <h2>More than a single interface</h2>
+      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an OpenAI-compatible endpoint, and extensible language-aware indexing.</p>
     </div>
-  </section>
-
-  <section class="section">
-    <h2>Why minicode is different</h2>
     <div class="grid three-up compact-cards">
-      <div><h3>Built for local models</h3><p>Designed for tighter context windows and practical consumer hardware loops.</p></div>
-      <div><h3>Specialized tooling</h3><p>More than a code map: symbol navigation, dependency-aware retrieval, and targeted context access.</p></div>
-      <div><h3>Better context economics</h3><p>Lower latency, lower token spend, and higher signal density.</p></div>
+      <article>
+        <h3>Graph-native web app</h3>
+        <p>Real-time chat, tool streaming, sessions, symbol focus, and a dependency graph that exposes the agent's perspective directly in the interface.</p>
+        <div class="card-note">the clearest expression of the idea</div>
+      </article>
+      <article>
+        <h3>Agent runtime</h3>
+        <p>Interactive multi-turn coding loop with tools, session trimming, loop protection, and structural context injected into each step.</p>
+        <div class="card-note">runtime + tooling core</div>
+      </article>
+      <article>
+        <h3>OpenAI-compatible backend</h3>
+        <p>Use minicode as a backend for existing clients while keeping the agent loop, tools, and code-map behavior behind the API.</p>
+        <div class="card-note">agent as a model</div>
+      </article>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Where it shines</h2>
-    <div class="grid two-up compact-cards">
-      <div><h3>Scoped engineering tasks</h3><p>Bug fixes, refactors, method implementations, and targeted edits.</p></div>
-      <div><h3>Cost-sensitive workflows</h3><p>Useful for both local inference and API-backed agents where token spend matters.</p></div>
-      <div><h3>Structural code navigation</h3><p>Best when an agent needs to follow code relationships instead of brute-force reading files.</p></div>
-      <div><h3>Agent builders</h3><p>A strong foundation for anyone exploring context optimization and code-agent runtimes.</p></div>
+  <section class="section-shell">
+    <div class="section-intro">
+      <div class="eyebrow">Why it matters</div>
+      <h2>Long context is not a free lunch</h2>
+      <p>Most coding agents still treat a codebase like a pile of text. They read entire files, bloat the prompt, and burn tokens before the model has even reached the part of the task that requires judgment. The pain is most obvious on local models, but frontier models pay for it too in latency, cost, and diluted attention.</p>
+    </div>
+    <div class="grid two-up comparison-grid">
+      <article class="comparison-card comparison-card-muted">
+        <div class="card-kicker">Default loop</div>
+        <h3>Read everything and hope the right details survive</h3>
+        <ul class="clean-list">
+          <li>attention gets diluted across irrelevant lines</li>
+          <li>latency and token cost climb quickly</li>
+          <li>smaller local models lose headroom fastest</li>
+        </ul>
+      </article>
+      <article class="comparison-card comparison-card-accent">
+        <div class="card-kicker">Minicode loop</div>
+        <h3>Navigate structurally and keep the prompt lean</h3>
+        <ul class="clean-list">
+          <li>retrieve bodies, types, and adjacent dependencies on demand</li>
+          <li>increase signal density instead of total context volume</li>
+          <li>preserve more of the context window for reasoning</li>
+        </ul>
+      </article>
     </div>
   </section>
 
-  <section class="section closing">
+  <section id="how-it-works">
+    <div class="section-intro">
+      <div class="eyebrow">How it works</div>
+      <h2>AST-indexed context optimization for code agents</h2>
+      <p>minicode is built around a simple workflow: index structure first, retrieve narrowly, and spend the remaining context budget on the parts of the job that actually need thought.</p>
+    </div>
+    <div class="grid steps">
+      <article class="step">
+        <span>01</span>
+        <div class="step-note">orientation</div>
+        <h3>Build a structural map</h3>
+        <p>Parse the project into symbols, signatures, and relationships so the agent starts with codebase structure instead of guesswork.</p>
+      </article>
+      <article class="step">
+        <span>02</span>
+        <div class="step-note">retrieval</div>
+        <h3>Follow the dependency cone</h3>
+        <p>Pull the method body, types, and nearby dependencies that matter for the task instead of dragging in the whole file.</p>
+      </article>
+      <article class="step">
+        <span>03</span>
+        <div class="step-note">navigation</div>
+        <h3>Walk code structurally</h3>
+        <p>Use symbol- and dependency-aware tools to move through a codebase by relationships, not by linear scrolling.</p>
+      </article>
+      <article class="step">
+        <span>04</span>
+        <div class="step-note">reasoning</div>
+        <h3>Preserve reasoning budget</h3>
+        <p>Keep the prompt lean so more of the available context can go toward planning, editing, and validation.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-shell">
+    <div class="section-intro">
+      <div class="eyebrow">What makes it different</div>
+      <h2>minicode is not just a code map</h2>
+      <p>The project is really about context conservation: giving models a more structured interface to code so they can spend less time reading and more time solving, while leaving room for plugins and reusable runtime integrations.</p>
+    </div>
+    <div class="grid three-up compact-cards">
+      <article>
+        <h3>Born from local-model constraints</h3>
+        <p>The first problem was making smaller models viable for coding work, but the same structural advantages carry over to frontier-model workflows too.</p>
+        <div class="card-note">strong technical wedge</div>
+      </article>
+      <article>
+        <h3>Specialized tooling</h3>
+        <p>Symbol navigation, dependency-aware retrieval, and more targeted context access than generic file reading.</p>
+        <div class="card-note">structure over brute force</div>
+      </article>
+      <article>
+        <h3>Better context economics</h3>
+        <p>Less prompt bloat, lower latency, lower spend, and a higher share of useful information per token.</p>
+        <div class="card-note">higher signal density</div>
+      </article>
+      <article>
+        <h3>Extensible by design</h3>
+        <p>Language plugins, graph-aware tools, and an SDK direction that lets the runtime become a reusable foundation.</p>
+        <div class="card-note">runtime + plugin ecosystem</div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-intro">
+      <div class="eyebrow">Use cases</div>
+      <h2>Where it shines</h2>
+      <p>minicode is strongest when the task is narrow, the codebase is non-trivial, and every extra token in the prompt has a cost.</p>
+    </div>
+    <div class="grid use-case-grid">
+      <article class="use-case">
+        <h3>Scoped engineering work</h3>
+        <p>Bug fixes, method implementations, refactors, and targeted edits where a small set of symbols drives the task.</p>
+      </article>
+      <article class="use-case">
+        <h3>Cost-sensitive frontier workflows</h3>
+        <p>Useful when API spend and response latency matter, even if the model itself has a large context window.</p>
+      </article>
+      <article class="use-case">
+        <h3>Local-model coding loops</h3>
+        <p>Especially compelling when working on consumer hardware and every bit of prompt efficiency affects quality.</p>
+      </article>
+      <article class="use-case">
+        <h3>Structural code navigation</h3>
+        <p>Best when the right answer lives in code relationships rather than in a single obvious file or folder.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-panel">
     <h2>Read less. Reason better. Use fewer tokens.</h2>
     <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context.</p>
     <div class="hero-actions">
       <a class="button primary" href="https://github.com/sean1588/minicode">Get started</a>
-      <a class="button" href="https://github.com/sean1588/minicode-site">Site repo</a>
+      <a class="button secondary" href="https://github.com/sean1588/minicode-site">Site repo</a>
+    </div>
+    <div class="footer">
+      Static site powered by <code>Hugo</code>, deployed via <code>Pulumi</code> to private <code>S3</code> + <code>CloudFront</code>.
     </div>
   </section>
 {{ end }}

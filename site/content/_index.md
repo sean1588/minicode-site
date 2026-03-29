@@ -1,11 +1,11 @@
 ---
-title: "A coding agent for local models"
-description: "minicode helps coding models read less, reason better, and use fewer tokens."
+title: "Structural context for coding agents"
+description: "minicode is a graph-native coding environment and agent runtime built around symbol-aware retrieval, dependency graphs, and targeted context."
 ---
 
-minicode is a local-first coding agent built around a simple idea: **more context is not always better**.
+minicode is a graph-native coding environment built around a simple idea: **more context is not always better**.
 
-Most coding agents treat a codebase like a pile of text. They read whole files, bloat the prompt, and waste attention on code that does not matter for the task at hand. That is expensive for API-backed models and actively harmful for smaller local models with tighter effective context windows.
+Most coding agents treat a codebase like a pile of text. They read whole files, bloat the prompt, and waste attention on code that does not matter for the task at hand. That is expensive for hosted models and actively harmful for smaller local models with tighter effective context windows.
 
 minicode takes a different approach. It gives agents a **structural way to navigate code** using code maps, dependency-aware context, and specialized tools for following symbols, dependencies, and the code that actually matters.
 

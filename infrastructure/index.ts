@@ -5,6 +5,27 @@ const config = new pulumi.Config();
 const siteName = config.get("siteName") || "minicode-site";
 const domainName = config.get("domainName") || "minicode.seanholung.com";
 const hostedZoneName = config.get("hostedZoneName") || "seanholung.com";
+const configuredCertificateArn = config.get("certificateArn");
+
+function validateCloudFrontCertificateArn(certificateArn: string): string {
+  const arnParts = certificateArn.split(":");
+
+  if (arnParts.length < 6 || arnParts[2] !== "acm") {
+    throw new Error(
+      `minicode-site:certificateArn must be an ACM certificate ARN. Received "${certificateArn}".`
+    );
+  }
+
+  const certificateRegion = arnParts[3];
+
+  if (certificateRegion !== "us-east-1") {
+    throw new Error(
+      `CloudFront requires ACM certificates in us-east-1. Received "${certificateRegion}" in minicode-site:certificateArn.`
+    );
+  }
+
+  return certificateArn;
+}
 
 const usEast1 = new aws.Provider("us-east-1", {
   region: "us-east-1",
@@ -39,38 +60,52 @@ const oac = new aws.cloudfront.OriginAccessControl("site-oac", {
   signingProtocol: "sigv4",
 });
 
-const certificate = new aws.acm.Certificate(
-  "site-certificate",
-  {
-    domainName,
-    validationMethod: "DNS",
-    tags: {
-      Project: siteName,
-      Component: "marketing-site",
+const existingCertificateArn = configuredCertificateArn
+  ? validateCloudFrontCertificateArn(configuredCertificateArn)
+  : undefined;
+
+let viewerCertificateArn: pulumi.Input<string>;
+const certificateDependencies: pulumi.Resource[] = [];
+
+if (existingCertificateArn) {
+  viewerCertificateArn = existingCertificateArn;
+} else {
+  const certificate = new aws.acm.Certificate(
+    "site-certificate",
+    {
+      domainName,
+      validationMethod: "DNS",
+      tags: {
+        Project: siteName,
+        Component: "marketing-site",
+      },
     },
-  },
-  { provider: usEast1 }
-);
+    { provider: usEast1 }
+  );
 
-const certificateValidationOption = certificate.domainValidationOptions[0];
+  const certificateValidationOption = certificate.domainValidationOptions[0];
 
-const certificateValidationRecord = new aws.route53.Record("site-certificate-validation", {
-  zoneId: hostedZone.zoneId,
-  name: certificateValidationOption.resourceRecordName,
-  type: certificateValidationOption.resourceRecordType,
-  records: [certificateValidationOption.resourceRecordValue],
-  ttl: 60,
-  allowOverwrite: true,
-});
+  const certificateValidationRecord = new aws.route53.Record("site-certificate-validation", {
+    zoneId: hostedZone.zoneId,
+    name: certificateValidationOption.resourceRecordName,
+    type: certificateValidationOption.resourceRecordType,
+    records: [certificateValidationOption.resourceRecordValue],
+    ttl: 60,
+    allowOverwrite: true,
+  });
 
-const certificateValidation = new aws.acm.CertificateValidation(
-  "site-certificate-validation-result",
-  {
-    certificateArn: certificate.arn,
-    validationRecordFqdns: [certificateValidationRecord.fqdn],
-  },
-  { provider: usEast1 }
-);
+  const certificateValidation = new aws.acm.CertificateValidation(
+    "site-certificate-validation-result",
+    {
+      certificateArn: certificate.arn,
+      validationRecordFqdns: [certificateValidationRecord.fqdn],
+    },
+    { provider: usEast1 }
+  );
+
+  viewerCertificateArn = certificate.arn;
+  certificateDependencies.push(certificateValidation);
+}
 
 const cdn = new aws.cloudfront.Distribution("site-cdn", {
   enabled: true,
@@ -112,7 +147,7 @@ const cdn = new aws.cloudfront.Distribution("site-cdn", {
     geoRestriction: { restrictionType: "none" },
   },
   viewerCertificate: {
-    acmCertificateArn: certificate.arn,
+    acmCertificateArn: viewerCertificateArn,
     sslSupportMethod: "sni-only",
     minimumProtocolVersion: "TLSv1.2_2021",
   },
@@ -120,7 +155,7 @@ const cdn = new aws.cloudfront.Distribution("site-cdn", {
     Project: siteName,
     Component: "marketing-site",
   },
-}, { dependsOn: [certificateValidation] });
+}, { dependsOn: certificateDependencies });
 
 new aws.s3.BucketPolicy("site-policy", {
   bucket: siteBucket.id,

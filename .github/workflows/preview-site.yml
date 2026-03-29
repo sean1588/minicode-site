@@ -1,0 +1,62 @@
+name: Preview Site
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'infrastructure/**'
+      - '.github/workflows/deploy-site.yml'
+      - '.github/workflows/preview-site.yml'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-west-2
+
+concurrency:
+  group: preview-site-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: infrastructure/package-lock.json
+
+      - name: Install infrastructure dependencies
+        working-directory: infrastructure
+        run: npm ci
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Pulumi CLI
+        uses: pulumi/setup-pulumi@v2
+
+      - name: Select stack
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: |
+          pulumi stack select sean1588/minicode-site/dev --cwd infrastructure
+          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack sean1588/minicode-site/dev
+
+      - name: Preview infrastructure
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: pulumi preview --diff --cwd infrastructure --stack sean1588/minicode-site/dev --non-interactive

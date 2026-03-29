@@ -49,16 +49,14 @@ jobs:
       - name: Setup Pulumi CLI
         uses: pulumi/setup-pulumi@v2
 
-      - name: Create or select stack
+      - name: Select stack
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
         run: |
-          pulumi stack select "$PULUMI_STACK" --cwd infrastructure --create
-          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack "$PULUMI_STACK"
+          pulumi stack select sean1588/minicode-site/dev --cwd infrastructure
+          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack sean1588/minicode-site/dev
 
       - name: Preview infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          PULUMI_STACK: ${{ secrets.PULUMI_STACK }}
-        run: pulumi preview --diff --cwd infrastructure --stack "$PULUMI_STACK" --non-interactive
+        run: pulumi preview --diff --cwd infrastructure --stack sean1588/minicode-site/dev --non-interactive

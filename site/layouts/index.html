@@ -1,5 +1,5 @@
 {{ define "main" }}
-  <section class="hero">
+  <section class="hero hero-single">
     <div>
       <div class="eyebrow">Graph-native coding environment</div>
       <h1>{{ .Title }}</h1>
@@ -16,8 +16,15 @@
         <li>local + hosted model workflows</li>
       </ul>
     </div>
+  </section>
 
-    <aside class="hero-panel hero-shot" aria-label="minicode web interface screenshot">
+  <section class="section-shell app-showcase" aria-label="minicode web interface screenshot">
+    <div class="section-intro app-showcase-intro">
+      <div class="eyebrow">Inside the app</div>
+      <h2>A full-width look at the graph-native interface</h2>
+      <p>The web UI is where the core idea becomes tangible: multi-turn chat, live tool activity, a navigable dependency graph, and focused symbol detail all sitting in the same workspace.</p>
+    </div>
+    <div class="hero-panel hero-shot app-showcase-panel">
       <div class="panel-top">
         <div class="panel-title">Inside the app</div>
         <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -36,7 +43,7 @@
         <span>dependency graph</span>
         <span>symbol detail panel</span>
       </div>
-    </aside>
+    </div>
   </section>
 
   <section>

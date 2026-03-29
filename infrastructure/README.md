@@ -7,7 +7,6 @@ Pulumi IaC for deploying the Hugo site to a private S3 bucket behind CloudFront,
 - Pulumi CLI
 - AWS credentials with permissions for S3 + CloudFront + IAM policy updates
 - Pulumi access token when using the Pulumi Cloud backend
-- `PULUMI_CONFIG_PASSPHRASE` when using the current passphrase-encrypted stack config
 
 ## Quickstart
 
@@ -15,7 +14,6 @@ Pulumi IaC for deploying the Hugo site to a private S3 bucket behind CloudFront,
 cd infrastructure
 npm install
 pulumi stack init dev # first time only
-export PULUMI_CONFIG_PASSPHRASE=your-stack-passphrase
 pulumi config set aws:region us-west-2
 # optional overrides (defaults are already set in Pulumi.dev.yaml)
 pulumi config set minicode-site:domainName minicode.seanholung.com

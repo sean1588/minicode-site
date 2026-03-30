@@ -48,16 +48,27 @@
       main {
         max-width: 74rem;
         margin: 0 auto;
-        padding: 0 1rem 4rem;
+        padding: 1rem 1rem 4rem;
+      }
+      .site-header-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        padding: 0.9rem 1rem 0;
       }
       .site-header {
+        max-width: 74rem;
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        margin-bottom: 2.2rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(147, 167, 224, 0.12);
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(147, 167, 224, 0.16);
+        border-radius: 22px;
+        background: rgba(9, 13, 24, 0.84);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(18px);
       }
       .site-brand {
         display: inline-flex;
@@ -118,7 +129,6 @@
         border: 1px solid var(--border);
         border-radius: 32px;
         padding: 2rem;
-        margin-top: 1.5rem;
         box-shadow: var(--shadow);
         backdrop-filter: blur(16px);
       }
@@ -442,7 +452,7 @@
       }
       .docs-sidebar {
         position: sticky;
-        top: 1.5rem;
+        top: 6rem;
         align-self: start;
       }
       .docs-sidebar-nav {
@@ -546,6 +556,7 @@
       .prose li {
         color: var(--muted);
         font-size: 1rem;
+        overflow-wrap: anywhere;
       }
       .prose ul,
       .prose ol {
@@ -554,8 +565,11 @@
         padding-left: 1.25rem;
       }
       .prose table {
+        display: block;
         width: 100%;
         border-collapse: collapse;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         overflow: hidden;
         border-radius: 18px;
         border: 1px solid rgba(138, 166, 255, 0.12);
@@ -581,6 +595,8 @@
       }
       .prose code {
         font-size: 0.95em;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
       .prose pre {
         margin: 0;
@@ -602,6 +618,12 @@
         border-left: 3px solid rgba(138, 166, 255, 0.36);
         border-radius: 0 16px 16px 0;
         background: rgba(138, 166, 255, 0.08);
+      }
+      .prose a,
+      .prose td,
+      .prose th {
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
       ul {
         color: var(--muted);
@@ -738,9 +760,13 @@
         }
       }
       @media (max-width: 760px) {
+        .site-header-wrap {
+          padding-top: 0.7rem;
+        }
         .site-header {
-          align-items: flex-start;
           flex-direction: column;
+          align-items: flex-start;
+          padding: 0.8rem 0.85rem;
         }
         .site-nav {
           width: 100%;
@@ -780,19 +806,21 @@
     </style>
   </head>
   <body>
+    <div class="site-header-wrap">
+      <header class="site-header">
+        <a class="site-brand" href="/">
+          <span class="site-brand-mark">m</span>
+          <span>minicode</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a class="{{ if .IsHome }}active{{ end }}" href="/">Overview</a>
+          <a class="{{ if eq .Section "docs" }}active{{ end }}" href="/docs/">Docs</a>
+          <a href="https://github.com/sean1588/minicode">GitHub</a>
+        </nav>
+      </header>
+    </div>
     <main>
       <div class="card">
-        <header class="site-header">
-          <a class="site-brand" href="/">
-            <span class="site-brand-mark">m</span>
-            <span>minicode</span>
-          </a>
-          <nav class="site-nav" aria-label="Primary">
-            <a class="{{ if .IsHome }}active{{ end }}" href="/">Overview</a>
-            <a class="{{ if eq .Section "docs" }}active{{ end }}" href="/docs/">Docs</a>
-            <a href="https://github.com/sean1588/minicode">GitHub</a>
-          </nav>
-        </header>
         {{ block "main" . }}{{ end }}
       </div>
     </main>

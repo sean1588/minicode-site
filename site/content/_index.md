@@ -1,19 +1,20 @@
 ---
-title: "Structural context for coding agents"
-description: "minicode is a graph-native coding environment and agent runtime built around symbol-aware retrieval, dependency graphs, and targeted context."
+title: "A graph-native coding agent"
+description: "minicode is a coding agent with a graph-native workspace built around symbol-aware retrieval, dependency graphs, and targeted context."
 ---
 
-minicode is a graph-native coding environment built around a simple idea: **more context is not always better**.
+minicode is a coding agent with a graph-native workspace built around a simple idea: **more context is not always better**.
 
 Most coding agents treat a codebase like a pile of text. They read whole files, bloat the prompt, and waste attention on code that does not matter for the task at hand. That is expensive for hosted models and actively harmful for smaller local models with tighter effective context windows.
 
-minicode takes a different approach. It gives agents a **structural way to navigate code** using code maps, dependency-aware context, and specialized tools for following symbols, dependencies, and the code that actually matters.
+minicode takes a different approach. It gives the agent a **structural way to navigate code** using code maps, dependency-aware context, and specialized tools for following symbols, dependencies, and the code that actually matters. The graph is not just an internal implementation detail: it is also a shared workspace for humans who want to inspect, steer, and explore that same structure.
 
 ## Why this matters
 
 - **Read less** — avoid whole-file dumping when a task only needs a few symbols
 - **Reason better** — reduce attention dilution by increasing signal density
 - **Use fewer tokens** — cut prompt bloat, latency, and API cost
+- **See what the agent sees** — use the graph to track, inspect, and explore the current working set
 
 ## How minicode works
 
@@ -31,10 +32,11 @@ By keeping retrieval targeted, more of the model's limited context window is ava
 
 ## What makes it different
 
-- built for **small and local models**
+- built for **coding-agent workflows first**
 - optimized for **context conservation**
 - uses **dependency-aware code understanding**
 - relies on **specialized tooling**, not just generic file reads
+- exposes a **shared graph workspace** for both the agent and the human
 - helps both **local workflows** and **cost-sensitive API usage**
 
 ## Where it shines
@@ -43,6 +45,7 @@ By keeping retrieval targeted, more of the model's limited context window is ava
 - context-efficient coding loops on consumer hardware
 - agent workflows where token cost matters
 - projects that benefit from structural code navigation instead of brute-force reading
+- sessions where the human wants to watch and steer the agent's path through the codebase
 
 ## Read less. Reason better. Use fewer tokens.
 

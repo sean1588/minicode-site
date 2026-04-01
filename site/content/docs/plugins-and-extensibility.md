@@ -5,7 +5,7 @@ weight: 50
 kicker: Extensibility
 ---
 
-minicode is built around a plugin-based indexer and a broader runtime architecture that is moving toward a reusable SDK. The plugin system is the main extension point today.
+minicode is built around a plugin-based indexer and a broader runtime architecture that is moving toward a reusable SDK. The plugin system is the main extension point for new language support today, while the MCP server is the main extension point for connecting external agents to the same indexed graph intelligence.
 
 ## Built-in language support
 
@@ -47,6 +47,23 @@ Plugins power:
 - `read_symbol`
 - `find_references`
 - `get_dependencies`
+- `find_path`
+
+## MCP surface for external agents
+
+If you want another agent surface to consume minicode's indexed tooling directly, use the MCP server exposed by `minicode serve`. The bundled Claude Code plugin is the easiest example of that path:
+
+```bash
+minicode serve
+minicode plugin install
+```
+
+That gives external agents access to:
+
+- symbol-aware tools
+- annotations
+- code-map and structural-analysis resources
+- the same live graph activity you can watch in the web UI
 
 At a minimum, a plugin needs to know how to:
 
@@ -87,5 +104,6 @@ That direction would make the runtime reusable in:
 ## Related docs
 
 - [Agent Runtime SDK](/docs/agent-runtime-sdk/)
+- [MCP Server](/docs/mcp-server/)
 - [Technical Docs: Runtime Architecture](/docs/technical/runtime-architecture/)
 - [Technical Docs: Indexing and Graph](/docs/technical/indexing-and-graph/)

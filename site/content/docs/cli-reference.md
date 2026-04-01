@@ -9,6 +9,7 @@ The CLI has three primary modes:
 
 - interactive terminal use
 - serve mode for the web UI and OpenAI-compatible backend
+- plugin install for Claude Code / MCP setup
 - one-shot mode for scripting and automation
 
 ## Interactive usage
@@ -38,11 +39,24 @@ minicode serve --port 8080
 This mode exposes:
 
 - the web chat UI
+- the MCP endpoint
 - session management
+- settings and persisted non-secret config editing
+- structural analysis and AI explanations in the graph UI
 - graph and symbol endpoints
 - the OpenAI-compatible `/v1/chat/completions` API
 
 It is mutually exclusive with `--oneshot`, `--json`, and `--out`.
+
+## Claude Code plugin install
+
+Install the bundled Claude Code plugin globally:
+
+```bash
+minicode plugin install
+```
+
+This creates a symlink under `~/.claude/plugins/minicode` pointing at the plugin bundled with the `minicode` package. The plugin expects `minicode serve` to be running so it can reach the MCP endpoint at `http://localhost:4567/mcp`.
 
 ## One-shot mode
 
@@ -83,6 +97,12 @@ The interactive CLI also exposes built-in slash commands:
 | --- | --- |
 | `/help` | Show the available commands |
 | `/config` | Print the active runtime configuration |
+| `/config keys` | List editable persisted config keys |
+| `/config get <key>` | Show the effective, workspace, global, and env-layer values for one key |
+| `/config set <key> <value>` | Save a workspace-scoped persisted value |
+| `/config set <key> <value> --global` | Save a user-level persisted value in `~/.minicode/agent.config.json` |
+| `/config unset <key>` | Remove a workspace-scoped persisted value |
+| `/config unset <key> --global` | Remove a user-level persisted value |
 | `/compact` | Compact older session history |
 | `/reasoning [level]` | View or change reasoning effort |
 | `/models` | List provider models when model listing is supported |
@@ -131,3 +151,4 @@ If you are working on minicode itself, the repository exposes these scripts:
 - [Get Started](/docs/get-started/)
 - [Configuration](/docs/configuration/)
 - [Web UI and Serve Mode](/docs/web-ui-and-serve/)
+- [MCP Server](/docs/mcp-server/)

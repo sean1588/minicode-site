@@ -7,6 +7,13 @@ kicker: Reference
 
 minicode keeps its configuration and cache outside your project directory. That lets you reuse the same setup across workspaces while keeping project roots clean.
 
+Non-secret settings can now also be edited from:
+
+- the web UI `Settings` modal in `minicode serve`
+- the CLI slash commands: `/config keys|get|set|unset`
+
+Secrets like API keys still remain env-only for now.
+
 ## Configuration precedence
 
 Later sources override earlier ones:
@@ -44,6 +51,7 @@ The cache lives under `~/.minicode/cache/<workspace-hash>/`.
 | `COMPACTION_THRESHOLD` | `0.8` | Auto-compaction threshold as a fraction of context fullness |
 | `COMPACTION_MODEL` | none | Optional model used for LLM-based compaction |
 | `REASONING_EFFORT` | none | Optional reasoning level for models that support reasoning tokens |
+| `ENABLE_DYNAMIC_PROMPT` | `true` | Rebuild the project-aware system prompt every step; disabling it can improve KV-cache reuse at the cost of a less adaptive code map |
 
 ## `agent.config.json`
 
@@ -70,7 +78,9 @@ You can put `agent.config.json` either in `~/.minicode/` for user defaults or in
   "enableAdaptiveKeepRecent": true,
   "enableToolOutputTruncation": true,
   "compactionThreshold": 0.8,
-  "compactionModel": ""
+  "compactionModel": "",
+  "reasoningEffort": "medium",
+  "enableDynamicPrompt": true
 }
 ```
 
@@ -98,8 +108,38 @@ You can put `agent.config.json` either in `~/.minicode/` for user defaults or in
 | `compactionThreshold` | `COMPACTION_THRESHOLD` |
 | `compactionModel` | `COMPACTION_MODEL` |
 | `reasoningEffort` | `REASONING_EFFORT` |
+| `enableDynamicPrompt` | `ENABLE_DYNAMIC_PROMPT` |
 
 `commandDenylist` is JSON-config only. It accepts regex strings that are appended to the built-in destructive-command denylist.
+
+## Editing persisted config from the UI or CLI
+
+The editable config surface is intentionally limited to non-secret runtime defaults. Today that includes fields like:
+
+- model provider and default model
+- token and step limits
+- timeout and file-size limits
+- prompt and compaction behavior
+- reasoning effort and dynamic-prompt behavior
+
+From the CLI:
+
+```bash
+/config keys
+/config get model
+/config set model anthropic/claude-sonnet-4-5
+/config set maxContextTokens 24000 --global
+/config unset reasoningEffort
+```
+
+From the web UI:
+
+- click `Settings`
+- choose workspace or global scope
+- edit persisted values
+- save and restart `minicode` to apply them to new sessions
+
+Environment variables still win over persisted values, and the UI shows when an env var is overriding a saved setting.
 
 ## Tuning for smaller context windows
 

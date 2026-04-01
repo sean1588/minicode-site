@@ -814,7 +814,8 @@
         </a>
         <nav class="site-nav" aria-label="Primary">
           <a class="{{ if .IsHome }}active{{ end }}" href="/">Overview</a>
-          <a class="{{ if eq .Section "docs" }}active{{ end }}" href="/docs/">Docs</a>
+          <a class="{{ if and (eq .Section "docs") (ne .RelPermalink "/docs/mcp-server/") }}active{{ end }}" href="/docs/">Docs</a>
+          <a class="{{ if eq .RelPermalink "/docs/mcp-server/" }}active{{ end }}" href="/docs/mcp-server/">MCP</a>
           <a href="https://github.com/sean1588/minicode">GitHub</a>
         </nav>
       </header>

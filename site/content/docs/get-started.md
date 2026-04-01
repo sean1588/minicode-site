@@ -59,7 +59,7 @@ minicode "Add error handling to src/api.ts"
 
 ## Start the web UI
 
-Serve mode starts the local web app, the graph-backed API, and the OpenAI-compatible endpoint:
+Serve mode starts the local web app, the graph-backed API, the structural-analysis surface, the MCP endpoint, and the OpenAI-compatible endpoint:
 
 ```bash
 minicode serve              # http://localhost:4567
@@ -70,7 +70,32 @@ By default you get:
 
 - the web UI at `http://localhost:4567`
 - the OpenAI-compatible API at `http://localhost:4567/v1`
+- the MCP endpoint at `http://localhost:4567/mcp`
 - a WebSocket connection for live tool and streaming events
+
+## Use it with Claude Code via MCP
+
+If you want the same symbol-aware tools inside Claude Code, start `minicode serve` and then install the bundled plugin:
+
+```bash
+minicode plugin install
+```
+
+That creates the global Claude plugin symlink under `~/.claude/plugins/minicode` and points it at the MCP server exposed by `minicode serve`.
+
+The plugin is built around the MCP tools and resources shipped by minicode:
+
+- `read_symbol`
+- `find_references`
+- `get_dependencies`
+- `search_code_map`
+- `find_path`
+- `add_annotation`
+- `list_annotations`
+- `minicode://code-map`
+- `minicode://structural-analysis`
+
+Once the plugin is installed, Claude Code can use minicode's AST-backed tools while the web UI still shows live graph activity and structural analysis for the same workspace.
 
 ## One-shot mode
 
@@ -99,3 +124,4 @@ npm run install:global
 - [CLI Reference](/docs/cli-reference/)
 - [Configuration](/docs/configuration/)
 - [Web UI and Serve Mode](/docs/web-ui-and-serve/)
+- [MCP Server](/docs/mcp-server/)

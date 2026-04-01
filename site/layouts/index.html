@@ -1,10 +1,10 @@
 {{ define "main" }}
   <section class="hero hero-single">
     <div>
-      <div class="eyebrow">Graph-native coding environment</div>
+      <div class="eyebrow">Graph-native coding agent</div>
       <h1>{{ .Title }}</h1>
       {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
-      <p class="hero-support">minicode started as an experiment in making local models viable for agentic coding under tight context budgets. It has since evolved into a broader exploration of better interfaces for coding agents: graph-native code exploration, structural retrieval, and an agent runtime that works across both local and hosted models.</p>
+      <p class="hero-support">minicode started as an experiment in making local models viable for agentic coding under tight context budgets. It has since evolved into a coding agent with a graph-native workspace: the agent uses structural retrieval to navigate code efficiently, and the web UI makes that same working model visible and useful to the human.</p>
       <div class="hero-actions">
         <a class="button primary" href="/docs/get-started/">Get started</a>
         <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
@@ -12,11 +12,11 @@
         <a class="button secondary" href="#how-it-works">See the flow</a>
       </div>
       <ul class="hero-points">
+        <li>coding agent first</li>
         <li>graph-native web UI</li>
+        <li>shared human + agent workspace</li>
         <li>symbol-aware retrieval</li>
         <li>mcp + claude plugin</li>
-        <li>dependency-cone context</li>
-        <li>local + hosted model workflows</li>
       </ul>
     </div>
   </section>
@@ -24,8 +24,8 @@
   <section class="section-shell app-showcase" aria-label="minicode web interface screenshot">
     <div class="section-intro app-showcase-intro">
       <div class="eyebrow">Inside the app</div>
-      <h2>A full-width look at the graph-native interface</h2>
-      <p>The web UI is where the core idea becomes tangible: multi-turn chat, live tool activity, a navigable dependency graph, and focused symbol detail all sitting in the same workspace.</p>
+      <h2>A shared workspace for the agent and the human</h2>
+      <p>The web UI is where the product makes sense: multi-turn chat, live tool activity, a navigable dependency graph, and focused symbol detail all sitting in one place so you can both use the agent and understand what it is working on.</p>
     </div>
     <div class="hero-panel hero-shot app-showcase-panel">
       <div class="panel-top">
@@ -42,7 +42,7 @@
           />
         </a>
       </div>
-      <p class="panel-caption">The web UI makes the core idea visible: chat, tool activity, symbol graph, and focused code exploration all in the same surface.</p>
+      <p class="panel-caption">The graph is useful to the agent and to the human: it makes structural navigation visible, inspectable, and easier to steer while a coding task is underway.</p>
       <div class="panel-meta">
         <span>real-time tool stream</span>
         <span>dependency graph</span>
@@ -54,19 +54,19 @@
   <section>
     <div class="section-intro">
       <div class="eyebrow">Product surface</div>
-      <h2>More than a single interface</h2>
-      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an MCP server for external agents, an OpenAI-compatible endpoint, and extensible language-aware indexing. Today the deepest built-in indexing path is focused on TypeScript and JavaScript, with plugins leaving room to add more languages over time.</p>
+      <h2>An agent first, with a graph-native interface</h2>
+      <p>minicode is primarily a coding agent product. The graph matters because it gives the agent a better way to navigate code, and because it gives humans a clearer way to inspect, steer, and explore that same structure. Around that core, the project now exposes a web app, an MCP server, an OpenAI-compatible endpoint, and extensible language-aware indexing.</p>
     </div>
     <div class="grid compact-cards">
       <article>
         <h3>Graph-native web app</h3>
-        <p>Real-time chat, tool streaming, sessions, settings, structural analysis, AI explanations, symbol focus, and a dependency graph that exposes the agent's perspective directly in the interface.</p>
-        <div class="card-note">the clearest expression of the idea</div>
+        <p>Real-time chat, tool streaming, sessions, settings, structural analysis, AI explanations, symbol focus, and a dependency graph that shows what the agent is touching and gives humans a useful exploration surface of their own.</p>
+        <div class="card-note">shared workspace, not just a viewer</div>
       </article>
       <article>
         <h3>Agent runtime</h3>
         <p>Interactive multi-turn coding loop with tools, session trimming, loop protection, and structural context injected into each step.</p>
-        <div class="card-note">runtime + tooling core</div>
+        <div class="card-note">the core product</div>
       </article>
       <article>
         <h3>MCP server + Claude plugin</h3>
@@ -146,8 +146,8 @@
   <section class="section-shell">
     <div class="section-intro">
       <div class="eyebrow">What makes it different</div>
-      <h2>minicode is not just a code map</h2>
-      <p>The project is really about context conservation: giving models a more structured interface to code so they can spend less time reading and more time solving, while leaving room for plugins and reusable runtime integrations.</p>
+      <h2>Not just a graph, and not just another chat wrapper</h2>
+      <p>The point of minicode is not simply to draw a dependency graph. It is to give a coding agent a more structured interface to code, then expose that same structure in a way that helps humans understand and steer what the agent is doing.</p>
     </div>
     <div class="grid three-up compact-cards">
       <article>
@@ -157,7 +157,7 @@
       </article>
       <article>
         <h3>Specialized tooling</h3>
-        <p>Symbol navigation, dependency-aware retrieval, and more targeted context access than generic file reading.</p>
+        <p>Symbol navigation, dependency-aware retrieval, path finding, and more targeted context access than generic file reading.</p>
         <div class="card-note">structure over brute force</div>
       </article>
       <article>
@@ -167,7 +167,7 @@
       </article>
       <article>
         <h3>Extensible by design</h3>
-        <p>Today the built-in path goes deepest on TypeScript and JavaScript, with language plugins, graph-aware tools, and an SDK direction that leave room to grow language coverage over time.</p>
+        <p>Today the built-in path goes deepest on TypeScript and JavaScript, with language plugins, graph-aware tools, and external-agent integrations that leave room to grow language coverage and client surfaces over time.</p>
         <div class="card-note">runtime + plugin ecosystem</div>
       </article>
     </div>
@@ -177,7 +177,7 @@
     <div class="section-intro">
       <div class="eyebrow">Use cases</div>
       <h2>Where it shines</h2>
-      <p>minicode is strongest when the task is narrow, the codebase is non-trivial, and every extra token in the prompt has a cost.</p>
+      <p>minicode is strongest when the task is narrow, the codebase is non-trivial, and you want both a capable coding agent and a clearer view into how it is navigating the code.</p>
     </div>
     <div class="grid use-case-grid">
       <article class="use-case">
@@ -194,7 +194,7 @@
       </article>
       <article class="use-case">
         <h3>Structural code navigation</h3>
-        <p>Best when the right answer lives in code relationships rather than in a single obvious file or folder.</p>
+        <p>Best when the right answer lives in code relationships rather than in a single obvious file or folder, and the human wants to inspect that structure directly.</p>
       </article>
       <article class="use-case">
         <h3>External-agent augmentation</h3>

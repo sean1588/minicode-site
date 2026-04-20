@@ -5,11 +5,9 @@
       <h1>{{ .Title }}</h1>
       {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
       <p class="hero-support">Local models become genuinely useful. Frontier models reason better while using dramatically fewer tokens.</p>
-      <blockquote class="hero-quote">"Models perform better when you give them less context — but better context."</blockquote>
       <div class="hero-actions">
         <a class="button primary" href="#ui">See it in action</a>
         <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
-        <a class="button secondary" href="#how-it-works">See the flow</a>
       </div>
       <pre class="hero-install"><code>npm install -g @sean.holung/minicode
 minicode serve</code></pre>
@@ -45,45 +43,6 @@ minicode serve</code></pre>
     </div>
   </section>
 
-  <section id="how-it-works">
-    <div class="section-intro">
-      <div class="eyebrow">How it works</div>
-      <h2>Structural understanding instead of brute force.</h2>
-      <p>minicode parses your codebase once at startup. It builds a real dependency graph, understands symbols, function signatures, and call relationships — then creates a "dependency cone" of only the code the model actually needs for your specific request.</p>
-    </div>
-    <div class="grid steps">
-      <article class="step">
-        <span>01</span>
-        <div class="step-note">orientation</div>
-        <h3>Build a structural map</h3>
-        <p>Parse the project into symbols, signatures, and relationships so the agent starts with codebase structure instead of guesswork.</p>
-      </article>
-      <article class="step">
-        <span>02</span>
-        <div class="step-note">retrieval</div>
-        <h3>Follow the dependency cone</h3>
-        <p>Pull the method body, types, and nearby dependencies that matter for the task instead of dragging in the whole file.</p>
-      </article>
-      <article class="step">
-        <span>03</span>
-        <div class="step-note">navigation</div>
-        <h3>Walk code structurally</h3>
-        <p>Use symbol- and dependency-aware tools to move through a codebase by relationships, not by linear scrolling.</p>
-      </article>
-      <article class="step">
-        <span>04</span>
-        <div class="step-note">reasoning</div>
-        <h3>Preserve reasoning budget</h3>
-        <p>Keep the prompt lean so more of the available context can go toward planning, editing, and validation.</p>
-      </article>
-    </div>
-    <div class="section-cta">
-      <pre class="hero-install"><code>npm install -g @sean.holung/minicode
-minicode serve</code></pre>
-      <a class="button primary" href="/docs/get-started/">Try it on your code &rarr;</a>
-    </div>
-  </section>
-
   <section class="section-shell app-showcase" id="ui" aria-label="minicode web interface screenshot">
     <div class="section-intro app-showcase-intro">
       <div class="eyebrow">See it in action</div>
@@ -112,18 +71,39 @@ minicode serve</code></pre>
         <span>symbol detail panel</span>
       </div>
     </div>
-    <div class="section-cta">
-      <a class="button primary" href="/docs/get-started/">Get started</a>
-      <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
-    </div>
   </section>
 
-  <section class="section-shell">
+  <section id="how-it-works">
     <div class="section-intro">
-      <div class="eyebrow">Why it matters</div>
-      <h2>Better models aren't enough. Better context is.</h2>
-      <p>The biggest limiter on agentic coding today isn't model intelligence — it's context quality. minicode started as an experiment to make local models viable for serious coding work under tight context budgets. The techniques turned out to be just as valuable for hosted frontier models: cleaner context leads to fewer hallucinations, better refactors, and lower cost.</p>
-      <p>Whether you're running Mistral, Llama 3.1, or Claude — the advantage is the same: <strong>Read less. Reason better.</strong></p>
+      <div class="eyebrow">How it works</div>
+      <h2>Structural understanding instead of brute force.</h2>
+      <p>minicode parses your codebase once at startup. It builds a real dependency graph, understands symbols, function signatures, and call relationships — then pulls only the code the model actually needs for your specific request.</p>
+    </div>
+    <div class="grid steps">
+      <article class="step">
+        <span>01</span>
+        <div class="step-note">orientation</div>
+        <h3>Build a structural map</h3>
+        <p>Parse the project into symbols, signatures, and relationships so the agent starts with codebase structure instead of guesswork.</p>
+      </article>
+      <article class="step">
+        <span>02</span>
+        <div class="step-note">retrieval</div>
+        <h3>Follow the dependency cone</h3>
+        <p>Pull the method body, types, and nearby dependencies that matter for the task instead of dragging in the whole file.</p>
+      </article>
+      <article class="step">
+        <span>03</span>
+        <div class="step-note">navigation</div>
+        <h3>Walk code structurally</h3>
+        <p>Use symbol- and dependency-aware tools to move through a codebase by relationships, not by linear scrolling.</p>
+      </article>
+      <article class="step">
+        <span>04</span>
+        <div class="step-note">reasoning</div>
+        <h3>Preserve reasoning budget</h3>
+        <p>Keep the prompt lean so more of the available context can go toward planning, editing, and validation.</p>
+      </article>
     </div>
   </section>
 
@@ -131,13 +111,13 @@ minicode serve</code></pre>
     <div class="section-intro">
       <div class="eyebrow">What makes it different</div>
       <h2>The code map is just the beginning.</h2>
-      <p>Many tools build some kind of index. minicode is different because the graph isn't just for display — it's the core retrieval mechanism for the agent runtime. It's not "yet another code map UI." It's a full agent environment designed from the ground up around structural context.</p>
+      <p>Many tools build some kind of index. minicode is different because the graph isn't just for display — it's the core retrieval mechanism for the agent runtime. It started as an experiment to make local models viable for serious coding work, then turned out to be just as valuable for frontier models. The core bet is simple: better models aren't enough; better context is.</p>
     </div>
     <div class="grid three-up compact-cards">
       <article>
         <h3>Born from local-model constraints</h3>
         <p>The first problem was making smaller models viable for coding work, but the same structural advantages carry over to frontier-model workflows too.</p>
-        <div class="card-note">strong technical wedge</div>
+        <div class="card-note">local + frontier</div>
       </article>
       <article>
         <h3>Structural tooling</h3>
@@ -193,6 +173,7 @@ minicode serve</code></pre>
 minicode serve</code></pre>
     <div class="hero-actions">
       <a class="button primary" href="/docs/get-started/">Get started</a>
+      <a class="button secondary" href="https://github.com/sean1588/minicode">Star on GitHub</a>
     </div>
   </section>
 {{ end }}

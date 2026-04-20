@@ -1,6 +1,6 @@
 ---
-title: "Structural context for coding agents"
-description: "minicode is a graph-native coding environment and agent runtime built around symbol-aware retrieval, dependency graphs, and targeted context."
+title: "Your coding agent is drowning in irrelevant code."
+description: "minicode builds a live dependency graph and symbol index of your entire codebase. It sends the model surgically chosen, high-signal context instead of dumping files and hoping for the best."
 ---
 
 minicode is a graph-native coding environment built around a simple idea: **more context is not always better**.

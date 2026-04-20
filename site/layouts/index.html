@@ -1,91 +1,27 @@
 {{ define "main" }}
   <section class="hero hero-single">
     <div>
-      <div class="eyebrow">Graph-native coding environment</div>
+      <div class="eyebrow">Better context. Fewer tokens. Real results.</div>
       <h1>{{ .Title }}</h1>
       {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
-      <p class="hero-support">minicode started as an experiment in making local models viable for agentic coding under tight context budgets. It has since evolved into a broader exploration of better interfaces for coding agents: graph-native code exploration, structural retrieval, and an agent runtime that works across both local and hosted models.</p>
+      <p class="hero-support">Local models become genuinely useful. Frontier models reason better while using dramatically fewer tokens.</p>
+      <blockquote class="hero-quote">"Models perform better when you give them less context — but better context."</blockquote>
       <div class="hero-actions">
-        <a class="button primary" href="/docs/get-started/">Get started</a>
+        <a class="button primary" href="#ui">See it in action</a>
         <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
-        <a class="button secondary" href="/docs/mcp-server/">MCP server</a>
         <a class="button secondary" href="#how-it-works">See the flow</a>
       </div>
-      <ul class="hero-points">
-        <li>graph-native web UI</li>
-        <li>symbol-aware retrieval</li>
-        <li>mcp + claude plugin</li>
-        <li>dependency-cone context</li>
-        <li>local + hosted model workflows</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section-shell app-showcase" aria-label="minicode web interface screenshot">
-    <div class="section-intro app-showcase-intro">
-      <div class="eyebrow">Inside the app</div>
-      <h2>A full-width look at the graph-native interface</h2>
-      <p>The web UI is where the core idea becomes tangible: multi-turn chat, live tool activity, a navigable dependency graph, and focused symbol detail all sitting in the same workspace.</p>
-    </div>
-    <div class="hero-panel hero-shot app-showcase-panel">
-      <div class="panel-top">
-        <div class="panel-title">Inside the app</div>
-        <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-      <div class="screenshot-frame">
-        <a class="screenshot-link" href="/images/minicode-ui.webp" target="_blank" rel="noreferrer">
-          <img
-            src="/images/minicode-ui.webp"
-            alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
-            width="1723"
-            height="920"
-          />
-        </a>
-      </div>
-      <p class="panel-caption">The web UI makes the core idea visible: chat, tool activity, symbol graph, and focused code exploration all in the same surface.</p>
-      <div class="panel-meta">
-        <span>real-time tool stream</span>
-        <span>dependency graph</span>
-        <span>symbol detail panel</span>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-intro">
-      <div class="eyebrow">Product surface</div>
-      <h2>More than a single interface</h2>
-      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an MCP server for external agents, an OpenAI-compatible endpoint, and extensible language-aware indexing. Today the deepest built-in indexing path is focused on TypeScript and JavaScript, with plugins leaving room to add more languages over time.</p>
-    </div>
-    <div class="grid compact-cards">
-      <article>
-        <h3>Graph-native web app</h3>
-        <p>Real-time chat, tool streaming, sessions, settings, structural analysis, AI explanations, symbol focus, and a dependency graph that exposes the agent's perspective directly in the interface.</p>
-        <div class="card-note">the clearest expression of the idea</div>
-      </article>
-      <article>
-        <h3>Agent runtime</h3>
-        <p>Interactive multi-turn coding loop with tools, session trimming, loop protection, and structural context injected into each step.</p>
-        <div class="card-note">runtime + tooling core</div>
-      </article>
-      <article>
-        <h3>MCP server + Claude plugin</h3>
-        <p>Expose symbol-aware tools, code-map resources, and structural-analysis findings to external agents while the web UI visualizes the same exploration in real time.</p>
-        <div class="card-note">external agents, same graph intelligence</div>
-      </article>
-      <article>
-        <h3>OpenAI-compatible backend</h3>
-        <p>Use minicode as a backend for existing clients while keeping the agent loop, tools, and code-map behavior behind the API.</p>
-        <div class="card-note">agent as a model</div>
-      </article>
+      <pre class="hero-install"><code>npm install -g @sean.holung/minicode
+minicode serve</code></pre>
+      <p class="hero-support hero-compat">No account required &bull; Works with LM Studio, Ollama, OpenRouter, Anthropic</p>
     </div>
   </section>
 
   <section class="section-shell">
     <div class="section-intro">
-      <div class="eyebrow">Why it matters</div>
-      <h2>Long context is not a free lunch</h2>
-      <p>Most coding agents still treat a codebase like a pile of text. They read entire files, bloat the prompt, and burn tokens before the model has even reached the part of the task that requires judgment. The pain is most obvious on local models, but frontier models pay for it too in latency, cost, and diluted attention.</p>
+      <div class="eyebrow">The problem</div>
+      <h2>Most coding agents waste your model's attention.</h2>
+      <p>They scan entire files or large chunks, stuff the context window with noise, and hope the model figures out what matters. The result: local models feel weak and hallucinate on real tasks; API users burn tokens and still get mediocre refactors; the agent spends more time being confused than being useful.</p>
     </div>
     <div class="grid two-up comparison-grid">
       <article class="comparison-card comparison-card-muted">
@@ -98,10 +34,10 @@
         </ul>
       </article>
       <article class="comparison-card comparison-card-accent">
-        <div class="card-kicker">Minicode loop</div>
+        <div class="card-kicker">minicode loop</div>
         <h3>Navigate structurally and keep the prompt lean</h3>
         <ul class="clean-list">
-          <li>retrieve bodies, types, and adjacent dependencies on demand</li>
+          <li>retrieve only the symbols and dependencies that matter</li>
           <li>increase signal density instead of total context volume</li>
           <li>preserve more of the context window for reasoning</li>
         </ul>
@@ -112,8 +48,8 @@
   <section id="how-it-works">
     <div class="section-intro">
       <div class="eyebrow">How it works</div>
-      <h2>AST-indexed context optimization for code agents</h2>
-      <p>minicode is built around a simple workflow: index structure first, retrieve narrowly, and spend the remaining context budget on the parts of the job that actually need thought.</p>
+      <h2>Structural understanding instead of brute force.</h2>
+      <p>minicode parses your codebase once at startup. It builds a real dependency graph, understands symbols, function signatures, and call relationships — then creates a "dependency cone" of only the code the model actually needs for your specific request.</p>
     </div>
     <div class="grid steps">
       <article class="step">
@@ -141,13 +77,61 @@
         <p>Keep the prompt lean so more of the available context can go toward planning, editing, and validation.</p>
       </article>
     </div>
+    <div class="section-cta">
+      <pre class="hero-install"><code>npm install -g @sean.holung/minicode
+minicode serve</code></pre>
+      <a class="button primary" href="/docs/get-started/">Try it on your code &rarr;</a>
+    </div>
+  </section>
+
+  <section class="section-shell app-showcase" id="ui" aria-label="minicode web interface screenshot">
+    <div class="section-intro app-showcase-intro">
+      <div class="eyebrow">See it in action</div>
+      <h2>A coding environment built around the graph.</h2>
+      <p>Run <code>minicode serve</code> and you get a full-featured web UI: multi-turn chat, real-time tool streaming, a live dependency graph that updates as the agent navigates your code, and a symbol detail panel — all in one interface. Watch the graph animate as the agent decides what to read next. See exactly which symbols and files were pulled into context and why.</p>
+    </div>
+    <div class="hero-panel hero-shot app-showcase-panel">
+      <div class="panel-top">
+        <div class="panel-title">minicode serve</div>
+        <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="screenshot-frame">
+        <a class="screenshot-link" href="/images/minicode-ui.webp" target="_blank" rel="noreferrer">
+          <img
+            src="/images/minicode-ui.webp"
+            alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
+            width="1723"
+            height="920"
+          />
+        </a>
+      </div>
+      <p class="panel-caption">The web UI makes structural context visible: chat, live tool activity, dependency graph, and focused symbol exploration — all in the same surface.</p>
+      <div class="panel-meta">
+        <span>live dependency graph</span>
+        <span>real-time tool stream</span>
+        <span>symbol detail panel</span>
+      </div>
+    </div>
+    <div class="section-cta">
+      <a class="button primary" href="/docs/get-started/">Get started</a>
+      <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
+    </div>
   </section>
 
   <section class="section-shell">
     <div class="section-intro">
+      <div class="eyebrow">Why it matters</div>
+      <h2>Better models aren't enough. Better context is.</h2>
+      <p>The biggest limiter on agentic coding today isn't model intelligence — it's context quality. minicode started as an experiment to make local models viable for serious coding work under tight context budgets. The techniques turned out to be just as valuable for hosted frontier models: cleaner context leads to fewer hallucinations, better refactors, and lower cost.</p>
+      <p>Whether you're running Mistral, Llama 3.1, or Claude — the advantage is the same: <strong>Read less. Reason better.</strong></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-intro">
       <div class="eyebrow">What makes it different</div>
-      <h2>minicode is not just a code map</h2>
-      <p>The project is really about context conservation: giving models a more structured interface to code so they can spend less time reading and more time solving, while leaving room for plugins and reusable runtime integrations.</p>
+      <h2>The code map is just the beginning.</h2>
+      <p>Many tools build some kind of index. minicode is different because the graph isn't just for display — it's the core retrieval mechanism for the agent runtime. It's not "yet another code map UI." It's a full agent environment designed from the ground up around structural context.</p>
     </div>
     <div class="grid three-up compact-cards">
       <article>
@@ -156,49 +140,14 @@
         <div class="card-note">strong technical wedge</div>
       </article>
       <article>
-        <h3>Specialized tooling</h3>
-        <p>Symbol navigation, dependency-aware retrieval, and more targeted context access than generic file reading.</p>
+        <h3>Structural tooling</h3>
+        <p>Symbol navigation, dependency-aware retrieval, and more targeted context access than generic file reading. The agent reads by relationship, not by scrolling.</p>
         <div class="card-note">structure over brute force</div>
       </article>
       <article>
         <h3>Better context economics</h3>
         <p>Less prompt bloat, lower latency, lower spend, and a higher share of useful information per token.</p>
         <div class="card-note">higher signal density</div>
-      </article>
-      <article>
-        <h3>Extensible by design</h3>
-        <p>Today the built-in path goes deepest on TypeScript and JavaScript, with language plugins, graph-aware tools, and an SDK direction that leave room to grow language coverage over time.</p>
-        <div class="card-note">runtime + plugin ecosystem</div>
-      </article>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-intro">
-      <div class="eyebrow">Use cases</div>
-      <h2>Where it shines</h2>
-      <p>minicode is strongest when the task is narrow, the codebase is non-trivial, and every extra token in the prompt has a cost.</p>
-    </div>
-    <div class="grid use-case-grid">
-      <article class="use-case">
-        <h3>Scoped engineering work</h3>
-        <p>Bug fixes, method implementations, refactors, and targeted edits where a small set of symbols drives the task.</p>
-      </article>
-      <article class="use-case">
-        <h3>Cost-sensitive frontier workflows</h3>
-        <p>Useful when API spend and response latency matter, even if the model itself has a large context window.</p>
-      </article>
-      <article class="use-case">
-        <h3>Local-model coding loops</h3>
-        <p>Especially compelling when working on consumer hardware and every bit of prompt efficiency affects quality.</p>
-      </article>
-      <article class="use-case">
-        <h3>Structural code navigation</h3>
-        <p>Best when the right answer lives in code relationships rather than in a single obvious file or folder.</p>
-      </article>
-      <article class="use-case">
-        <h3>External-agent augmentation</h3>
-        <p>Use the MCP server and Claude plugin when you want symbol-aware code intelligence and structural analysis inside another agent surface.</p>
       </article>
     </div>
   </section>
@@ -211,6 +160,10 @@
     </div>
     <div class="faq-list">
       <details class="faq-item" open>
+        <summary>Who is minicode for?</summary>
+        <p>Developers who want agentic coding to actually work with the models they already have — whether that's running 7B–32B models locally or calling the latest frontier models through an API. If you're frustrated by how much irrelevant code your current agent throws into the context window, this was built for you.</p>
+      </details>
+      <details class="faq-item">
         <summary>Why did minicode use AST parsing instead of connecting to the TypeScript LSP?</summary>
         <p>Because the goal was not just editor intelligence. minicode needed a lightweight, portable way to extract symbols, signatures, and dependency edges that could be injected into agent context, cached, and reused inside graph-aware tools. Using the TypeScript compiler AST keeps the indexing path syntax-driven and self-contained, without requiring an external language server process or editor integration layer.</p>
         <p>The tradeoff is that this is not trying to replace everything an LSP does. LSPs are great for editor workflows like completions, diagnostics, and refactors. minicode is more focused on the agent-runtime side: compact structural context, symbol-aware retrieval, and dependency-cone navigation.</p>
@@ -219,7 +172,7 @@
       <details class="faq-item">
         <summary>How is this different from aider?</summary>
         <p>aider is centered more around file-oriented coding assistance, prompts, and git-driven edit workflows. minicode overlaps with that general category, but the core thesis is different: it is built around structural context optimization, symbol-level tooling, and a graph-native interface that exposes how the agent is traversing code.</p>
-        <p>So the distinction is less about “better or worse” and more about emphasis. aider is strong as a practical editing assistant. minicode is more explicitly an experiment in giving coding agents a structural model of the codebase instead of mostly operating at the file level.</p>
+        <p>So the distinction is less about "better or worse" and more about emphasis. aider is strong as a practical editing assistant. minicode is more explicitly an experiment in giving coding agents a structural model of the codebase instead of mostly operating at the file level.</p>
       </details>
       <details class="faq-item">
         <summary>How is this different from a tree-sitter-first approach?</summary>
@@ -235,8 +188,9 @@
   </section>
 
   <section class="cta-panel">
-    <h2>Read less. Reason better. Use fewer tokens.</h2>
-    <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context.</p>
+    <h2>Ready to give your agent better context?</h2>
+    <pre class="hero-install"><code>npm install -g @sean.holung/minicode
+minicode serve</code></pre>
     <div class="hero-actions">
       <a class="button primary" href="/docs/get-started/">Get started</a>
     </div>

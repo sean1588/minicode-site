@@ -1,244 +1,636 @@
+{{ define "page-style" }}
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .hero {
+    padding: 84px 0 96px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .hero h1 { margin-top: 18px; }
+  .hero h1 .strike {
+    position: relative;
+    color: var(--muted);
+  }
+  .hero h1 .strike::after {
+    content: "";
+    position: absolute; left: -2%; right: -2%; top: 54%;
+    height: 3px; background: var(--danger); opacity: .8;
+    transform: rotate(-1.5deg);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-2);
+    margin-top: 24px;
+    max-width: 56ch;
+  }
+
+  .hero-actions {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 28px;
+  }
+
+  .install-block {
+    margin-top: 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    overflow: hidden;
+    max-width: 520px;
+  }
+  .install-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 14px;
+    font-family: var(--mono); font-size: 13.5px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .install-row:last-child { border-bottom: 0; }
+  .install-row .prompt { color: var(--accent); margin-right: 10px; user-select: none; }
+  .install-row .cmd { color: var(--text); }
+  .install-row .copy {
+    appearance: none; border: 0; background: transparent;
+    color: var(--muted); font-family: var(--mono); font-size: 11px;
+    cursor: pointer; padding: 4px 8px; border-radius: 6px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .install-row .copy:hover { background: var(--surface-2); color: var(--text); }
+  .install-row .copy.ok { color: var(--accent); }
+  .install-foot {
+    padding: 10px 14px;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted);
+    background: var(--bg-2);
+    border-top: 1px solid var(--line-2);
+  }
+
+  /* ── Hero visual: screenshot frame ───────────────────────────────── */
+  .hero-visual {
+    position: relative;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--surface) 0%, var(--bg-2) 100%);
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 oklch(1 0 0 / 0.04) inset,
+      0 30px 80px -20px oklch(0 0 0 / 0.5),
+      0 0 0 1px oklch(1 0 0 / 0.02);
+  }
+  .hv-chrome {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-2);
+    background: oklch(0.20 0.013 240);
+  }
+  .hv-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--surface-2); }
+  .hv-title {
+    margin-left: 10px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+  }
+  .hv-body { position: relative; }
+  .hv-body img { width: 100%; display: block; }
+
+  .hv-callout {
+    position: absolute;
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 5px 9px;
+    background: oklch(0.18 0.013 240 / 0.92);
+    border: 1px solid var(--accent-3);
+    color: var(--accent);
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+    white-space: nowrap;
+  }
+  .hv-callout-1 { top: 8%; left: 4%; }
+  .hv-callout-2 { top: 38%; left: 36%; }
+  .hv-callout-3 { top: 8%; right: 4%; }
+
+  /* ── Trust strip ─────────────────────────────────────────────────── */
+  .trust {
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    padding: 22px 0;
+    background: oklch(0.17 0.012 240 / 0.5);
+  }
+  .trust-row {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 24px;
+    font-family: var(--mono); font-size: 12px;
+    color: var(--muted);
+  }
+  .trust-row .item { display: inline-flex; align-items: center; gap: 8px; }
+  .trust-row .item .tick {
+    width: 14px; height: 14px; border-radius: 999px;
+    border: 1px solid var(--accent-3);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 9px;
+  }
+  .trust-row .label-mute { color: var(--faint); margin-right: 4px; }
+
+  /* ── Section shell ───────────────────────────────────────────────── */
+  .section { padding: 96px 0; position: relative; }
+  .section + .section { border-top: 1px solid var(--line-2); }
+
+  .section-head {
+    max-width: 720px;
+    margin-bottom: 48px;
+  }
+  .section-head h2 { margin-top: 14px; }
+  .section-head p { margin-top: 16px; font-size: 17px; }
+
+  /* ── Problem ─────────────────────────────────────────────────────── */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 800px) { .compare { grid-template-columns: 1fr; } }
+  .compare-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-card.bad   { border-color: oklch(0.40 0.10 25 / 0.35); }
+  .compare-card.good  { border-color: var(--accent-3); }
+  .compare-card .tag {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .compare-card.bad .tag::before  { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--danger); }
+  .compare-card.good .tag::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 10px var(--accent);}
+  .compare-card h3 { font-size: 22px; margin-bottom: 16px; letter-spacing: -.02em; }
+
+  /* ── How it works ────────────────────────────────────────────────── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px)  { .steps { grid-template-columns: 1fr; } }
+  .step {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    background: var(--surface);
+    position: relative;
+  }
+  .step .num {
+    font-family: var(--mono); font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+  .step h3 { margin-top: 14px; margin-bottom: 8px; }
+  .step .kind {
+    position: absolute; top: 22px; right: 22px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ── Inside the app ─────────────────────────────────────────────── */
+  .app-shot {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 40px 100px -30px oklch(0 0 0 / 0.6);
+  }
+  .app-shot .hv-chrome { background: oklch(0.18 0.013 240); }
+  .app-shot img { width: 100%; display: block; }
+  .app-callouts {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-top: 24px;
+  }
+  @media (max-width: 800px) { .app-callouts { grid-template-columns: 1fr; } }
+  .app-callout {
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    background: var(--bg-2);
+  }
+  .app-callout .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 999px;
+    border: 1px solid var(--accent-3); color: var(--accent);
+    font-family: var(--mono); font-size: 11px;
+    margin-bottom: 10px;
+  }
+  .app-callout h4 { margin: 0 0 4px; font-size: 14px; }
+  .app-callout p { font-size: 13px; }
+
+  /* ── Product surface / Why ───────────────────────────────────────── */
+  .surface-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .surface-grid { grid-template-columns: 1fr; } }
+  .surface-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .surface-card .corner {
+    font-family: var(--mono); font-size: 10.5px;
+    color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .surface-card h3 { margin: 14px 0 10px; font-size: 22px; }
+  .surface-card .features {
+    margin-top: 16px; padding: 0; list-style: none;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .surface-card .features li {
+    font-family: var(--mono); font-size: 11px;
+    padding: 4px 8px; border-radius: 6px;
+    background: var(--bg-2); color: var(--text-2);
+    border: 1px solid var(--line-2);
+  }
+
+  /* ── FAQ ─────────────────────────────────────────────────────────── */
+  .faq-list { display: flex; flex-direction: column; gap: 8px; }
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    font-size: 17px; font-weight: 500; letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-family: var(--mono); font-size: 20px; color: var(--muted);
+    transition: transform .2s ease;
+  }
+  .faq-item[open] summary::after { content: "–"; color: var(--accent); }
+  .faq-body { padding: 0 24px 24px; }
+  .faq-body p { color: var(--text-2); margin-bottom: 12px; font-size: 15px; line-height: 1.6; }
+  .faq-body p:last-child { margin-bottom: 0; }
+  .faq-body code {
+    font-size: 13px; padding: 1px 6px;
+    background: var(--bg-2); border: 1px solid var(--line-2);
+    border-radius: 4px;
+  }
+
+  /* ── Final CTA ───────────────────────────────────────────────────── */
+  .cta-final {
+    padding: 120px 0 96px;
+    text-align: center;
+    border-top: 1px solid var(--line-2);
+    background:
+      radial-gradient(800px 400px at 50% 0%, oklch(0.30 0.05 195 / 0.20), transparent 60%),
+      var(--bg);
+  }
+  .cta-final .eyebrow { display: inline-flex; }
+  .cta-final h2 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    letter-spacing: -.03em;
+    max-width: 16ch; margin: 14px auto 18px;
+  }
+  .cta-final p { max-width: 56ch; margin: 0 auto 32px; font-size: 17px; }
+  .cta-final .install-block { margin: 0 auto; }
+  .cta-final .hero-actions { justify-content: center; margin-top: 28px; }
+{{ end }}
+
 {{ define "main" }}
-  <section class="hero hero-single">
-    <div>
-      <div class="eyebrow">Graph-native coding environment</div>
-      <h1>{{ .Title }}</h1>
-      {{ with .Params.description }}<p class="hero-copy">{{ . }}</p>{{ end }}
-      <p class="hero-support">minicode started as an experiment in making local models viable for agentic coding under tight context budgets. It has since evolved into a broader exploration of better interfaces for coding agents: graph-native code exploration, structural retrieval, and an agent runtime that works across both local and hosted models.</p>
+  {{/* ── Hero ────────────────────────────────────────────────────── */}}
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Better context. Fewer tokens.</div>
+          <h1>Your models are <span class="strike">drowning in irrelevant code.</span> Give them structure instead.</h1>
+          <p class="hero-sub">Most coding agents stuff the prompt with whole files and hope the model figures it out. minicode indexes your codebase into a symbol graph at startup, then sends the model exactly the dependency cone it needs — not a dump of every related file.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#install">
+              Install minicode <span class="btn-arrow">→</span>
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/sean1588/minicode" target="_blank" rel="noreferrer">
+              View on GitHub
+            </a>
+          </div>
+          <div class="install-block">
+            <div class="install-row">
+              <span><span class="prompt">$</span><span class="cmd">npm install -g @sean.holung/minicode</span></span>
+              <button class="copy" data-copy="npm install -g @sean.holung/minicode">copy</button>
+            </div>
+            <div class="install-row">
+              <span><span class="prompt">$</span><span class="cmd">minicode serve</span></span>
+              <button class="copy" data-copy="minicode serve">copy</button>
+            </div>
+            <div class="install-foot">requires node 22+ · open localhost:4567 · no account required</div>
+          </div>
+        </div>
+        <div>
+          <div class="hero-visual">
+            <div class="hv-chrome">
+              <span class="hv-dot"></span><span class="hv-dot"></span><span class="hv-dot"></span>
+              <span class="hv-title">minicode serve · localhost:4567</span>
+            </div>
+            <div class="hv-body">
+              <img src="/images/minicode-ui.webp" alt="minicode web UI showing chat, dependency graph, and symbol detail panel" width="1723" height="920" />
+              <span class="hv-callout hv-callout-1">chat window</span>
+              <span class="hv-callout hv-callout-2">dependency graph</span>
+              <span class="hv-callout hv-callout-3">symbol focus</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Trust strip ─────────────────────────────────────────────── */}}
+  <div class="trust">
+    <div class="wrap trust-row">
+      <span class="item"><span class="tick">✓</span>Apache 2.0 · open source</span>
+      <span class="item"><span class="tick">✓</span>OpenAI-compatible API</span>
+      <span class="item"><span class="tick">✓</span>MCP server · Claude Code plugin</span>
+      <span class="item">
+        <span class="label-mute">works with</span>
+        <span>LM Studio · Ollama · OpenRouter · Anthropic · OpenAI</span>
+      </span>
+    </div>
+  </div>
+
+  {{/* ── Problem ─────────────────────────────────────────────────── */}}
+  <section class="section" id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">The problem</div>
+        <h2>Most coding agents waste your model's attention.</h2>
+        <p>They scan whole files or large chunks, stuff the prompt with noise, and hope the model figures out what matters. Read operations dominate token usage in typical agent sessions. The pain is sharpest on local models, but frontier models pay for it too in latency, cost, and diluted attention.</p>
+      </div>
+      <div class="compare">
+        <article class="compare-card bad">
+          <div class="tag">Default loop</div>
+          <h3>Read everything. Hope the right details survive.</h3>
+          <p>Whole-file dumps. Repeated reads of the same file. Irrelevant code crowding the window. Smaller models lose the thread; bigger models pay in tokens.</p>
+        </article>
+        <article class="compare-card good">
+          <div class="tag">minicode loop</div>
+          <h3>Navigate structurally. Keep the prompt lean.</h3>
+          <p>A compact code map (signatures only) for orientation. Symbol-level tools fetch only the dependency cone the task needs. Repeated reads dedup automatically. The model spends its budget on judgment.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── How it works ────────────────────────────────────────────── */}}
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How it works</div>
+        <h2>AST-indexed context optimization, end to end.</h2>
+        <p>Index structure first. Retrieve narrowly. Spend the remaining budget on the parts of the job that actually need thought.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="num">01</div>
+          <div class="kind">orientation</div>
+          <h3>Build a structural map</h3>
+          <p>Parse the project with the TypeScript compiler API. Extract symbols, signatures, and dependency edges — calls, references, extends, implements.</p>
+        </article>
+        <article class="step">
+          <div class="num">02</div>
+          <div class="kind">retrieval</div>
+          <h3>Inject a compact code map</h3>
+          <p>A signature-only skeleton of the project lands in the system prompt, ranked by reference count and entry-point heuristics. The agent orients without reading files.</p>
+        </article>
+        <article class="step">
+          <div class="num">03</div>
+          <div class="kind">navigation</div>
+          <h3>Walk the graph</h3>
+          <p><code>read_symbol</code> fetches a body with its referenced types. <code>find_references</code> and <code>get_dependencies</code> follow edges. The agent moves by relationships, not by linear scrolling.</p>
+        </article>
+        <article class="step">
+          <div class="num">04</div>
+          <div class="kind">reasoning</div>
+          <h3>Preserve the budget</h3>
+          <p>File-read dedup, focus-adaptive map regeneration, and 3-phase progressive trimming keep context under budget. More room for planning, editing, and validation.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Inside the app ──────────────────────────────────────────── */}}
+  <section class="section" id="app">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Inside the app</div>
+        <h2>The agent's perspective, made visible.</h2>
+        <p>Run <code style="color: var(--accent);">minicode serve</code> and the web UI shows you exactly what the agent sees: live tool stream, an interactive dependency graph, and a focused symbol panel — all in one workspace.</p>
+      </div>
+      <div class="app-shot">
+        <div class="hv-chrome">
+          <span class="hv-dot"></span><span class="hv-dot"></span><span class="hv-dot"></span>
+          <span class="hv-title">localhost:4567 · runTurn — packages/agent-sdk/src/agent/agent.ts</span>
+        </div>
+        <img src="/images/minicode-ui.webp" alt="minicode web UI showing tool stream, graph, and symbol panel" width="1723" height="920" />
+      </div>
+      <div class="app-callouts">
+        <article class="app-callout">
+          <div class="num">1</div>
+          <h4>Live tool stream</h4>
+          <p>Every <code>read_symbol</code>, <code>find_references</code>, and <code>edit_file</code> the agent runs streams in real time. You see the working set, not a black box.</p>
+        </article>
+        <article class="app-callout">
+          <div class="num">2</div>
+          <h4>Interactive dependency graph</h4>
+          <p>Cytoscape-rendered symbol graph with focus pinning, search, and re-layout. Click a node to pull its source and dependencies into context.</p>
+        </article>
+        <article class="app-callout">
+          <div class="num">3</div>
+          <h4>Symbol detail panel</h4>
+          <p>Body, signature, "Used by", "Calls", "Referenced types", and annotations — all derived from the graph, not from text search.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Product surface ─────────────────────────────────────────── */}}
+  <section class="section" id="surface">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Product surface</div>
+        <h2>One graph. Four ways to use it.</h2>
+        <p>minicode reads less like a single tool and more like a compact agent platform: graph-native web UI, embeddable runtime, MCP server, and OpenAI-compatible endpoint — all backed by the same symbol index.</p>
+      </div>
+      <div class="surface-grid">
+        <article class="surface-card">
+          <div class="corner">01 / web app</div>
+          <h3>Graph-native web UI</h3>
+          <p>Chat, real-time tool streaming, sessions, settings, structural analysis, AI explanations, symbol focus, and a navigable dependency graph — all in one local workspace.</p>
+          <ul class="features">
+            <li>chat + streaming</li><li>cytoscape graph</li><li>symbol focus</li><li>annotations</li><li>session save/load</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <div class="corner">02 / runtime</div>
+          <h3>Coding agent runtime</h3>
+          <p>Multi-turn agent loop with tool support, loop detection, focus-adaptive code map, file-read dedup, and progressive context trimming. CLI for terminal use, library for embedding.</p>
+          <ul class="features">
+            <li>interactive CLI</li><li>one-shot mode</li><li>loop guards</li><li>auto-compaction</li><li>session trimming</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <div class="corner">03 / mcp server</div>
+          <h3>MCP + Claude Code plugin</h3>
+          <p>Expose <code>read_symbol</code>, <code>find_references</code>, <code>get_dependencies</code>, <code>search_code_map</code>, and the project code map to any MCP-compatible agent. One-click plugin install for Claude Code.</p>
+          <ul class="features">
+            <li>read_symbol</li><li>find_references</li><li>get_dependencies</li><li>search_code_map</li><li>find_path</li>
+          </ul>
+        </article>
+        <article class="surface-card">
+          <div class="corner">04 / api</div>
+          <h3>OpenAI-compatible backend</h3>
+          <p>Point any OpenAI-protocol client (OpenWebUI, TypingMind, ChatGPT-Next-Web, Lobe Chat) at <code>/v1/chat/completions</code> and use minicode as the model. The runtime, tools, and graph come along.</p>
+          <ul class="features">
+            <li>/v1/chat/completions</li><li>tool use</li><li>streaming</li><li>session-aware</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Why it matters ──────────────────────────────────────────── */}}
+  <section class="section" id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Why it matters</div>
+        <h2>Long context isn't a free lunch.</h2>
+        <p>Even with perfect retrieval, performance degrades with input length — attention dilutes, positional biases cause mid-context drop-off, and inference latency grows linearly with token count. minicode is built around signal density, not just compression.</p>
+      </div>
+      <div class="surface-grid">
+        <article class="surface-card">
+          <div class="corner">local models</div>
+          <h3>Make smaller local models actually viable.</h3>
+          <p>Smaller models have less attention capacity to spend on noise. Cutting 60–80% of context out of the prompt is the single highest-leverage intervention for getting useful output from a model running on consumer hardware.</p>
+        </article>
+        <article class="surface-card">
+          <div class="corner">frontier models</div>
+          <h3>Cut spend without giving up quality.</h3>
+          <p>Bigger windows don't make wasted tokens free. Less prompt bloat means lower latency, lower API cost, and tighter attention on the actual task — even when the model could technically fit the whole repo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── FAQ ─────────────────────────────────────────────────────── */}}
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">FAQ</div>
+        <h2>Questions technical readers usually ask first.</h2>
+        <p>minicode has an opinionated architecture, so it helps to answer the common comparison questions directly.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Why AST parsing instead of connecting to the TypeScript LSP?</summary>
+          <div class="faq-body">
+            <p>Because the goal isn't editor intelligence. minicode needs a lightweight, portable way to extract symbols, signatures, and dependency edges that can be injected into agent context, cached, and reused inside graph-aware tools. Using the TypeScript compiler AST keeps indexing syntax-driven and self-contained — no external language server, no editor integration layer.</p>
+            <p>The tradeoff: this is not trying to replace what an LSP does. LSPs are great for editor workflows like completions, diagnostics, and refactors. minicode is focused on the agent-runtime side: compact structural context, symbol-aware retrieval, and dependency-cone navigation.</p>
+            <p>Built-in indexing covers TypeScript and JavaScript today. The broader language story is plugin-based on purpose.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How is this different from aider?</summary>
+          <div class="faq-body">
+            <p>aider is centered around file-oriented coding assistance, prompts, and git-driven edit workflows. minicode overlaps with that category, but the core thesis is different: it's built around structural context optimization, symbol-level tooling, and a graph-native interface that exposes how the agent is traversing code.</p>
+            <p>The distinction is less "better or worse" and more emphasis. aider is strong as a practical editing assistant. minicode is more explicitly an experiment in giving coding agents a structural model of the codebase rather than operating mostly at the file level.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How is this different from a tree-sitter-first approach?</summary>
+          <div class="faq-body">
+            <p>tree-sitter is excellent for fast, broad syntax parsing across many languages. minicode took a narrower path for TypeScript and JavaScript by using the TypeScript compiler AST to build a project symbol graph and power tools like <code>read_symbol</code>, <code>find_references</code>, and <code>get_dependencies</code>.</p>
+            <p>Less breadth today in exchange for richer language-specific structural navigation. For this project, depth on the primary language mattered more than broad generic parsing — and the plugin system leaves room to grow language coverage.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Why does any of this matter if frontier models already have huge context windows?</summary>
+          <div class="faq-body">
+            <p>Larger windows don't make irrelevant context free. Even when a model can fit more code, bloated prompts still cost latency, money, and attention. Recent work (Lost in the Middle; Context Length Alone Hurts LLM Performance Despite Perfect Retrieval) shows degradation is inherent to the self-attention mechanism, not just distraction from irrelevant content.</p>
+            <p>The local-model origin makes the tradeoff easy to see. The same shape shows up with hosted models, just with the cost units flipped from quality to dollars and seconds.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Which models and providers does it work with?</summary>
+          <div class="faq-body">
+            <p>Anthropic (Claude) directly via API key. Anything OpenAI-compatible — that includes OpenRouter (with its free-tier hosted models), LM Studio, Ollama, and most local servers. Connect via the web UI's "Connect OpenRouter" flow or set <code>MODEL_PROVIDER</code> + <code>MODEL</code> in <code>~/.minicode/.env</code>.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Can other AI agents use minicode's tools?</summary>
+          <div class="faq-body">
+            <p>Yes. <code>minicode serve</code> exposes an MCP server at <code>/mcp</code>, and there's a one-click Claude Code plugin (<code>minicode plugin install</code>) that wires up the tools, a CLAUDE.md, and four slash commands (<code>/minicode:analyze</code>, <code>/minicode:focus</code>, <code>/minicode:symbols</code>, <code>/minicode:graph</code>). Tool calls from external agents broadcast into the same web UI graph, so you can watch them work in real time.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Final CTA ───────────────────────────────────────────────── */}}
+  <section class="cta-final" id="install">
+    <div class="wrap">
+      <div class="eyebrow">Get started</div>
+      <h2>Read less. Reason better. Use fewer tokens.</h2>
+      <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context. Try it on your own repo in under two minutes.</p>
+      <div class="install-block">
+        <div class="install-row">
+          <span><span class="prompt">$</span><span class="cmd">npm install -g @sean.holung/minicode</span></span>
+          <button class="copy" data-copy="npm install -g @sean.holung/minicode">copy</button>
+        </div>
+        <div class="install-row">
+          <span><span class="prompt">$</span><span class="cmd">minicode serve</span></span>
+          <button class="copy" data-copy="minicode serve">copy</button>
+        </div>
+        <div class="install-foot">requires node 22+ · open localhost:4567 · no account required</div>
+      </div>
       <div class="hero-actions">
-        <a class="button primary" href="/docs/get-started/">Get started</a>
-        <a class="button secondary" href="https://github.com/sean1588/minicode">View on GitHub</a>
-        <a class="button secondary" href="/docs/mcp-server/">MCP server</a>
-        <a class="button secondary" href="#how-it-works">See the flow</a>
-      </div>
-      <ul class="hero-points">
-        <li>graph-native web UI</li>
-        <li>symbol-aware retrieval</li>
-        <li>mcp + claude plugin</li>
-        <li>dependency-cone context</li>
-        <li>local + hosted model workflows</li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="section-shell app-showcase" aria-label="minicode web interface screenshot">
-    <div class="section-intro app-showcase-intro">
-      <div class="eyebrow">Inside the app</div>
-      <h2>A full-width look at the graph-native interface</h2>
-      <p>The web UI is where the core idea becomes tangible: multi-turn chat, live tool activity, a navigable dependency graph, and focused symbol detail all sitting in the same workspace.</p>
-    </div>
-    <div class="hero-panel hero-shot app-showcase-panel">
-      <div class="panel-top">
-        <div class="panel-title">Inside the app</div>
-        <div class="panel-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-      <div class="screenshot-frame">
-        <a class="screenshot-link" href="/images/minicode-ui.webp" target="_blank" rel="noreferrer">
-          <img
-            src="/images/minicode-ui.webp"
-            alt="minicode web UI showing chat activity, dependency graph, and symbol detail panel"
-            width="1723"
-            height="920"
-          />
-        </a>
-      </div>
-      <p class="panel-caption">The web UI makes the core idea visible: chat, tool activity, symbol graph, and focused code exploration all in the same surface.</p>
-      <div class="panel-meta">
-        <span>real-time tool stream</span>
-        <span>dependency graph</span>
-        <span>symbol detail panel</span>
+        <a class="btn btn-ghost" href="/docs/get-started/">Setup docs →</a>
+        <a class="btn btn-ghost" href="https://github.com/sean1588/minicode" target="_blank" rel="noreferrer">Star on GitHub</a>
       </div>
     </div>
   </section>
 
-  <section>
-    <div class="section-intro">
-      <div class="eyebrow">Product surface</div>
-      <h2>More than a single interface</h2>
-      <p>minicode now reads less like a single tool and more like a compact agent platform: a graph-native web app, a coding runtime, an MCP server for external agents, an OpenAI-compatible endpoint, and extensible language-aware indexing. Today the deepest built-in indexing path is focused on TypeScript and JavaScript, with plugins leaving room to add more languages over time.</p>
-    </div>
-    <div class="grid compact-cards">
-      <article>
-        <h3>Graph-native web app</h3>
-        <p>Real-time chat, tool streaming, sessions, settings, structural analysis, AI explanations, symbol focus, and a dependency graph that exposes the agent's perspective directly in the interface.</p>
-        <div class="card-note">the clearest expression of the idea</div>
-      </article>
-      <article>
-        <h3>Agent runtime</h3>
-        <p>Interactive multi-turn coding loop with tools, session trimming, loop protection, and structural context injected into each step.</p>
-        <div class="card-note">runtime + tooling core</div>
-      </article>
-      <article>
-        <h3>MCP server + Claude plugin</h3>
-        <p>Expose symbol-aware tools, code-map resources, and structural-analysis findings to external agents while the web UI visualizes the same exploration in real time.</p>
-        <div class="card-note">external agents, same graph intelligence</div>
-      </article>
-      <article>
-        <h3>OpenAI-compatible backend</h3>
-        <p>Use minicode as a backend for existing clients while keeping the agent loop, tools, and code-map behavior behind the API.</p>
-        <div class="card-note">agent as a model</div>
-      </article>
-    </div>
-  </section>
-
-  <section class="section-shell">
-    <div class="section-intro">
-      <div class="eyebrow">Why it matters</div>
-      <h2>Long context is not a free lunch</h2>
-      <p>Most coding agents still treat a codebase like a pile of text. They read entire files, bloat the prompt, and burn tokens before the model has even reached the part of the task that requires judgment. The pain is most obvious on local models, but frontier models pay for it too in latency, cost, and diluted attention.</p>
-    </div>
-    <div class="grid two-up comparison-grid">
-      <article class="comparison-card comparison-card-muted">
-        <div class="card-kicker">Default loop</div>
-        <h3>Read everything and hope the right details survive</h3>
-        <ul class="clean-list">
-          <li>attention gets diluted across irrelevant lines</li>
-          <li>latency and token cost climb quickly</li>
-          <li>smaller local models lose headroom fastest</li>
-        </ul>
-      </article>
-      <article class="comparison-card comparison-card-accent">
-        <div class="card-kicker">Minicode loop</div>
-        <h3>Navigate structurally and keep the prompt lean</h3>
-        <ul class="clean-list">
-          <li>retrieve bodies, types, and adjacent dependencies on demand</li>
-          <li>increase signal density instead of total context volume</li>
-          <li>preserve more of the context window for reasoning</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="how-it-works">
-    <div class="section-intro">
-      <div class="eyebrow">How it works</div>
-      <h2>AST-indexed context optimization for code agents</h2>
-      <p>minicode is built around a simple workflow: index structure first, retrieve narrowly, and spend the remaining context budget on the parts of the job that actually need thought.</p>
-    </div>
-    <div class="grid steps">
-      <article class="step">
-        <span>01</span>
-        <div class="step-note">orientation</div>
-        <h3>Build a structural map</h3>
-        <p>Parse the project into symbols, signatures, and relationships so the agent starts with codebase structure instead of guesswork.</p>
-      </article>
-      <article class="step">
-        <span>02</span>
-        <div class="step-note">retrieval</div>
-        <h3>Follow the dependency cone</h3>
-        <p>Pull the method body, types, and nearby dependencies that matter for the task instead of dragging in the whole file.</p>
-      </article>
-      <article class="step">
-        <span>03</span>
-        <div class="step-note">navigation</div>
-        <h3>Walk code structurally</h3>
-        <p>Use symbol- and dependency-aware tools to move through a codebase by relationships, not by linear scrolling.</p>
-      </article>
-      <article class="step">
-        <span>04</span>
-        <div class="step-note">reasoning</div>
-        <h3>Preserve reasoning budget</h3>
-        <p>Keep the prompt lean so more of the available context can go toward planning, editing, and validation.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section-shell">
-    <div class="section-intro">
-      <div class="eyebrow">What makes it different</div>
-      <h2>minicode is not just a code map</h2>
-      <p>The project is really about context conservation: giving models a more structured interface to code so they can spend less time reading and more time solving, while leaving room for plugins and reusable runtime integrations.</p>
-    </div>
-    <div class="grid three-up compact-cards">
-      <article>
-        <h3>Born from local-model constraints</h3>
-        <p>The first problem was making smaller models viable for coding work, but the same structural advantages carry over to frontier-model workflows too.</p>
-        <div class="card-note">strong technical wedge</div>
-      </article>
-      <article>
-        <h3>Specialized tooling</h3>
-        <p>Symbol navigation, dependency-aware retrieval, and more targeted context access than generic file reading.</p>
-        <div class="card-note">structure over brute force</div>
-      </article>
-      <article>
-        <h3>Better context economics</h3>
-        <p>Less prompt bloat, lower latency, lower spend, and a higher share of useful information per token.</p>
-        <div class="card-note">higher signal density</div>
-      </article>
-      <article>
-        <h3>Extensible by design</h3>
-        <p>Today the built-in path goes deepest on TypeScript and JavaScript, with language plugins, graph-aware tools, and an SDK direction that leave room to grow language coverage over time.</p>
-        <div class="card-note">runtime + plugin ecosystem</div>
-      </article>
-    </div>
-  </section>
-
-  <section>
-    <div class="section-intro">
-      <div class="eyebrow">Use cases</div>
-      <h2>Where it shines</h2>
-      <p>minicode is strongest when the task is narrow, the codebase is non-trivial, and every extra token in the prompt has a cost.</p>
-    </div>
-    <div class="grid use-case-grid">
-      <article class="use-case">
-        <h3>Scoped engineering work</h3>
-        <p>Bug fixes, method implementations, refactors, and targeted edits where a small set of symbols drives the task.</p>
-      </article>
-      <article class="use-case">
-        <h3>Cost-sensitive frontier workflows</h3>
-        <p>Useful when API spend and response latency matter, even if the model itself has a large context window.</p>
-      </article>
-      <article class="use-case">
-        <h3>Local-model coding loops</h3>
-        <p>Especially compelling when working on consumer hardware and every bit of prompt efficiency affects quality.</p>
-      </article>
-      <article class="use-case">
-        <h3>Structural code navigation</h3>
-        <p>Best when the right answer lives in code relationships rather than in a single obvious file or folder.</p>
-      </article>
-      <article class="use-case">
-        <h3>External-agent augmentation</h3>
-        <p>Use the MCP server and Claude plugin when you want symbol-aware code intelligence and structural analysis inside another agent surface.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section-shell faq-shell">
-    <div class="section-intro">
-      <div class="eyebrow">FAQ</div>
-      <h2>Questions technical readers usually ask first</h2>
-      <p>minicode has a pretty opinionated architecture, so it helps to answer the common comparison questions directly.</p>
-    </div>
-    <div class="faq-list">
-      <details class="faq-item" open>
-        <summary>Why did minicode use AST parsing instead of connecting to the TypeScript LSP?</summary>
-        <p>Because the goal was not just editor intelligence. minicode needed a lightweight, portable way to extract symbols, signatures, and dependency edges that could be injected into agent context, cached, and reused inside graph-aware tools. Using the TypeScript compiler AST keeps the indexing path syntax-driven and self-contained, without requiring an external language server process or editor integration layer.</p>
-        <p>The tradeoff is that this is not trying to replace everything an LSP does. LSPs are great for editor workflows like completions, diagnostics, and refactors. minicode is more focused on the agent-runtime side: compact structural context, symbol-aware retrieval, and dependency-cone navigation.</p>
-        <p>That built-in indexing path is currently focused on TypeScript and JavaScript. The broader language story is plugin-based on purpose, so the architecture can grow beyond the initial languages without pretending the core ships equally deep support for everything today.</p>
-      </details>
-      <details class="faq-item">
-        <summary>How is this different from aider?</summary>
-        <p>aider is centered more around file-oriented coding assistance, prompts, and git-driven edit workflows. minicode overlaps with that general category, but the core thesis is different: it is built around structural context optimization, symbol-level tooling, and a graph-native interface that exposes how the agent is traversing code.</p>
-        <p>So the distinction is less about “better or worse” and more about emphasis. aider is strong as a practical editing assistant. minicode is more explicitly an experiment in giving coding agents a structural model of the codebase instead of mostly operating at the file level.</p>
-      </details>
-      <details class="faq-item">
-        <summary>How is this different from a tree-sitter-first approach?</summary>
-        <p>tree-sitter is excellent for fast, broad syntax parsing across many languages. minicode took a narrower path for TypeScript and JavaScript by using the TypeScript compiler AST to build a project symbol graph and power tools like <code>read_symbol</code>, <code>find_references</code>, and <code>get_dependencies</code>.</p>
-        <p>The tradeoff is less breadth today in exchange for richer language-specific structural navigation. For this project, depth on the primary language mattered more than broad generic parsing.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Why does any of this matter if frontier models already have large context windows?</summary>
-        <p>Because larger context windows do not make irrelevant context free. Even when a model can fit more code, bloated prompts still cost latency, money, and attention. minicode is built around improving signal density, not just compressing token counts for the sake of it.</p>
-        <p>The local-model origin makes the problem easier to see, but the same tradeoff shows up with hosted models too: less wasted context usually means a tighter working set for the task that actually matters.</p>
-      </details>
-    </div>
-  </section>
-
-  <section class="cta-panel">
-    <h2>Read less. Reason better. Use fewer tokens.</h2>
-    <p>minicode is built on a simple bet: coding models perform better when you give them less context, but better context.</p>
-    <div class="hero-actions">
-      <a class="button primary" href="/docs/get-started/">Get started</a>
-    </div>
-  </section>
+  <script>
+    // Copy buttons on install blocks
+    document.querySelectorAll(".install-row .copy").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var text = btn.getAttribute("data-copy") || "";
+        if (navigator.clipboard) navigator.clipboard.writeText(text);
+        var orig = btn.textContent;
+        btn.textContent = "copied";
+        btn.classList.add("ok");
+        setTimeout(function () {
+          btn.textContent = orig;
+          btn.classList.remove("ok");
+        }, 1400);
+      });
+    });
+  </script>
 {{ end }}

@@ -1,11 +1,12 @@
 baseURL = '/'
 languageCode = 'en-us'
-title = 'Minicode'
+title = 'minicode'
 enableRobotsTXT = true
 disableKinds = ['taxonomy', 'term']
 
 [params]
-  description = 'Small tools and notes from the Minicode project.'
+  description = 'A graph-native coding agent that indexes your codebase into a symbol graph at startup, then sends the model exactly the dependency cone it needs — not a dump of every related file.'
+  meta_image = '/images/minicode-ui.webp'
 
 [markup]
   [markup.goldmark]

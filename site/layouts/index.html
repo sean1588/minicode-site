@@ -355,7 +355,7 @@
         <div>
           <div class="eyebrow">Better context. Fewer tokens.</div>
           <h1>Your models are <span class="strike">drowning in irrelevant code.</span> Give them structure instead.</h1>
-          <p class="hero-sub">Most coding agents stuff the prompt with whole files and hope the model figures it out. minicode indexes your codebase into a symbol graph at startup, then sends the model exactly the dependency cone it needs — not a dump of every related file.</p>
+          <p class="hero-sub">Most coding agents stuff the prompt with whole files and hope the model figures it out. minicode indexes your codebase at startup, parses it into a symbol graph and gives the agent specialized tools to walk the code structurally and read only the symbols it actually needs.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#install">
               Install minicode <span class="btn-arrow">→</span>
@@ -521,8 +521,8 @@
         </article>
         <article class="surface-card">
           <div class="corner">02 / runtime</div>
-          <h3>Coding agent runtime</h3>
-          <p>Multi-turn agent loop with tool support, loop detection, focus-adaptive code map, file-read dedup, and progressive context trimming. CLI for terminal use, library for embedding.</p>
+          <h3>CLI coding agent</h3>
+          <p>A full terminal coding agent — multi-turn loop, tool use, edits, sessions. Run it against a local model in LM Studio or Ollama, or any OpenAI-compatible API. Multi-turn agent loop with tool support, loop detection, focus-adaptive code map, file-read dedup, and progressive context trimming.</p>
           <ul class="features">
             <li>interactive CLI</li><li>one-shot mode</li><li>loop guards</li><li>auto-compaction</li><li>session trimming</li>
           </ul>

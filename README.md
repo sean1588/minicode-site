@@ -4,21 +4,21 @@ Minimal Hugo + Pulumi bootstrap for `minicode-site`.
 
 ## Repo layout
 
-- `site/` — Hugo site source
+- `sites/<subdomain>/` — one Hugo project per subdomain (currently `sites/minicode/`)
 - `infrastructure/` — Pulumi program for S3 + CloudFront hosting
 - `.github/workflows/deploy-site.yml` — GitHub Actions deploy workflow
 
 ## Local site work
 
 ```bash
-cd site
+cd sites/minicode
 hugo server -D
 ```
 
 Build locally:
 
 ```bash
-cd site
+cd sites/minicode
 hugo --minify
 ```
 
@@ -61,7 +61,7 @@ What the workflow does:
 2. selects or creates the Pulumi stack
 3. runs `pulumi up`
 4. builds the Hugo site using the deployed CDN URL as `baseURL`
-5. syncs `site/public/` to S3
+5. syncs `sites/minicode/public/` to S3
 6. invalidates CloudFront
 
 ## Notes

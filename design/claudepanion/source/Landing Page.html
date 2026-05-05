@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>claudepanion — landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    html, body { margin: 0; padding: 0; background: #1a1715; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.jsx"></script>
+  <script type="text/babel" src="direction-a.jsx"></script>
+  <script type="text/babel" src="direction-b.jsx"></script>
+  <script type="text/babel" src="build-home.jsx"></script>
+  <script type="text/babel" src="build-form.jsx"></script>
+  <script type="text/babel" src="build-detail.jsx"></script>
+  <script type="text/babel" src="companion-home.jsx"></script>
+  <script type="text/babel" src="install-page.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "tone": "verbose",
+      "theme": "cool"
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+      return (
+        <>
+          <DesignCanvas title="claudepanion · landing page + app" subtitle="landing directions, plus build home page · use Tweaks to switch tone & theme">
+            <DCSection id="landing" title="Landing page · directions">
+              <DCArtboard id="dir-a" label="A · The Field Guide — editorial, sketchy, magazine" width={1280} height={2200}>
+                <FieldGuide tone={tweaks.tone} theme={tweaks.theme} />
+              </DCArtboard>
+
+              <DCArtboard id="dir-b" label="B · The Workbench — terminal, ASCII, technical" width={1280} height={2200}>
+                <Workbench tone={tweaks.tone} theme={tweaks.theme} />
+              </DCArtboard>
+            </DCSection>
+
+            <DCSection id="build-home" title="Build companion home (= /)">
+              <DCArtboard id="build-a" label="A · Editorial — suggested chips as hero, past builds below" width={1280} height={1100}>
+                <BuildHomeEditorial tone={tweaks.tone} theme={tweaks.theme} />
+              </DCArtboard>
+
+              <DCArtboard id="build-b" label="B · Dashboard — denser, sidebar-led, terminal-y" width={1280} height={1100}>
+                <BuildHomeDashboard tone={tweaks.tone} theme={tweaks.theme} />
+              </DCArtboard>
+            </DCSection>
+
+            <DCSection id="build-form" title="Build form · /c/build/new">
+              <DCArtboard id="form-a-blank"    label="A · Editorial — blank form" width={1280} height={920}>
+                <BuildFormEditorial theme={tweaks.theme} prefilled={false} />
+              </DCArtboard>
+              <DCArtboard id="form-a-prefill"  label="A · Editorial — chip prefilled (GitHub PR reviewer)" width={1280} height={920}>
+                <BuildFormEditorial theme={tweaks.theme} prefilled={true} />
+              </DCArtboard>
+              <DCArtboard id="form-b-blank"    label="B · Dashboard — blank form" width={1280} height={920}>
+                <BuildFormDashboard theme={tweaks.theme} prefilled={false} />
+              </DCArtboard>
+              <DCArtboard id="form-b-prefill"  label="B · Dashboard — chip prefilled (GitHub PR reviewer)" width={1280} height={920}>
+                <BuildFormDashboard theme={tweaks.theme} prefilled={true} />
+              </DCArtboard>
+            </DCSection>
+
+            <DCSection id="build-detail" title="Build run detail · /c/build/:id — all 4 states">
+              <DCArtboard id="detail-a-pending"   label="A · Editorial — pending (slash command hero)" width={1280} height={860}>
+                <DetailPageA theme={tweaks.theme} state="pending" />
+              </DCArtboard>
+              <DCArtboard id="detail-a-running"   label="A · Editorial — running (live log tail)" width={1280} height={860}>
+                <DetailPageA theme={tweaks.theme} state="running" />
+              </DCArtboard>
+              <DCArtboard id="detail-a-completed" label="A · Editorial — completed (artifact hero)" width={1280} height={860}>
+                <DetailPageA theme={tweaks.theme} state="completed" />
+              </DCArtboard>
+              <DCArtboard id="detail-a-error"     label="A · Editorial — error (retry form)" width={1280} height={860}>
+                <DetailPageA theme={tweaks.theme} state="error" />
+              </DCArtboard>
+              <DCArtboard id="detail-b-pending"   label="B · Dashboard — pending" width={1280} height={860}>
+                <DetailPageB theme={tweaks.theme} state="pending" />
+              </DCArtboard>
+              <DCArtboard id="detail-b-running"   label="B · Dashboard — running" width={1280} height={860}>
+                <DetailPageB theme={tweaks.theme} state="running" />
+              </DCArtboard>
+              <DCArtboard id="detail-b-completed" label="B · Dashboard — completed" width={1280} height={860}>
+                <DetailPageB theme={tweaks.theme} state="completed" />
+              </DCArtboard>
+              <DCArtboard id="detail-b-error"     label="B · Dashboard — error" width={1280} height={860}>
+                <DetailPageB theme={tweaks.theme} state="error" />
+              </DCArtboard>
+            </DCSection>
+
+            <DCSection id="companion-home" title="Generic companion home · /c/:slug">
+              <DCArtboard id="cpg-a-empty"     label="A · Editorial — empty state (no runs yet)" width={1280} height={820}>
+                <CompanionHomeEditorial theme={tweaks.theme} populated={false} />
+              </DCArtboard>
+              <DCArtboard id="cpg-a-populated" label="A · Editorial — populated (4 past runs)" width={1280} height={820}>
+                <CompanionHomeEditorial theme={tweaks.theme} populated={true} />
+              </DCArtboard>
+              <DCArtboard id="cpg-b-empty"     label="B · Dashboard — empty state" width={1280} height={820}>
+                <CompanionHomeDashboard theme={tweaks.theme} populated={false} />
+              </DCArtboard>
+              <DCArtboard id="cpg-b-populated" label="B · Dashboard — populated" width={1280} height={820}>
+                <CompanionHomeDashboard theme={tweaks.theme} populated={true} />
+              </DCArtboard>
+            </DCSection>
+
+            <DCSection id="install" title="Install companion · /install">
+              <DCArtboard id="inst-a-idle"       label="A · Editorial — idle" width={1280} height={860}>
+                <InstallEditorial theme={tweaks.theme} installState="idle" />
+              </DCArtboard>
+              <DCArtboard id="inst-a-installing" label="A · Editorial — installing" width={1280} height={860}>
+                <InstallEditorial theme={tweaks.theme} installState="installing" />
+              </DCArtboard>
+              <DCArtboard id="inst-a-success"    label="A · Editorial — success" width={1280} height={860}>
+                <InstallEditorial theme={tweaks.theme} installState="success" />
+              </DCArtboard>
+              <DCArtboard id="inst-a-error"      label="A · Editorial — error" width={1280} height={860}>
+                <InstallEditorial theme={tweaks.theme} installState="error" />
+              </DCArtboard>
+              <DCArtboard id="inst-b-idle"       label="B · Dashboard — idle" width={1280} height={860}>
+                <InstallDashboard theme={tweaks.theme} installState="idle" />
+              </DCArtboard>
+              <DCArtboard id="inst-b-success"    label="B · Dashboard — success" width={1280} height={860}>
+                <InstallDashboard theme={tweaks.theme} installState="success" />
+              </DCArtboard>
+              <DCArtboard id="inst-b-error"      label="B · Dashboard — error" width={1280} height={860}>
+                <InstallDashboard theme={tweaks.theme} installState="error" />
+              </DCArtboard>
+            </DCSection>
+          </DesignCanvas>
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection title="Voice">
+              <TweakRadio
+                label="Tone of copy"
+                value={tweaks.tone}
+                onChange={v => setTweak('tone', v)}
+                options={[
+                  { value: 'terse',   label: 'Terse'   },
+                  { value: 'verbose', label: 'Verbose' },
+                ]}
+              />
+            </TweakSection>
+
+            <TweakSection title="Palette">
+              <TweakRadio
+                label="Color theme"
+                value={tweaks.theme}
+                onChange={v => setTweak('theme', v)}
+                options={[
+                  { value: 'warm', label: 'Warm'  },
+                  { value: 'cool', label: 'Cool'  },
+                  { value: 'dark', label: 'Dark'  },
+                  { value: 'sage', label: 'Sage'  },
+                ]}
+              />
+            </TweakSection>
+
+            <TweakSection title="Hint">
+              <p style={{ margin: 0, fontSize: 12, color: '#888', lineHeight: 1.5 }}>
+                Use the canvas controls to focus a single direction fullscreen, drag to reorder, or zoom in.
+              </p>
+            </TweakSection>
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

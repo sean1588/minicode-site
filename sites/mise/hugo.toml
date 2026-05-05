@@ -1,0 +1,13 @@
+baseURL = '/'
+languageCode = 'en-us'
+title = 'Mise'
+enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  description = 'Paste a CSV or JSON, get a dashboard you can keep. The schema is portable; the data stays in your browser.'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

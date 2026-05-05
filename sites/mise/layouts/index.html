@@ -1,0 +1,595 @@
+{{ define "page-style" }}
+  /* ── Hero ──────────────────────────────────────────────────────── */
+  .hero {
+    padding: 80px 48px 60px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    width: 28px; height: 2px;
+    background: var(--accent);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 108px);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    margin: 0 0 24px;
+    max-width: 14ch;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .hero h1 .underline { position: relative; display: inline-block; }
+  .hero h1 .underline::after {
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0.06em;
+    height: 0.16em;
+    background: var(--rule-soft);
+    z-index: -1;
+  }
+  .hero-sub {
+    font-size: 21px; line-height: 1.45;
+    color: var(--fg);
+    max-width: 56ch;
+    margin: 0 0 36px;
+  }
+  .hero-cta-row {
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 14px 24px;
+    border: 1.5px solid var(--rule);
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+    box-shadow: 4px 4px 0 var(--rule);
+  }
+  .btn-primary:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--rule); }
+  .btn-ghost {
+    background: var(--bg-elev);
+    color: var(--fg);
+    box-shadow: 4px 4px 0 var(--rule);
+  }
+  .btn-ghost:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--rule); }
+  .hero-meta {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-mute);
+    margin-left: 6px;
+  }
+
+  /* ── Hero screenshot card ─────────────────────────────────────── */
+  .shot-wrap {
+    padding: 0 48px 100px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .shot {
+    position: relative;
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: 12px 12px 0 var(--rule);
+    overflow: hidden;
+  }
+  .shot-chrome {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 22px;
+    border-bottom: 1.5px solid var(--rule);
+    background: var(--bg-soft);
+  }
+  .shot-chrome-left { display: flex; gap: 7px; }
+  .shot-dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+  }
+  .shot-url {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg);
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 999px;
+    padding: 4px 14px;
+  }
+  .shot-url .accent { color: var(--accent); font-weight: 600; }
+  .shot-pill {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .shot-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    padding: 22px;
+    background: var(--bg);
+  }
+  .kpi-band {
+    grid-column: 1 / -1;
+    background: var(--accent);
+    color: var(--accent-fg);
+    border: 1.5px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px 22px;
+    box-shadow: 4px 4px 0 var(--rule);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .kpi-band .kpi {
+    padding: 0 18px;
+    border-right: 1.5px dashed rgba(255, 250, 235, 0.35);
+  }
+  .kpi-band .kpi:first-child { padding-left: 0; }
+  .kpi-band .kpi:last-child { border-right: none; padding-right: 0; }
+  .kpi-band .kpi-label {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.78; margin-bottom: 6px;
+  }
+  .kpi-band .kpi-value {
+    font-family: var(--font-display); font-weight: 500; font-size: 30px;
+    letter-spacing: -0.03em; line-height: 1;
+  }
+  .kpi-band .kpi-delta {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    opacity: 0.85; margin-top: 4px;
+  }
+  .shot-card {
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 4px 4px 0 var(--rule);
+  }
+  .shot-card.span2 { grid-column: span 2; }
+  .shot-card.span3 { grid-column: span 3; }
+  .shot-card-hd {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .shot-card-hd h3 {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: 15px; margin: 0;
+  }
+  .shot-card-hd .meta {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .chart { width: 100%; height: 130px; }
+
+  /* ── Manifesto strip ──────────────────────────────────────────── */
+  .manifesto {
+    background: var(--accent);
+    color: var(--accent-fg);
+    padding: 80px 48px;
+    border-top: 2.5px solid var(--rule);
+    border-bottom: 2.5px solid var(--rule);
+  }
+  .manifesto-inner { max-width: 1280px; margin: 0 auto; }
+  .manifesto-eyebrow {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 20px;
+  }
+  .manifesto h2 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 76px);
+    line-height: 1; letter-spacing: -0.035em;
+    margin: 0;
+    max-width: 22ch;
+  }
+  .manifesto h2 em { font-style: italic; }
+  .manifesto h2 .strike { text-decoration: line-through; text-decoration-thickness: 0.05em; opacity: 0.4; }
+
+  /* ── Section shell ────────────────────────────────────────────── */
+  .section {
+    padding: 80px 48px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: "";
+    width: 28px; height: 2px;
+    background: var(--accent);
+  }
+  .section-title {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.02; letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    max-width: 18ch;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-lede {
+    font-size: 18px;
+    max-width: 56ch;
+    color: var(--fg);
+    margin: 0 0 48px;
+  }
+
+  /* ── Doorways ─────────────────────────────────────────────────── */
+  .doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .door {
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: 6px 6px 0 var(--rule);
+    position: relative;
+  }
+  .door:nth-child(2) { background: var(--bg-soft); }
+  .door-num {
+    font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 14px;
+  }
+  .door-num .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .door h3 {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: 26px; letter-spacing: -0.02em;
+    margin: 0 0 10px; line-height: 1.1;
+  }
+  .door p {
+    font-size: 15px; line-height: 1.55;
+    color: var(--fg);
+    margin: 0 0 18px;
+  }
+  .door-demo {
+    background: var(--fg);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: var(--font-mono); font-size: 11.5px; line-height: 1.5;
+    overflow: hidden;
+  }
+  .door-demo .c-key { color: #e0a020; }
+  .door-demo .c-str { color: #f4a17b; }
+  .door-demo .c-num { color: #8fc8a8; }
+  .door-demo .c-com { color: #6b5d3a; }
+  .pull {
+    position: absolute; top: -14px; right: 22px;
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--fg);
+  }
+
+  /* ── Personas ─────────────────────────────────────────────────── */
+  .personas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1.5px solid var(--rule);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 8px 8px 0 var(--rule);
+    background: var(--bg-elev);
+  }
+  .persona {
+    padding: 32px 28px;
+    border-right: 1.5px solid var(--rule);
+  }
+  .persona:last-child { border-right: none; }
+  .persona-tag {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .persona h4 {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 10px; line-height: 1.15; letter-spacing: -0.015em;
+  }
+  .persona p {
+    font-size: 14.5px; line-height: 1.55;
+    color: var(--fg);
+    margin: 0;
+  }
+  .persona-quote {
+    font-family: var(--font-display); font-style: italic;
+    font-size: 17px;
+    color: var(--fg-mute);
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1.5px dashed var(--rule-soft);
+    line-height: 1.4;
+  }
+
+  /* ── Privacy pillar ───────────────────────────────────────────── */
+  .privacy-card {
+    background: var(--bg-soft);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    padding: 56px 48px;
+  }
+  .privacy-card .section-title { margin-bottom: 18px; }
+  .privacy-card p {
+    font-size: 17px;
+    max-width: 64ch;
+    margin: 0 0 18px;
+    color: var(--fg);
+  }
+  .privacy-card p em { color: var(--accent); font-style: italic; font-weight: 500; }
+  .privacy-card .privacy-bullets {
+    font-size: 14px;
+    font-family: var(--font-mono);
+    color: var(--fg-mute);
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  /* ── Closing CTA ──────────────────────────────────────────────── */
+  .closing {
+    background: var(--bg-elev);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    box-shadow: 12px 12px 0 var(--rule);
+    padding: 64px 56px;
+    text-align: center;
+  }
+  .closing .section-eyebrow {
+    justify-content: center;
+    display: inline-flex;
+  }
+  .closing .section-title {
+    margin: 0 auto 20px;
+    max-width: 16ch;
+  }
+  .closing-sub {
+    font-size: 18px;
+    max-width: 48ch;
+    margin: 0 auto 32px;
+    color: var(--fg);
+  }
+  .closing-row {
+    display: flex; gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Mobile ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero { padding: 56px 22px 64px; }
+    .hero h1 { font-size: 56px; line-height: 1.02; }
+    .hero-sub { font-size: 17px; }
+    .shot-wrap { padding: 0 22px 80px; }
+    .shot-body { grid-template-columns: 1fr 1fr; }
+    .kpi-band { grid-template-columns: repeat(2, 1fr); gap: 18px 0; }
+    .kpi-band .kpi:nth-child(2) { border-right: none; padding-right: 0; }
+    .kpi-band .kpi:nth-child(3) { padding-left: 0; }
+    .shot-card.span2, .shot-card.span3 { grid-column: 1 / -1; }
+    .manifesto { padding: 56px 22px; }
+    .section { padding: 56px 22px; }
+    .doors { grid-template-columns: 1fr; gap: 16px; }
+    .door { padding: 28px 22px; }
+    .personas { grid-template-columns: 1fr; }
+    .persona { border-right: none; border-bottom: 1.5px solid var(--rule); }
+    .persona:last-child { border-bottom: none; }
+    .privacy-card { padding: 40px 28px; }
+    .closing { padding: 48px 28px; }
+  }
+  @media (max-width: 520px) {
+    .hero h1 { font-size: 42px; }
+    .section-title { font-size: 28px; }
+    .btn { padding: 10px 16px; font-size: 11px; }
+  }
+{{ end }}
+
+{{ define "main" }}
+  {{/* ── Hero ──────────────────────────────────────────────────── */}}
+  <section class="hero">
+    <div class="hero-eyebrow">mise en place — for your data</div>
+    <h1>A dashboard <br />that runs <em>entirely</em><br /> in <span class="underline">your browser.</span></h1>
+    <p class="hero-sub">Drop a CSV or paste a public URL. Mise reads the shape once, lays out the widgets, and renders the dashboard right there in your tab. No accounts, no servers holding your rows — we see your data for a few seconds, then forget it.</p>
+    <div class="hero-cta-row">
+      <a href="#start" class="btn btn-primary">Sauté it ↗</a>
+      <a href="#demo" class="btn btn-ghost">See it live</a>
+      <span class="hero-meta">No signup. No saved data. Yours in ~12 seconds.</span>
+    </div>
+  </section>
+
+  {{/* ── Hero screenshot card ──────────────────────────────────── */}}
+  <section class="shot-wrap">
+    <div class="shot">
+      <div class="shot-chrome">
+        <div class="shot-chrome-left">
+          <span class="shot-dot" style="background: #d2451e;"></span>
+          <span class="shot-dot" style="background: #e0a020;"></span>
+          <span class="shot-dot" style="background: #1e6b4f;"></span>
+        </div>
+        <div class="shot-url">
+          <span style="opacity: 0.5;">📄</span>&nbsp;&nbsp;<span class="accent">meta-q1-2026.html</span>&nbsp;<span style="opacity: 0.5;">· local</span>
+        </div>
+        <div class="shot-pill">live · refreshed 2m ago</div>
+      </div>
+      <div class="shot-body">
+        <div class="kpi-band">
+          <div class="kpi">
+            <div class="kpi-label">MRR</div>
+            <div class="kpi-value">$1.84M</div>
+            <div class="kpi-delta">↑ 12.4% vs Q4</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Active accts</div>
+            <div class="kpi-value">3,427</div>
+            <div class="kpi-delta">↑ 218 net new</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Net revenue ret.</div>
+            <div class="kpi-value">118%</div>
+            <div class="kpi-delta">↑ 4 pts</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Churn (logo)</div>
+            <div class="kpi-value">2.1%</div>
+            <div class="kpi-delta">↓ 0.4 pts</div>
+          </div>
+        </div>
+
+        <div class="shot-card span3">
+          <div class="shot-card-hd">
+            <h3>Revenue · last 12 weeks</h3>
+            <span class="meta">Weekly · USD</span>
+          </div>
+          <svg class="chart" viewBox="0 0 600 130" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="grad1" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#d2451e" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#d2451e" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M0,90 L50,82 L100,86 L150,70 L200,72 L250,58 L300,62 L350,46 L400,52 L450,38 L500,34 L550,22 L600,18 L600,130 L0,130 Z" fill="url(#grad1)" />
+            <path d="M0,90 L50,82 L100,86 L150,70 L200,72 L250,58 L300,62 L350,46 L400,52 L450,38 L500,34 L550,22 L600,18" fill="none" stroke="#d2451e" stroke-width="2.5" stroke-linejoin="round" />
+            <g fill="#14110a">
+              <circle cx="300" cy="62" r="3" />
+              <circle cx="600" cy="18" r="3" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="shot-card">
+          <div class="shot-card-hd">
+            <h3>By plan</h3>
+            <span class="meta">Q1</span>
+          </div>
+          <svg class="chart" viewBox="0 0 130 130">
+            <circle cx="65" cy="65" r="50" fill="none" stroke="#f0eeea" stroke-width="18" />
+            <circle cx="65" cy="65" r="50" fill="none" stroke="#d2451e" stroke-width="18" stroke-dasharray="180 314" transform="rotate(-90 65 65)" />
+            <circle cx="65" cy="65" r="50" fill="none" stroke="#1e6b4f" stroke-width="18" stroke-dasharray="80 314" stroke-dashoffset="-180" transform="rotate(-90 65 65)" />
+            <circle cx="65" cy="65" r="50" fill="none" stroke="#e0a020" stroke-width="18" stroke-dasharray="54 314" stroke-dashoffset="-260" transform="rotate(-90 65 65)" />
+            <text x="65" y="62" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="500" font-size="20" fill="#14110a">57%</text>
+            <text x="65" y="80" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" font-weight="600" letter-spacing="1.2" fill="#6b5d3a">PRO</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Manifesto strip ───────────────────────────────────────── */}}
+  <section class="manifesto">
+    <div class="manifesto-inner">
+      <div class="manifesto-eyebrow">— A note on AI dashboards —</div>
+      <h2>You don't need <span class="strike">another chatbot</span><br />that <em>generates</em> a chart.<br />You need a chart that <em>renders — and leaves.</em></h2>
+    </div>
+  </section>
+
+  {{/* ── Two doorways ──────────────────────────────────────────── */}}
+  <section class="section" id="how">
+    <div class="section-eyebrow">Two doorways · one product</div>
+    <h2 class="section-title">Bring the data in. <em>Take the dashboard with you.</em></h2>
+    <p class="section-lede">Mise is a renderer, not a database. We read your data once to infer its shape, then the dashboard runs locally in your tab. Snapshot what you have, or stream from a URL you control.</p>
+
+    <div class="doors">
+      <div class="door">
+        <span class="pull">For analysts</span>
+        <div class="door-num"><span class="dot"></span>Doorway 01 · Snapshot</div>
+        <h3>Drop a file. See a dashboard.</h3>
+        <p>CSV, JSON, XLSX, or paste. The schema is inferred, the widgets are laid out, the page renders — all in your browser. Export the whole thing as a self-contained HTML file when you're done.</p>
+        <div class="door-demo">
+          <span class="c-com"># drag-and-drop or paste</span><br />
+          <span class="c-key">file</span>: <span class="c-str">"q1_2026_revenue.csv"</span><br />
+          <span class="c-key">rows</span>: <span class="c-num">2,418</span><br />
+          <span class="c-key">columns</span>: <span class="c-num">14</span> <span class="c-com">→ inferred</span>
+        </div>
+      </div>
+
+      <div class="door">
+        <span class="pull">For pipelines</span>
+        <div class="door-num"><span class="dot"></span>Doorway 02 · Live URL</div>
+        <h3>Point us at your endpoint.</h3>
+        <p>Paste any public GET URL — your stack's read API, a Google Sheet, a public JSON. Your browser polls it on your cadence; the dashboard refreshes itself. Your data stays at your URL.</p>
+        <div class="door-demo">
+          <span class="c-com"># paste a public endpoint</span><br />
+          <span class="c-key">url</span>:      <span class="c-str">"api.acme.com/v1/metrics"</span><br />
+          <span class="c-key">poll</span>:     <span class="c-num">5m</span> <span class="c-com">· every 5 minutes</span><br />
+          <span class="c-key">status</span>:   <span class="c-num">200 OK</span> <span class="c-com">· schema matched ✓</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Persona pair ──────────────────────────────────────────── */}}
+  <section class="section">
+    <div class="section-eyebrow">Made for the way you work today</div>
+    <h2 class="section-title">Two roles, <em>one</em> renderer.</h2>
+    <div class="personas">
+      <div class="persona">
+        <div class="persona-tag">Analyst</div>
+        <h4>"I have a CSV due at 3pm."</h4>
+        <p>Drop it. Get a dashboard. Export the page as a self-contained HTML file and email it. Nothing was uploaded; nothing was stored. Refresh next quarter by dropping the new file in.</p>
+        <div class="persona-quote">"It just rendered. Nothing to manage."</div>
+      </div>
+      <div class="persona">
+        <div class="persona-tag">Pipeline owner</div>
+        <h4>"I have a read API. I want a chart on top of it."</h4>
+        <p>Paste your endpoint, pick a cadence. Your browser polls, parses, renders. Your data never leaves your infra; we hold the schema, not the rows.</p>
+        <div class="persona-quote">"A live chart pointed at our API."</div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Privacy pillar ────────────────────────────────────────── */}}
+  <section class="section" id="privacy" style="padding-top: 24px;">
+    <div class="privacy-card">
+      <div class="section-eyebrow">A note on what we keep</div>
+      <h2 class="section-title">We see your data <em>once.</em> Then we forget it.</h2>
+      <p>When you drop a file, we send the rows to a small inference service that decides which widgets to render and where. The response is the layout — a recipe, not a copy. The rows go nowhere else. We don't have a database for them. There's no <em>my dashboards</em> page hiding your data on our servers, because there are no servers holding your data.</p>
+      <p class="privacy-bullets">No accounts · no storage · no audit logs of your numbers · export the dashboard as HTML and host it yourself</p>
+    </div>
+  </section>
+
+  {{/* ── Closing CTA ───────────────────────────────────────────── */}}
+  <section class="section" id="start" style="padding-top: 40px; padding-bottom: 120px;">
+    <div class="closing">
+      <div class="section-eyebrow">Ready in twelve seconds</div>
+      <h2 class="section-title">Make your <em>first dashboard</em>.</h2>
+      <p class="closing-sub">No card. No signup. No saved data. Drop a file, see your dashboard, export it as HTML and take it with you.</p>
+      <div class="closing-row">
+        <a href="#" class="btn btn-primary">Sauté your data ↗</a>
+        <a href="#" class="btn btn-ghost">Read the docs</a>
+      </div>
+    </div>
+  </section>
+{{ end }}

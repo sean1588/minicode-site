@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'site/**'
+      - 'sites/minicode/**'
       - 'infrastructure/**'
       - '.github/workflows/deploy-site.yml'
       - '.github/workflows/preview-site.yml'
@@ -12,6 +12,7 @@ on:
 
 env:
   AWS_REGION: us-west-2
+  HUGO_VERSION: '0.147.6'
 
 concurrency:
   group: preview-site-${{ github.event.pull_request.number || github.ref }}
@@ -39,6 +40,12 @@ jobs:
         working-directory: infrastructure
         run: npm ci
 
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -60,3 +67,16 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: pulumi preview --diff --cwd infrastructure --stack sean1588/minicode-site/dev --non-interactive
+
+      - name: Read site URL
+        id: infra
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        run: |
+          echo "site_url=$(pulumi stack output siteUrl --cwd infrastructure --stack sean1588/minicode-site/dev)" >> "$GITHUB_OUTPUT"
+
+      - name: Build Hugo site
+        working-directory: sites/minicode
+        env:
+          HUGO_BASEURL: ${{ steps.infra.outputs.site_url }}
+        run: hugo --minify --baseURL "$HUGO_BASEURL"

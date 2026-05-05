@@ -1,7 +1,7 @@
 # Hugo build output
-site/public/
-site/resources/
-site/.hugo_build.lock
+sites/*/public/
+sites/*/resources/
+sites/*/.hugo_build.lock
 
 # Node/Pulumi
 infrastructure/node_modules/

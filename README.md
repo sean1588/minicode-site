@@ -4,21 +4,22 @@ Minimal Hugo + Pulumi bootstrap for `minicode-site`.
 
 ## Repo layout
 
-- `site/` — Hugo site source
+- `sites/<subdomain>/` — one Hugo project per subdomain (currently `sites/minicode/`)
 - `infrastructure/` — Pulumi program for S3 + CloudFront hosting
-- `.github/workflows/deploy-site.yml` — GitHub Actions deploy workflow
+- `.github/workflows/deploy-site.yml` — deploys on push to `main`
+- `.github/workflows/preview-site.yml` — runs `pulumi preview` and a Hugo build on every PR
 
 ## Local site work
 
 ```bash
-cd site
+cd sites/minicode
 hugo server -D
 ```
 
 Build locally:
 
 ```bash
-cd site
+cd sites/minicode
 hugo --minify
 ```
 
@@ -46,23 +47,33 @@ pulumi stack output siteCdnId
 pulumi stack output siteUrl
 ```
 
-## GitHub Actions deploy
+## GitHub Actions
 
-Workflow: `.github/workflows/deploy-site.yml`
-
-Required repo secrets:
+Required repo secrets (shared by both workflows):
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `PULUMI_ACCESS_TOKEN`
-- `PULUMI_STACK` (example: `sean1588/minicode-site/dev`)
 
-What the workflow does:
+### Deploy (`deploy-site.yml`)
+
+Triggers on push to `main` when `sites/minicode/**`, `infrastructure/**`, or the workflow itself changes. Steps:
+
 1. installs infra dependencies
-2. selects or creates the Pulumi stack
+2. selects the Pulumi stack
 3. runs `pulumi up`
 4. builds the Hugo site using the deployed CDN URL as `baseURL`
-5. syncs `site/public/` to S3
+5. syncs `sites/minicode/public/` to S3
 6. invalidates CloudFront
+
+### Preview (`preview-site.yml`)
+
+Triggers on PRs against `main` for the same paths. Steps:
+
+1. installs infra dependencies
+2. runs `pulumi preview --diff` (no resource changes applied)
+3. builds the Hugo site with `hugo --minify` so template / content errors fail the PR check
+
+Build artifacts are not uploaded anywhere — this is a fail-fast sanity check.
 
 ## Notes
 

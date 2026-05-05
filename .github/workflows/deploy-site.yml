@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        site: [minicode, claudepanion]
+        site: [minicode, claudepanion, mise]
 
     steps:
       - name: Checkout

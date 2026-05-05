@@ -65,7 +65,10 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: |
-          SITES=$(pulumi stack output sitesJson --json --cwd infrastructure --stack "$PULUMI_STACK")
+          # Compact JSON onto a single line — $GITHUB_OUTPUT rejects multi-line
+          # values without the heredoc delimiter, which the pretty-printed
+          # `pulumi stack output --json` would otherwise trip on.
+          SITES=$(pulumi stack output sitesJson --json --cwd infrastructure --stack "$PULUMI_STACK" | jq -c .)
           echo "sites=$SITES" >> "$GITHUB_OUTPUT"
 
   deploy:

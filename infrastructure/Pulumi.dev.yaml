@@ -9,3 +9,5 @@ config:
     - name: claudepanion
       resourcePrefix: claudepanion
       domainName: claudepanion.seanholung.com
+      # Reuse the existing wildcard cert (SANs: seanholung.com, *.seanholung.com)
+      certificateArn: arn:aws:acm:us-east-1:127590312302:certificate/2b25457c-334d-4e02-b013-a49994f5e67a

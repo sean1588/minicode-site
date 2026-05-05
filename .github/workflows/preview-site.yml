@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'site/**'
+      - 'sites/minicode/**'
       - 'infrastructure/**'
       - '.github/workflows/deploy-site.yml'
       - '.github/workflows/preview-site.yml'

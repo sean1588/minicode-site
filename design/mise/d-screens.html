@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mise · D supporting screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ec;
+    --bg-elev: #fbf9f4;
+    --bg-soft: #ede9df;
+    --fg: #1f1c16;
+    --fg-mute: #6e6759;
+    --rule: #1f1c16;
+    --rule-soft: #d9d3c4;
+    --accent: #8a3324;
+    --accent-2: #4a6651;
+    --accent-fg: #fbf9f4;
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Fraunces", Georgia, serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+
+  /* shared chrome */
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1.5px solid var(--rule); background: var(--bg); }
+  .top-left { display: flex; align-items: center; gap: 14px; }
+  .mark { display: flex; align-items: baseline; gap: 7px; }
+  .mark-dot { background: var(--accent); border-radius: 50%; width: 9px; height: 9px; align-self: center; }
+  .mark-name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; }
+  .mark-name::after { content: "."; color: var(--accent); font-style: normal; }
+  .crumb-sep { color: var(--rule-soft); font-size: 13px; }
+  .crumb { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); letter-spacing: 0.04em; }
+  .crumb-active { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 14.5px; }
+  .top-right { display: flex; gap: 10px; align-items: center; }
+  .pill { border: 1px solid var(--rule); background: transparent; font-family: var(--font-mono); text-transform: uppercase; font-size: 9.5px; letter-spacing: 0.1em; padding: 4px 9px; display: inline-flex; align-items: center; gap: 6px; color: var(--fg); }
+  .pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); }
+
+  .btn { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 7px 14px; border-radius: 4px; border: 1px solid var(--rule); background: var(--bg-elev); color: var(--fg); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary { background: var(--rule); color: var(--bg); }
+  .btn-ghost { border-color: var(--rule-soft); }
+  .btn-lg { padding: 10px 20px; font-size: 12px; }
+
+  /* labels */
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute); }
+  .eyebrow-accent { color: var(--accent); }
+  h1.serif { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 44px; letter-spacing: -0.02em; line-height: 1.15; margin: 0; }
+  h2.serif { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 26px; letter-spacing: -0.015em; line-height: 1.1; margin: 0; }
+  h3.serif { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 18px; margin: 0; }
+
+  /* ───── 01 EMPTY STATE ───── */
+  .empty { min-height: 920px; display: flex; flex-direction: column; }
+  .empty-body { flex: 1; display: grid; place-items: center; padding: 40px 32px 80px; background: var(--bg); }
+  .empty-card { width: 100%; max-width: 880px; }
+  .empty-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .empty-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--accent); }
+  .empty-card h1 { margin-bottom: 22px; max-width: 24ch; }
+  .empty-card .lede { color: var(--fg-mute); font-size: 16px; max-width: 56ch; margin: 0 0 28px; }
+  .empty-tabs { display: flex; border: 1px solid var(--rule); border-radius: 0; margin-bottom: 18px; }
+  .empty-tab { flex: 1; padding: 12px 18px; border-right: 1px solid var(--rule-soft); cursor: pointer; background: var(--bg-elev); display: flex; align-items: baseline; gap: 12px; }
+  .empty-tab:last-child { border-right: none; }
+  .empty-tab.is-active { background: var(--bg-soft); }
+  .empty-tab-num { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); }
+  .empty-tab-name { font-family: var(--font-display); font-style: italic; font-size: 15px; }
+  .empty-tab-meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-mute); margin-left: auto; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .drop { border: 1.5px dashed var(--rule); background: var(--bg-elev); padding: 60px 40px; text-align: center; }
+  .drop-icon { width: 56px; height: 56px; margin: 0 auto 18px; border: 1.5px solid var(--rule); border-radius: 4px; display: grid; place-items: center; background: var(--bg-soft); }
+  .drop h3 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 22px; margin: 0 0 6px; }
+  .drop p { color: var(--fg-mute); font-size: 14px; margin: 0 0 18px; }
+  .drop .or { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-mute); margin: 18px 0; position: relative; }
+  .drop .or::before, .drop .or::after { content: ""; position: absolute; top: 50%; width: 80px; height: 1px; background: var(--rule-soft); }
+  .drop .or::before { left: calc(50% - 110px); }
+  .drop .or::after { right: calc(50% - 110px); }
+  .drop-paste { width: 100%; max-width: 480px; margin: 0 auto; padding: 12px 14px; border: 1px solid var(--rule-soft); background: var(--bg); font-family: var(--font-mono); font-size: 12.5px; color: var(--fg-mute); text-align: left; }
+  .drop-paste .cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent); margin-left: 1px; vertical-align: -2px; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .drop-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-mute); margin-top: 18px; }
+
+  .empty-foot { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; margin-top: 18px; border-top: 1px solid var(--rule-soft); }
+  .empty-foot-tip { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); }
+  .empty-foot-tip kbd { font-family: var(--font-mono); font-size: 10.5px; padding: 2px 6px; border: 1px solid var(--rule-soft); border-radius: 3px; background: var(--bg-elev); margin: 0 2px; }
+  .empty-samples { display: flex; gap: 8px; }
+  .sample-chip { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--rule-soft); background: var(--bg-elev); color: var(--fg); cursor: pointer; }
+  .sample-chip:hover { background: var(--bg-soft); }
+
+  /* ───── 02 LOADING ───── */
+  .loading { min-height: 920px; display: flex; flex-direction: column; }
+  .loading-body { flex: 1; display: grid; grid-template-columns: 1fr 1px 1fr; padding: 0; }
+  .loading-divider { background: var(--rule-soft); }
+  .loading-left { padding: 60px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .loading-left .eyebrow { margin-bottom: 16px; }
+  .loading-left h2 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 38px; letter-spacing: -0.02em; line-height: 1.05; margin: 0 0 14px; }
+  .loading-left .file { font-family: var(--font-mono); font-size: 12.5px; color: var(--fg); margin: 0 0 28px; padding: 10px 14px; border: 1px solid var(--rule-soft); background: var(--bg-elev); display: inline-flex; align-items: center; gap: 10px; }
+  .loading-steps { list-style: none; padding: 0; margin: 0; }
+  .loading-step { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px dashed var(--rule-soft); }
+  .loading-step:last-child { border-bottom: none; }
+  .step-mark { width: 18px; height: 18px; border: 1.5px solid var(--rule); border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; }
+  .step-done .step-mark { background: var(--rule); color: var(--bg); }
+  .step-active .step-mark { border-color: var(--accent); position: relative; }
+  .step-active .step-mark::after { content: ""; position: absolute; inset: 2px; border-radius: 50%; border: 1.5px solid var(--accent); border-top-color: transparent; animation: spin 0.9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .step-pending .step-mark { border-color: var(--rule-soft); }
+  .step-name { font-family: var(--font-display); font-style: italic; font-size: 16px; }
+  .step-pending .step-name { color: var(--fg-mute); }
+  .step-meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-mute); margin-left: auto; }
+  .loading-right { padding: 60px 48px; background: var(--bg-elev); display: flex; flex-direction: column; }
+  .schema-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px solid var(--rule-soft); margin-bottom: 16px; }
+  .schema-cols { display: grid; gap: 2px; }
+  .schema-col { display: grid; grid-template-columns: 24px 1fr 90px 80px; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--rule-soft); }
+  .schema-col:last-child { border-bottom: none; }
+  .schema-num { font-family: var(--font-mono); font-size: 10px; color: var(--fg-mute); }
+  .schema-name { font-family: var(--font-mono); font-size: 12px; }
+  .schema-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .schema-stat { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-mute); text-align: right; }
+  .schema-bar { width: 100%; height: 4px; background: var(--bg-soft); position: relative; overflow: hidden; margin-top: 4px; grid-column: 2 / 5; }
+  .schema-bar::after { content: ""; position: absolute; left: -40%; top: 0; width: 40%; height: 100%; background: var(--accent); animation: scan 1.4s ease-in-out infinite; }
+  @keyframes scan { to { left: 100%; } }
+
+  /* ───── 03 SAVE & SHARE MODAL ───── */
+  .modal-stage { min-height: 920px; padding: 48px; background: var(--bg); position: relative; }
+  .modal-stage::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(31,28,22,0.08)); pointer-events: none; }
+  .stage-shadow { position: absolute; inset: 60px 60px 100px; background: var(--bg-elev); border: 1px solid var(--rule-soft); padding: 24px; opacity: 0.5; }
+  .stage-shadow .ph { height: 14px; background: var(--rule-soft); margin-bottom: 12px; }
+  .stage-shadow .ph.short { width: 30%; }
+  .stage-shadow .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 18px; }
+  .stage-shadow .ph-card { height: 90px; background: var(--bg-soft); }
+  .modal { position: relative; width: 580px; margin: 100px auto 0; background: var(--bg-elev); border: 1.5px solid var(--rule); box-shadow: 12px 12px 0 var(--rule); }
+  .modal-hd { padding: 22px 26px 18px; border-bottom: 1px solid var(--rule); }
+  .modal-hd .eyebrow { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .modal-hd .eyebrow::before { content: ""; width: 22px; height: 1.5px; background: var(--accent); }
+  .modal-hd h2 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 28px; letter-spacing: -0.02em; margin: 0; }
+  .modal-bd { padding: 22px 26px; }
+  .field { margin-bottom: 18px; }
+  .field-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-mute); margin-bottom: 6px; display: block; }
+  .field-input { width: 100%; padding: 9px 12px; border: 1px solid var(--rule); background: var(--bg); font-family: var(--font-display); font-style: italic; font-size: 17px; color: var(--fg); border-radius: 0; }
+  .field-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .url-row { display: flex; align-items: stretch; }
+  .url-prefix { padding: 9px 12px; background: var(--bg-soft); border: 1px solid var(--rule); border-right: none; font-family: var(--font-mono); font-size: 12.5px; color: var(--fg-mute); display: flex; align-items: center; }
+  .url-slug { flex: 1; padding: 9px 12px; border: 1px solid var(--rule); border-right: none; font-family: var(--font-mono); font-size: 12.5px; color: var(--accent); background: var(--bg); }
+  .url-copy { padding: 0 14px; background: var(--bg-elev); border: 1px solid var(--rule); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+
+  .access { border: 1px solid var(--rule-soft); }
+  .access-row { display: flex; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--rule-soft); cursor: pointer; }
+  .access-row:last-child { border-bottom: none; }
+  .access-row.is-selected { background: var(--bg-soft); }
+  .access-radio { width: 14px; height: 14px; border: 1.5px solid var(--rule); border-radius: 50%; margin-right: 12px; flex-shrink: 0; display: grid; place-items: center; }
+  .access-row.is-selected .access-radio::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }
+  .access-name { font-family: var(--font-display); font-style: italic; font-size: 15px; }
+  .access-meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); margin-left: 8px; }
+  .access-tag { margin-left: auto; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+
+  .modal-ft { padding: 18px 26px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+  .modal-ft-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-mute); }
+  .modal-ft-actions { display: flex; gap: 8px; }
+
+  /* ───── 04 DASHBOARD LIST ───── */
+  .list { min-height: 920px; }
+  .list-hero { padding: 48px 48px 32px; border-bottom: 1px solid var(--rule-soft); background: var(--bg); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 20px; }
+  .list-hero h1 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 48px; letter-spacing: -0.025em; line-height: 1; margin: 14px 0 0; }
+  .list-hero .lede { color: var(--fg-mute); font-size: 15px; margin: 14px 0 0; max-width: 56ch; }
+  .list-toolbar { display: flex; padding: 12px 48px; border-bottom: 1px solid var(--rule); background: var(--bg-elev); align-items: center; gap: 14px; }
+  .list-toolbar-search { flex: 1; padding: 7px 12px; border: 1px solid var(--rule-soft); background: var(--bg); font-family: var(--font-mono); font-size: 12px; color: var(--fg-mute); display: flex; align-items: center; gap: 8px; }
+  .list-toolbar-filters { display: flex; gap: 6px; }
+  .list-filter { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 11px; border: 1px solid var(--rule-soft); background: var(--bg); cursor: pointer; }
+  .list-filter.is-active { background: var(--rule); color: var(--bg); border-color: var(--rule); }
+
+  .list-body { padding: 0; }
+  .row { display: grid; grid-template-columns: 32px 2.4fr 0.9fr 1.1fr 90px 0.9fr 30px; gap: 16px; align-items: center; padding: 16px 48px; border-bottom: 1px dashed var(--rule-soft); cursor: pointer; }
+  .row:hover { background: var(--bg-elev); }
+  .row-mark { width: 28px; height: 28px; background: var(--bg-soft); border: 1px solid var(--rule-soft); display: grid; place-items: center; font-family: var(--font-display); font-style: italic; font-size: 14px; color: var(--accent); }
+  .row-name { font-family: var(--font-display); font-style: italic; font-size: 18px; line-height: 1.2; letter-spacing: -0.005em; }
+  .row-name-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-mute); margin-top: 4px; letter-spacing: 0.04em; }
+  .row-source { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-mute); display: inline-flex; align-items: center; gap: 6px; }
+  .src-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2); }
+  .src-snap { background: var(--fg-mute); }
+  .src-stream { background: var(--accent-2); }
+  .src-source { background: var(--accent); }
+  .row-updated { font-family: var(--font-mono); font-size: 11.5px; color: var(--fg-mute); }
+  .row-spark { width: 90px; height: 24px; }
+  .row-status { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .row-more { font-family: var(--font-mono); color: var(--fg-mute); cursor: pointer; }
+
+  /* ───── 05 ENDPOINT SETUP ───── */
+  .endpoint { min-height: 920px; }
+  .endpoint-body { padding: 48px; max-width: 980px; margin: 0 auto; }
+  .endpoint-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .endpoint-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--accent); }
+  .endpoint h1 { margin-bottom: 12px; max-width: 16ch; }
+  .endpoint-lede { color: var(--fg-mute); font-size: 16px; max-width: 60ch; margin: 0 0 36px; }
+
+  .ep-step { display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px dashed var(--rule-soft); }
+  .ep-step-num { font-family: var(--font-display); font-style: italic; font-size: 36px; color: var(--accent); line-height: 1; }
+  .ep-step h3 { font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 22px; letter-spacing: -0.015em; margin: 0 0 6px; }
+  .ep-step .meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); margin: 0 0 16px; letter-spacing: 0.04em; }
+
+  .ep-url-row { display: flex; align-items: stretch; margin-bottom: 12px; }
+  .ep-url { flex: 1; padding: 11px 14px; border: 1px solid var(--rule); background: var(--bg-elev); font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .ep-url-test { padding: 0 18px; background: var(--rule); color: var(--bg); border: 1px solid var(--rule); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+
+  .ep-test-result { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 12px 14px; border: 1px solid var(--accent-2); background: rgba(74,102,81,0.06); margin-bottom: 14px; }
+  .ep-test-mark { width: 18px; height: 18px; border-radius: 50%; background: var(--accent-2); color: var(--bg); display: grid; place-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+  .ep-test-text { font-family: var(--font-mono); font-size: 12px; }
+  .ep-test-text strong { color: var(--accent-2); font-weight: 600; }
+  .ep-test-meta { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-mute); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .ep-cadence { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--rule); }
+  .ep-cad { padding: 14px 16px; border-right: 1px solid var(--rule-soft); cursor: pointer; text-align: center; background: var(--bg-elev); }
+  .ep-cad:last-child { border-right: none; }
+  .ep-cad.is-active { background: var(--rule); color: var(--bg); }
+  .ep-cad-val { font-family: var(--font-display); font-style: italic; font-size: 22px; line-height: 1; }
+  .ep-cad-lab { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute); margin-top: 4px; }
+  .ep-cad.is-active .ep-cad-lab { color: rgba(245,242,236,0.6); }
+
+  .ep-preview { background: var(--bg-elev); border: 1px solid var(--rule-soft); padding: 18px; }
+  .ep-preview-hd { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); margin-bottom: 12px; }
+  .ep-preview-hd h4 { font-family: var(--font-display); font-style: italic; font-size: 15px; margin: 0; }
+  .ep-preview-hd .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-mute); }
+  .ep-preview pre { margin: 0; font-family: var(--font-mono); font-size: 11.5px; line-height: 1.65; color: var(--fg); white-space: pre; overflow: auto; max-height: 220px; }
+  .json-key { color: var(--accent); }
+  .json-str { color: var(--accent-2); }
+  .json-num { color: var(--fg); font-weight: 500; }
+  .json-com { color: var(--fg-mute); font-style: italic; }
+
+  .ep-foot { display: flex; justify-content: space-between; align-items: center; padding: 28px 0 0; }
+  .ep-foot-meta { font-family: var(--font-mono); font-size: 11px; color: var(--fg-mute); }
+
+  /* artboard divider */
+  .ab-label { padding: 8px 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-mute); border-bottom: 1px solid var(--rule-soft); background: var(--bg-soft); }
+</style>
+</head>
+<body>
+
+<!-- ───── 01 EMPTY STATE ───── -->
+<section class="empty" data-screen-label="01 Empty state · paste-or-drop">
+<header class="top">
+  <div class="top-left">
+    <div class="mark"><span class="mark-dot"></span><span class="mark-name">Mise</span></div>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active" style="font-family:var(--font-display);font-style:italic;">New dashboard</span>
+  </div>
+  <div class="top-right">
+    <span class="pill"><span class="pill-dot"></span>Local · not exported</span>
+    <button class="btn btn-ghost" disabled style="opacity:0.4;">Export ↓</button>
+  </div>
+</header>
+<div class="empty-body">
+  <div class="empty-card">
+    <div class="empty-eyebrow"><span class="eyebrow eyebrow-accent">A new dashboard</span></div>
+    <h1 class="serif">Drop a file. Or paste a URL.</h1>
+    <p class="lede">Mise reads the schema, lays out the widgets, and renders the dashboard right here in your browser — no account, no upload, no saved data on our servers. Export it as an HTML file when you want to keep it.</p>
+
+    <div class="empty-tabs">
+      <div class="empty-tab is-active">
+        <span class="empty-tab-num">01</span>
+        <span class="empty-tab-name">Snapshot</span>
+        <span class="empty-tab-meta">CSV · JSON · paste</span>
+      </div>
+      <div class="empty-tab">
+        <span class="empty-tab-num">02</span>
+        <span class="empty-tab-name">Stream</span>
+        <span class="empty-tab-meta">public GET URL</span>
+      </div>
+    </div>
+
+    <div class="drop">
+      <div class="drop-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#1f1c16" stroke-width="1.5"><path d="M11 14V4M11 4l-4 4M11 4l4 4M3 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      </div>
+      <h3>Drop a file here</h3>
+      <p>CSV, JSON, or XLSX · up to 50 MB</p>
+      <div class="or"><span>or</span></div>
+      <div class="drop-paste">paste JSON or CSV<span class="cursor"></span></div>
+      <div class="drop-meta">Schema inferred locally · nothing leaves your browser until you export</div>
+    </div>
+
+    <div class="empty-foot">
+      <div class="empty-foot-tip">tip — paste anywhere on the page <kbd>⌘V</kbd></div>
+      <div class="empty-samples">
+        <span class="eyebrow" style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; margin-right:4px;">Try a sample →</span>
+        <span class="sample-chip">SaaS metrics</span>
+        <span class="sample-chip">GitHub repo</span>
+        <span class="sample-chip">Stripe payouts</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ───── 02 LOADING ───── -->
+<section class="loading" data-screen-label="02 Loading · analyzing structure">
+<header class="top">
+  <div class="top-left">
+    <div class="mark"><span class="mark-dot"></span><span class="mark-name">Mise</span></div>
+    <span class="crumb-sep">/</span>
+    <span class="crumb">drafts</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active" style="font-family:var(--font-display);font-style:italic;">q1_2026_revenue.csv</span>
+  </div>
+  <div class="top-right">
+    <span class="pill"><span class="pill-dot" style="background:var(--accent);"></span>Analyzing · 4.2s</span>
+    <button class="btn btn-ghost" disabled style="opacity:0.4;">Cancel</button>
+  </div>
+</header>
+<div class="loading-body">
+  <div class="loading-left">
+    <div class="eyebrow eyebrow-accent" style="margin-bottom:14px;">— Reading the file —</div>
+    <h2>We're getting to know your data.</h2>
+    <p style="color:var(--fg-mute);font-size:15px;margin:0 0 24px;">Schema first, layout second. We never store the rows; only the shape of them.</p>
+    <div class="file">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#1f1c16" stroke-width="1.4"><rect x="2" y="1" width="10" height="12"/><path d="M5 5h4M5 7h4M5 9h2"/></svg>
+      q1_2026_revenue.csv · 2,418 rows · 14 cols
+    </div>
+    <ul class="loading-steps">
+      <li class="loading-step step-done">
+        <span class="step-mark"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4.5l2 2 3-4"/></svg></span>
+        <span class="step-name">Read file</span>
+        <span class="step-meta">0.4s</span>
+      </li>
+      <li class="loading-step step-done">
+        <span class="step-mark"><svg width="9" height="9" viewBox="0 0 9 9" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4.5l2 2 3-4"/></svg></span>
+        <span class="step-name">Detect format · CSV</span>
+        <span class="step-meta">0.1s</span>
+      </li>
+      <li class="loading-step step-active">
+        <span class="step-mark"></span>
+        <span class="step-name">Inferring column types</span>
+        <span class="step-meta">14 of 14 · ~3s</span>
+      </li>
+      <li class="loading-step step-pending">
+        <span class="step-mark"></span>
+        <span class="step-name">Proposing widgets</span>
+        <span class="step-meta">queued</span>
+      </li>
+      <li class="loading-step step-pending">
+        <span class="step-mark"></span>
+        <span class="step-name">Composing layout</span>
+        <span class="step-meta">queued</span>
+      </li>
+    </ul>
+  </div>
+  <div class="loading-divider"></div>
+  <div class="loading-right">
+    <div class="schema-head">
+      <h3 class="serif">Inferred schema</h3>
+      <span class="eyebrow">14 columns · 2,418 rows</span>
+    </div>
+    <div class="schema-cols">
+      <div class="schema-col"><span class="schema-num">01</span><span class="schema-name">account_id</span><span class="schema-type">id</span><span class="schema-stat">2,418 unique</span></div>
+      <div class="schema-col"><span class="schema-num">02</span><span class="schema-name">account_name</span><span class="schema-type">string</span><span class="schema-stat">2,381 unique</span></div>
+      <div class="schema-col"><span class="schema-num">03</span><span class="schema-name">plan</span><span class="schema-type">enum · 4</span><span class="schema-stat">free · pro · team · ent</span></div>
+      <div class="schema-col"><span class="schema-num">04</span><span class="schema-name">mrr_usd</span><span class="schema-type">currency</span><span class="schema-stat">$0 → $48,200</span></div>
+      <div class="schema-col"><span class="schema-num">05</span><span class="schema-name">created_at</span><span class="schema-type">date</span><span class="schema-stat">2021 → 2026</span></div>
+      <div class="schema-col"><span class="schema-num">06</span><span class="schema-name">churned_at</span><span class="schema-type">date · null</span><span class="schema-stat">312 churned</span></div>
+      <div class="schema-col"><span class="schema-num">07</span><span class="schema-name">health_score</span><span class="schema-type">number 0-100</span><span class="schema-stat">μ 73 · σ 18</span></div>
+      <div class="schema-col"><span class="schema-num">08</span><span class="schema-name">region</span><span class="schema-type">enum · 5</span><span class="schema-stat">US · EU · APAC · LATAM · MEA</span></div>
+      <div class="schema-col" style="opacity:0.45;"><span class="schema-num">09</span><span class="schema-name">industry</span><span class="schema-type">analyzing…</span><span class="schema-stat"></span></div>
+    </div>
+    <div class="schema-bar"></div>
+  </div>
+</div>
+</section>
+
+<!-- ───── 03 EXPORT MODAL ───── -->
+<section class="modal-stage" data-screen-label="03 Export · take it with you">
+<div class="stage-shadow">
+  <div class="ph short"></div>
+  <div class="ph"></div>
+  <div class="grid">
+    <div class="ph-card"></div><div class="ph-card"></div><div class="ph-card"></div>
+  </div>
+  <div class="ph" style="height:200px;margin-top:12px;"></div>
+</div>
+<div class="modal">
+  <div class="modal-hd">
+    <div class="eyebrow eyebrow-accent">Export · take it with you</div>
+    <h2>Your dashboard, as a file.</h2>
+  </div>
+  <div class="modal-bd">
+    <p style="margin:0 0 18px;color:var(--fg-mute);font-size:14px;">Mise doesn't store dashboards on our servers. Download yours as a self-contained file you can email, host, or commit to a repo — it'll keep working anywhere a browser can open it.</p>
+
+    <div class="field">
+      <label class="field-label">Filename</label>
+      <input class="field-input" value="meta-inc-q1-2026.html" />
+    </div>
+
+    <div class="field">
+      <label class="field-label">Format</label>
+      <div class="access">
+        <div class="access-row is-selected">
+          <span class="access-radio"></span>
+          <span class="access-name">Self-contained HTML</span>
+          <span class="access-meta">data baked in · ~340 KB</span>
+          <span class="access-tag">Recommended</span>
+        </div>
+        <div class="access-row">
+          <span class="access-radio"></span>
+          <span class="access-name">HTML + live URL</span>
+          <span class="access-meta">re-fetches your endpoint on open</span>
+        </div>
+        <div class="access-row">
+          <span class="access-radio"></span>
+          <span class="access-name">PNG image</span>
+          <span class="access-meta">flat snapshot for slides</span>
+        </div>
+        <div class="access-row" style="opacity:0.5;">
+          <span class="access-radio"></span>
+          <span class="access-name">PDF</span>
+          <span class="access-meta">coming soon</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;padding:11px 14px;border:1px dashed var(--rule-soft);background:var(--bg-soft);font-family:var(--font-mono);font-size:11px;color:var(--fg-mute);letter-spacing:0.04em;">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M6 3.5v3M6 8.2v0.1"/></svg>
+      Nothing was uploaded. Closing this tab without exporting deletes the dashboard.
+    </div>
+  </div>
+  <div class="modal-ft">
+    <span class="modal-ft-meta">Generated locally · your data never leaves your browser.</span>
+    <div class="modal-ft-actions">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-primary btn-lg">Download ↓</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ───── 04 RECENT (THIS BROWSER) ───── -->
+<section class="list" data-screen-label="04 Recent · this browser only">
+<header class="top">
+  <div class="top-left">
+    <div class="mark"><span class="mark-dot"></span><span class="mark-name">Mise</span></div>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active" style="font-family:var(--font-display);font-style:italic;">Recent</span>
+  </div>
+  <div class="top-right">
+    <span class="pill"><span class="pill-dot" style="background:var(--accent-2);"></span>Local to this browser</span>
+    <button class="btn btn-primary">+ New dashboard</button>
+  </div>
+</header>
+<div class="list-hero">
+  <div>
+    <div class="eyebrow eyebrow-accent">5 dashboards · in this browser · not on our servers</div>
+    <h1>Where you left off.</h1>
+    <p class="lede">Mise doesn't have accounts. These dashboards live in this browser — their handles are remembered here so you can pick up where you left off. Clear your site data and they're gone. Export the ones that matter to keep them somewhere safe.</p>
+  </div>
+</div>
+<div class="list-toolbar">
+  <div class="list-toolbar-search">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="5" cy="5" r="3.5"/><path d="M7.6 7.6l2.4 2.4"/></svg>
+    Search recent…
+  </div>
+  <div class="list-toolbar-filters">
+    <button class="list-filter is-active">All</button>
+    <button class="list-filter">Snapshots</button>
+    <button class="list-filter">Streams</button>
+  </div>
+</div>
+<div class="list-body">
+  <!-- row template -->
+  <div class="row">
+    <div class="row-mark">M</div>
+    <div>
+      <div class="row-name">Meta Inc · Q1 2026 sales review</div>
+      <div class="row-name-meta">q1_2026_revenue.csv · 2,418 rows · 14 cols · not exported</div>
+    </div>
+    <div class="row-source"><span class="src-dot src-snap"></span>Snapshot</div>
+    <div class="row-updated">Updated 2h ago</div>
+    <svg class="row-spark" viewBox="0 0 90 24" preserveAspectRatio="none"><polyline points="0,18 12,16 24,15 36,12 48,11 60,8 72,7 84,4 90,3" fill="none" stroke="#8a3324" stroke-width="1.5"/></svg>
+    <div class="row-status" style="color:var(--accent-2);">● Active</div>
+    <div class="row-more">⋯</div>
+  </div>
+  <div class="row">
+    <div class="row-mark" style="color:var(--accent-2);">N</div>
+    <div>
+      <div class="row-name">Northwind Co · live ARR</div>
+      <div class="row-name-meta">api.northwind.io/metrics/arr · polling every 5 min</div>
+    </div>
+    <div class="row-source"><span class="src-dot src-stream"></span>Stream · 5m</div>
+    <div class="row-updated">Refreshed 38s ago</div>
+    <svg class="row-spark" viewBox="0 0 90 24" preserveAspectRatio="none"><polyline points="0,12 12,14 24,11 36,13 48,10 60,12 72,9 84,11 90,8" fill="none" stroke="#4a6651" stroke-width="1.5"/></svg>
+    <div class="row-status" style="color:var(--accent-2);">● Live</div>
+    <div class="row-more">⋯</div>
+  </div>
+
+  <div class="row">
+    <div class="row-mark" style="color:var(--accent-2);">S</div>
+    <div>
+      <div class="row-name">Stripe payouts · last 90 days</div>
+      <div class="row-name-meta">api.stripe.com/v1/balance/history · polling every 1h</div>
+    </div>
+    <div class="row-source"><span class="src-dot src-stream"></span>Stream · 1h</div>
+    <div class="row-updated">Refreshed 12m ago</div>
+    <svg class="row-spark" viewBox="0 0 90 24" preserveAspectRatio="none"><polyline points="0,8 12,12 24,9 36,14 48,11 60,15 72,10 84,13 90,9" fill="none" stroke="#4a6651" stroke-width="1.5"/></svg>
+    <div class="row-status" style="color:var(--accent-2);">● Live</div>
+    <div class="row-more">⋯</div>
+  </div>
+  <div class="row">
+    <div class="row-mark">G</div>
+    <div>
+      <div class="row-name">GitHub · weekly contributions</div>
+      <div class="row-name-meta">github.com/api/repos/acme/web · stream paused</div>
+    </div>
+    <div class="row-source"><span class="src-dot src-stream"></span>Stream · 1d</div>
+    <div class="row-updated">Updated 3 days ago</div>
+    <svg class="row-spark" viewBox="0 0 90 24" preserveAspectRatio="none"><polyline points="0,18 12,15 24,17 36,12 48,16 60,11 72,14 84,9 90,12" fill="none" stroke="#6e6759" stroke-width="1.5"/></svg>
+    <div class="row-status" style="color:var(--fg-mute);">○ Paused</div>
+    <div class="row-more">⋯</div>
+  </div>
+  <div class="row">
+    <div class="row-mark">B</div>
+    <div>
+      <div class="row-name">Budget actuals · FY26</div>
+      <div class="row-name-meta">budget_fy26.xlsx · 482 rows · 9 cols · exported ✓</div>
+    </div>
+    <div class="row-source"><span class="src-dot src-snap"></span>Snapshot</div>
+    <div class="row-updated">Updated 1 week ago</div>
+    <svg class="row-spark" viewBox="0 0 90 24" preserveAspectRatio="none"><polyline points="0,16 12,12 24,14 36,10 48,12 60,9 72,11 84,8 90,10" fill="none" stroke="#8a3324" stroke-width="1.5"/></svg>
+    <div class="row-status" style="color:var(--accent-2);">● Active</div>
+    <div class="row-more">⋯</div>
+  </div>
+</div>
+</section>
+
+<!-- ───── 05 ENDPOINT SETUP ───── -->
+<section class="endpoint" data-screen-label="05 Endpoint setup · Live URL">
+<header class="top">
+  <div class="top-left">
+    <div class="mark"><span class="mark-dot"></span><span class="mark-name">Mise</span></div>
+    <span class="crumb-sep">/</span>
+    <span class="crumb">new dashboard</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-active" style="font-family:var(--font-display);font-style:italic;">Connect a live URL</span>
+  </div>
+  <div class="top-right">
+    <span class="pill"><span class="pill-dot" style="background:var(--accent-2);"></span>Endpoint healthy</span>
+    <button class="btn btn-ghost">Cancel</button>
+  </div>
+</header>
+<div class="endpoint-body">
+  <div class="endpoint-eyebrow"><span class="eyebrow eyebrow-accent">Doorway 02 · Stream</span></div>
+  <h1 class="serif">Point us at your endpoint.</h1>
+  <p class="endpoint-lede">Paste any public GET URL. We poll it on your cadence, parse the response against the schema we infer right now, and refresh the page when it changes. Your data stays at your URL.</p>
+
+  <div class="ep-step">
+    <div class="ep-step-num">01</div>
+    <div>
+      <h3>Where does the JSON live?</h3>
+      <div class="meta">Public GET only · we don't follow redirects to private hosts</div>
+      <div class="ep-url-row">
+        <input class="ep-url" value="https://api.northwind.io/v1/metrics/arr" />
+        <button class="ep-url-test">Test fetch</button>
+      </div>
+      <div class="ep-test-result">
+        <span class="ep-test-mark">✓</span>
+        <span class="ep-test-text"><strong>200 OK · 2.4 KB</strong> &nbsp;·&nbsp; valid JSON, 8 fields detected · response in 184ms</span>
+        <span class="ep-test-meta">Last: 2s ago</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ep-step">
+    <div class="ep-step-num">02</div>
+    <div>
+      <h3>How often should we check?</h3>
+      <div class="meta">Pick the cadence that matches how fresh your data needs to be</div>
+      <div class="ep-cadence">
+        <div class="ep-cad"><div class="ep-cad-val">1m</div><div class="ep-cad-lab">every minute</div></div>
+        <div class="ep-cad is-active"><div class="ep-cad-val">5m</div><div class="ep-cad-lab">every 5 min</div></div>
+        <div class="ep-cad"><div class="ep-cad-val">1h</div><div class="ep-cad-lab">hourly</div></div>
+        <div class="ep-cad"><div class="ep-cad-val">1d</div><div class="ep-cad-lab">daily</div></div>
+        <div class="ep-cad"><div class="ep-cad-val">∞</div><div class="ep-cad-lab">on view</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ep-step">
+    <div class="ep-step-num">03</div>
+    <div>
+      <h3>Here's what we'll render.</h3>
+      <div class="meta">Schema inferred from the test response · 8 fields · widgets proposed</div>
+      <div class="ep-preview">
+        <div class="ep-preview-hd">
+          <h4>Response sample</h4>
+          <span class="meta">GET · 200 · 2.4 KB</span>
+        </div>
+<pre>{
+  <span class="json-key">"timestamp"</span>:    <span class="json-str">"2026-04-27T18:42:11Z"</span>,
+  <span class="json-key">"arr_total_usd"</span>: <span class="json-num">12480000</span>,
+  <span class="json-key">"arr_delta_pct"</span>: <span class="json-num">4.2</span>,
+  <span class="json-key">"customers"</span>:    <span class="json-num">3427</span>,
+  <span class="json-key">"by_plan"</span>: [
+    { <span class="json-key">"plan"</span>: <span class="json-str">"pro"</span>,  <span class="json-key">"arr"</span>: <span class="json-num">7100000</span> },
+    { <span class="json-key">"plan"</span>: <span class="json-str">"team"</span>, <span class="json-key">"arr"</span>: <span class="json-num">3940000</span> },
+    { <span class="json-key">"plan"</span>: <span class="json-str">"ent"</span>,  <span class="json-key">"arr"</span>: <span class="json-num">1440000</span> }
+  ],
+  <span class="json-com">// → KPI band, donut, sparkline</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="ep-foot">
+    <span class="ep-foot-meta">We hold the schema, not the rows. You can revoke this connection at any time.</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost btn-lg">Back</button>
+      <button class="btn btn-primary btn-lg">Build the dashboard →</button>
+    </div>
+  </div>
+</div>
+</section>
+
+</body>
+</html>

@@ -275,7 +275,7 @@
         </div>
         <h1 class="serif">
           Software shaped to <em>you</em>,<br />
-          scaffolded by an agent,<br />
+          built by an agent,<br />
           on demand.
         </h1>
         <p class="hero-sub">
@@ -290,7 +290,7 @@
             <span class="path">~/projects/claudepanion</span>
           </div>
           <div class="install-body">
-            <div><span class="prompt">$</span> git clone <span class="ghost">github.com/you/claudepanion</span></div>
+            <div><span class="prompt">$</span> git clone <span class="ghost">github.com/sean1588/claudepanion</span></div>
             <div><span class="prompt">$</span> cd claudepanion &amp;&amp; npm install</div>
             <div><span class="prompt">$</span> npm start <span class="ghost"># → http://localhost:3001</span></div>
             <div class="ok" style="margin-top: 12px;">✓ host running</div>
@@ -301,7 +301,10 @@
         </div>
 
         <div class="hero-actions">
-          <a class="btn" href="#install">git clone the repo</a>
+          <a class="btn" href="https://github.com/sean1588/claudepanion" target="_blank" rel="noreferrer">
+            {{ partial "github-mark.html" . }}
+            View on GitHub
+          </a>
           <a class="btn btn-ghost" href="#registry">How sharing works</a>
         </div>
       </div>
@@ -405,7 +408,10 @@
         <em>Claude builds it.</em>
       </h2>
       <p>Run it locally. Throw it away when you're done. Or don't.</p>
-      <a class="btn" href="#install">git clone github.com/you/claudepanion →</a>
+      <a class="btn" href="https://github.com/sean1588/claudepanion" target="_blank" rel="noreferrer">
+        {{ partial "github-mark.html" . }}
+        View on GitHub
+      </a>
     </div>
   </section>
 {{ end }}

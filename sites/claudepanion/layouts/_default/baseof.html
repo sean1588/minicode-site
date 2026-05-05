@@ -72,7 +72,10 @@
         padding: 0 56px;
       }
       @media (max-width: 800px) {
-        .wrap { padding: 0 24px; }
+        .wrap { padding: 0 28px; }
+      }
+      @media (max-width: 480px) {
+        .wrap { padding: 0 20px; }
       }
 
       .tag {
@@ -118,7 +121,7 @@
       }
       .site-header-row {
         display: flex; align-items: center; justify-content: space-between;
-        padding: 20px 0;
+        padding-block: 20px;
         gap: 24px;
       }
       .wordmark {
@@ -141,8 +144,8 @@
         font-size: 14px;
         color: var(--muted);
       }
-      .site-nav a { color: inherit; transition: color .15s ease; }
-      .site-nav a:hover { color: var(--ink); }
+      .site-nav a:not(.btn) { color: inherit; transition: color .15s ease; }
+      .site-nav a:not(.btn):hover { color: var(--ink); }
       .site-nav .btn { font-size: 13px; padding: 10px 16px; }
 
       @media (max-width: 700px) {
@@ -181,12 +184,14 @@
       <div class="wrap site-header-row">
         <a class="wordmark" href="/" aria-label="claudepanion home">
           <span class="wordmark-name">claudepanion</span>
-          <span class="wordmark-version">v0.1 · localhost</span>
         </a>
         <nav class="site-nav">
           <a class="nav-link-secondary" href="#registry">Sharing</a>
           <a class="nav-link-secondary" href="#faq">FAQ</a>
-          <a class="btn" href="#install">Clone the repo →</a>
+          <a class="btn" href="https://github.com/sean1588/claudepanion" target="_blank" rel="noreferrer">
+            {{ partial "github-mark.html" . }}
+            View on GitHub
+          </a>
         </nav>
       </div>
     </header>

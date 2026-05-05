@@ -1,0 +1,411 @@
+{{ define "page-style" }}
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .hero {
+    padding: 72px 0 64px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .hero-tags { display: flex; gap: 8px; margin-bottom: 28px; }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 88px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  @media (max-width: 800px) {
+    .hero h1 { font-size: 56px; }
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 0 32px;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  /* Terminal install block */
+  .install-block {
+    border: 1px solid rgba(21, 24, 26, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 640px;
+    background: var(--soft);
+  }
+  .install-chrome {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 16px;
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .install-chrome .dot {
+    width: 10px; height: 10px; border-radius: 999px;
+    display: inline-block;
+  }
+  .install-chrome .dot-r { background: var(--light-red); }
+  .install-chrome .dot-a { background: var(--light-amber); }
+  .install-chrome .dot-g { background: var(--light-green); }
+  .install-chrome .path {
+    font-family: var(--mono);
+    font-size: 11px;
+    margin-left: 8px;
+    opacity: 0.6;
+  }
+  .install-body {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 18px 20px;
+    color: var(--ink);
+  }
+  .install-body .prompt { color: var(--accent); }
+  .install-body .ghost  { color: var(--muted); }
+  .install-body .ok     { color: var(--sage); }
+  .install-body .arrow  { color: var(--accent); }
+  .blink { animation: blink 1.05s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* Hero illustration container */
+  .hero-art {
+    position: relative;
+    height: 520px;
+    width: 100%;
+  }
+  .hero-art svg { width: 100%; height: 100%; overflow: visible; }
+  @media (max-width: 960px) {
+    .hero-art { height: 360px; }
+  }
+
+  /* ── Marquee ──────────────────────────────────────────────────────── */
+  .marquee {
+    border-top: 1px solid rgba(21, 24, 26, 0.08);
+    border-bottom: 1px solid rgba(21, 24, 26, 0.08);
+    background: var(--soft);
+    padding: 18px 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    width: max-content;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 26px;
+    color: var(--muted);
+  }
+  .marquee-item .sep { color: var(--accent); }
+
+  /* ── Registry section ─────────────────────────────────────────────── */
+  .section { padding: 96px 0; }
+  .section-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 960px) {
+    .section-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .section h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    margin: 18px 0 24px;
+  }
+  @media (max-width: 800px) {
+    .section h2 { font-size: 44px; }
+  }
+  .section h2 em { font-style: italic; color: var(--accent); }
+  .section p {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 540px;
+    margin: 0 0 16px;
+  }
+  .section p.small { font-size: 15px; margin: 0; }
+
+  .registry-table {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .registry-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1.4fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(21, 24, 26, 0.1);
+  }
+  .registry-row .kind {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .registry-row .code {
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+  .registry-row .desc {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  @media (max-width: 700px) {
+    .registry-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  .registry-art svg { width: 100%; max-width: 480px; }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .faq-section {
+    background: var(--soft);
+    border-top: 1px solid rgba(21, 24, 26, 0.08);
+    padding: 96px 0 64px;
+  }
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+  }
+  @media (max-width: 960px) {
+    .faq-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .faq-item {
+    border-top: 1px solid rgba(21, 24, 26, 0.1);
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item .faq-summary-left {
+    display: flex; gap: 16px; align-items: baseline;
+  }
+  .faq-item .faq-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    width: 24px;
+  }
+  .faq-item .faq-q {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  .faq-item .faq-toggle {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--accent);
+    transition: transform .2s ease;
+  }
+  .faq-item[open] .faq-toggle { transform: rotate(45deg); }
+  .faq-item .faq-a {
+    padding: 0 0 24px 40px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .cta-final {
+    padding: 120px 0;
+    text-align: center;
+  }
+  .cta-final h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 96px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+  @media (max-width: 800px) {
+    .cta-final h2 { font-size: 56px; }
+  }
+  .cta-final h2 em { font-style: italic; color: var(--accent); }
+  .cta-final p {
+    font-size: 19px;
+    color: var(--muted);
+    margin: 0 0 36px;
+  }
+  .cta-final .btn { font-size: 16px; padding: 16px 28px; }
+{{ end }}
+
+{{ define "main" }}
+  {{/* ── Hero ─────────────────────────────────────────────────────── */}}
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-tags">
+          <span class="tag">A field guide to</span>
+          <span class="tag accent">AI-native frameworks</span>
+        </div>
+        <h1 class="serif">
+          Software shaped to <em>you</em>,<br />
+          scaffolded by an agent,<br />
+          on demand.
+        </h1>
+        <p class="hero-sub">
+          Traditional frameworks give humans abstractions to write code against. Claudepanion inverts that — it gives the agent a scaffold and lets it build the software itself. You describe what you want. Claude fills in the rest. A localhost host for personal companions, with Claude Code as the runtime backend.
+        </p>
+
+        <div class="install-block" id="install">
+          <div class="install-chrome">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-a"></span>
+            <span class="dot dot-g"></span>
+            <span class="path">~/projects/claudepanion</span>
+          </div>
+          <div class="install-body">
+            <div><span class="prompt">$</span> git clone <span class="ghost">github.com/you/claudepanion</span></div>
+            <div><span class="prompt">$</span> cd claudepanion &amp;&amp; npm install</div>
+            <div><span class="prompt">$</span> npm start <span class="ghost"># → http://localhost:3001</span></div>
+            <div class="ok" style="margin-top: 12px;">✓ host running</div>
+            <div class="ok">✓ build companion mounted</div>
+            <div class="ghost"># now open Claude Code in any repo and type:</div>
+            <div><span class="arrow">›</span> /build-companion <span class="blink">▍</span></div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn" href="#install">git clone the repo</a>
+          <a class="btn btn-ghost" href="#registry">How sharing works</a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        {{ partial "companion-zoo.html" . }}
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Marquee ──────────────────────────────────────────────────── */}}
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {{ range $i, $_ := seq 2 }}
+        {{ range slice
+          "a tool for triaging your on-call alerts"
+          "a tool for reviewing your team's PRs"
+          "a tool for tracking what you read"
+          "a tool for grooming your Linear backlog"
+          "a tool for summarising your Slack standups"
+          "a tool for spotting AWS cost anomalies"
+          "a tool for testing your local endpoints"
+          "a tool for ◇◇◇◇◇" }}
+          <span class="marquee-item">{{ . }} <span class="sep">·</span></span>
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+
+  {{/* ── Registry / Sharing ───────────────────────────────────────── */}}
+  <section class="section" id="registry">
+    <div class="wrap section-grid">
+      <div>
+        <span class="tag">§01 · Sharing</span>
+        <h2>The registry is<br /><em>npm</em>. We didn't<br />build one.</h2>
+        <p>A companion is just a set of exports following a stable contract. Source it from a folder. Source it from npm. Same contract.</p>
+        <p class="small">npm is already globally replicated, versioned, permissioned, and familiar. Private packages? Already work. Org-scoped? Already work. We just reserved the prefix.</p>
+
+        <div class="registry-table">
+          <div class="registry-row">
+            <span class="kind">Local</span>
+            <span class="code">companions/&lt;name&gt;/</span>
+            <span class="desc">your hand-written or Build-scaffolded ones</span>
+          </div>
+          <div class="registry-row">
+            <span class="kind">Published</span>
+            <span class="code">claudepanion-&lt;name&gt;</span>
+            <span class="desc">drop-in from the npm registry</span>
+          </div>
+          <div class="registry-row">
+            <span class="kind">Official</span>
+            <span class="code">@claudepanion/&lt;name&gt;</span>
+            <span class="desc">scoped, blessed, curated</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="registry-art">
+        {{ partial "registry-doodle.html" . }}
+      </div>
+    </div>
+  </section>
+
+  {{/* ── FAQ ──────────────────────────────────────────────────────── */}}
+  <section class="faq-section" id="faq">
+    <div class="wrap faq-grid">
+      <div>
+        <span class="tag">§02 · FAQ</span>
+        <h2>Things people<br /><em>actually ask</em>.</h2>
+      </div>
+      <div>
+        {{ $faq := slice
+          (dict "q" "Is this a SaaS?" "a" "No. It's a localhost host. One process, one URL, one user. Your companions and their data live on your machine.")
+          (dict "q" "What is a 'companion,' exactly?" "a" "A small personal app inside the host. It has a form, a slash command, a Claude Code skill, and a set of MCP tools that proxy to external systems. Think: PR reviewer, on-call investigator, reading tracker.")
+          (dict "q" "Do I have to use Claude?" "a" "Yes — and intentionally so. The primitives (MCP, slash commands, skills) assume Claude Code is the runtime. Companions can run without invoking Claude, but that's a side door, not a feature.")
+          (dict "q" "How is this different from Claude Code with extra steps?" "a" "Persistence across sessions. Visual artifacts (tables, dashboards, live logs). Ambient presence — a tab that stays open. Authenticated proxy tools so Claude can hit your AWS / GitHub / Linear without you pasting credentials.")
+          (dict "q" "Where do shared companions live?" "a" "On npm. Anything published as claudepanion-<name> drops into your sidebar after one install. We don't run a registry — npm already does that job.")
+          (dict "q" "Is it production-ready?" "a" "No, and intentionally so. It's for an audience of one — you. The bar is 'works for the next two weeks,' not 'serves a million users.'")
+        }}
+        {{ range $i, $f := $faq }}
+          <details class="faq-item">
+            <summary>
+              <span class="faq-summary-left">
+                <span class="faq-num">{{ printf "%02d" (add $i 1) }}</span>
+                <span class="faq-q">{{ $f.q }}</span>
+              </span>
+              <span class="faq-toggle">+</span>
+            </summary>
+            <div class="faq-a">{{ $f.a }}</div>
+          </details>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  {{/* ── Final CTA ────────────────────────────────────────────────── */}}
+  <section class="cta-final">
+    <div class="wrap">
+      <h2>
+        Bring an idea.<br />
+        <em>Claude builds it.</em>
+      </h2>
+      <p>Run it locally. Throw it away when you're done. Or don't.</p>
+      <a class="btn" href="#install">git clone github.com/you/claudepanion →</a>
+    </div>
+  </section>
+{{ end }}

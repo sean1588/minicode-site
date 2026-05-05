@@ -4,10 +4,10 @@ Minimal Hugo + Pulumi bootstrap for `minicode-site`.
 
 ## Repo layout
 
-- `sites/<subdomain>/` — one Hugo project per subdomain (currently `sites/minicode/`)
-- `infrastructure/` — Pulumi program for S3 + CloudFront hosting
-- `.github/workflows/deploy-site.yml` — deploys on push to `main`
-- `.github/workflows/preview-site.yml` — runs `pulumi preview` and a Hugo build on every PR
+- `sites/<subdomain>/` — one Hugo project per subdomain (e.g. `sites/minicode/`, `sites/claudepanion/`)
+- `infrastructure/` — Pulumi program; provisions one S3 bucket + CloudFront distribution + ACM cert + Route53 alias per entry in `minicode-site:sites` config
+- `.github/workflows/deploy-site.yml` — deploys on push to `main` (matrix-fans-out one job per site)
+- `.github/workflows/preview-site.yml` — runs `pulumi preview` + a Hugo build for each site on every PR
 
 ## Local site work
 
@@ -42,10 +42,25 @@ pulumi up
 Useful outputs:
 
 ```bash
+# All sites at once (returns a JSON map keyed by site name)
+pulumi stack output sitesJson --json
+
+# Backwards-compatible shortcuts for the primary site (currently minicode)
 pulumi stack output siteBucketName
 pulumi stack output siteCdnId
 pulumi stack output siteUrl
 ```
+
+To add a new site, append a block to `minicode-site:sites` in `Pulumi.dev.yaml`:
+
+```yaml
+- name: example
+  resourcePrefix: example
+  domainName: example.seanholung.com
+  # certificateArn: <us-east-1 ACM ARN>   # omit to provision a fresh cert + DNS validation
+```
+
+Then add the site key to the `matrix.site` list in both deploy and preview workflows, and create the corresponding `sites/example/` Hugo project.
 
 ## GitHub Actions
 

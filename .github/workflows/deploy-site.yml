@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'sites/minicode/**'
+      - 'sites/**'
       - 'infrastructure/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
@@ -12,13 +12,16 @@ on:
 env:
   AWS_REGION: us-west-2
   HUGO_VERSION: '0.147.6'
+  PULUMI_STACK: sean1588/minicode-site/dev
 
 jobs:
-  deploy:
+  infra:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
+    outputs:
+      sites: ${{ steps.outputs.outputs.sites }}
 
     steps:
       - name: Checkout
@@ -35,12 +38,6 @@ jobs:
         working-directory: infrastructure
         run: npm ci
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: ${{ env.HUGO_VERSION }}
-          extended: true
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -55,37 +52,75 @@ jobs:
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: |
-          pulumi stack select sean1588/minicode-site/dev --cwd infrastructure
-          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack sean1588/minicode-site/dev
+          pulumi stack select "$PULUMI_STACK" --cwd infrastructure
+          pulumi config set aws:region "$AWS_REGION" --cwd infrastructure --stack "$PULUMI_STACK"
 
       - name: Deploy infrastructure
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-        run: pulumi up --yes --cwd infrastructure --stack sean1588/minicode-site/dev
+        run: pulumi up --yes --cwd infrastructure --stack "$PULUMI_STACK"
 
-      - name: Read infrastructure outputs
-        id: infra
+      - name: Read site outputs
+        id: outputs
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
         run: |
-          echo "bucket=$(pulumi stack output siteBucketName --cwd infrastructure --stack sean1588/minicode-site/dev)" >> "$GITHUB_OUTPUT"
-          echo "cdn_id=$(pulumi stack output siteCdnId --cwd infrastructure --stack sean1588/minicode-site/dev)" >> "$GITHUB_OUTPUT"
-          echo "site_url=$(pulumi stack output siteUrl --cwd infrastructure --stack sean1588/minicode-site/dev)" >> "$GITHUB_OUTPUT"
+          SITES=$(pulumi stack output sitesJson --json --cwd infrastructure --stack "$PULUMI_STACK")
+          echo "sites=$SITES" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    needs: infra
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        site: [minicode, claudepanion]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Read this site's outputs
+        id: site
+        env:
+          SITES_JSON: ${{ needs.infra.outputs.sites }}
+          SITE: ${{ matrix.site }}
+        run: |
+          echo "bucket=$(echo "$SITES_JSON" | jq -r --arg s "$SITE" '.[$s].bucketName')" >> "$GITHUB_OUTPUT"
+          echo "cdn_id=$(echo "$SITES_JSON" | jq -r --arg s "$SITE" '.[$s].cdnId')"      >> "$GITHUB_OUTPUT"
+          echo "url=$(echo    "$SITES_JSON" | jq -r --arg s "$SITE" '.[$s].url')"        >> "$GITHUB_OUTPUT"
 
       - name: Build Hugo site
-        working-directory: sites/minicode
+        working-directory: sites/${{ matrix.site }}
         env:
-          HUGO_BASEURL: ${{ steps.infra.outputs.site_url }}
+          HUGO_BASEURL: ${{ steps.site.outputs.url }}
         run: hugo --minify --baseURL "$HUGO_BASEURL"
 
       - name: Sync files to S3
         run: |
-          aws s3 sync sites/minicode/public/ s3://${{ steps.infra.outputs.bucket }}/ \
+          aws s3 sync sites/${{ matrix.site }}/public/ s3://${{ steps.site.outputs.bucket }}/ \
             --delete \
             --cache-control "public, max-age=300, s-maxage=300"
 
       - name: Invalidate CloudFront
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ steps.infra.outputs.cdn_id }} \
+            --distribution-id ${{ steps.site.outputs.cdn_id }} \
             --paths '/*'
